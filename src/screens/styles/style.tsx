@@ -3,6 +3,8 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
+    backgroundColor: '#ffffff',
+    paddingBottom: 150,
   },
   container: {
     flex: 1,
@@ -16,6 +18,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     marginTop: 20,
+    paddingBottom: 150,  // Adicionando o espaço na parte inferior
   },
   titulo: {
     fontSize: 18,
@@ -32,14 +35,36 @@ const styles = StyleSheet.create({
   },
   botoesContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around', // Distribui os botões com mais espaço
     marginTop: 20,
+    width: '100%',
   },
   botao: {
-    marginHorizontal: 10,
-    borderRadius: 10,
-    overflow: 'hidden',
+    width: '45%',
+    padding: 10,
+    alignItems: 'center',
+    borderRadius: 5,
   },
+  botaoCadastrar: {
+        borderColor: 'green',
+        backgroundColor: 'green',
+        borderWidth: 2,
+    },
+    botaoVoltar: {
+        borderColor: '#d41717',
+        backgroundColor: '#d41717',
+        borderWidth: 2,
+    },
+    textoBotaoCadastrar: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    textoBotaoVoltar: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 15,
+    },
 });
 
 export default styles;

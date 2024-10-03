@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { Button, Text, TextInput, View, ScrollView } from "react-native";
+import { Button, Text, TextInput, View, ScrollView, Alert, TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
+import { TextInputMask } from 'react-native-masked-text';
+import RNPickerSelect from 'react-native-picker-select';
 import styles from "./styles/style";
+import pickerSelectStyles from "./styles/selectStyles";
 
 export default function TelaCadastro() {
-    const navigation = useNavigation()
-
+    const navigation = useNavigation();
     const [nome, setNome] = useState('');
     const [dataNascimento, setDataNascimento] = useState('');
     const [cpf, setCpf] = useState('');
@@ -15,15 +17,35 @@ export default function TelaCadastro() {
     const [cnh, setCnh] = useState('');
     const [telefone, setTelefone] = useState('');
     const [email, setEmail] = useState('');
+    const [cep, setCep] = useState('');
     const [cidade, setCidade] = useState('');
     const [rua, setRua] = useState('');
     const [bairro, setBairro] = useState('');
-    const [cep, setCep] = useState('');
+    const [numero, setNumero] = useState('');
     const [profissao, setProfissao] = useState('');
     const [estadoCivil, setEstadoCivil] = useState('Solteiro');
     const [senha, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
 
+
+    const fetchAddress = async (cep: string) => {
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
+            if (data.erro) {
+                throw new Error('CEP não encontrado');
+            }
+            // Preenchendo os campos automaticamente com a resposta da API
+            setCidade(data.localidade);
+            setRua(data.logradouro);
+            setBairro(data.bairro);
+        } catch (error) {
+            Alert.alert('Erro', 'CEP inválido ou não encontrado.');
+            setCidade('');
+            setRua('');
+            setBairro('');
+        }
+    };
     function mostrarDadosCadastrados() {
         console.log('Nome: ', nome);
         console.log('Data de nascimento: ', dataNascimento);
@@ -33,10 +55,11 @@ export default function TelaCadastro() {
         console.log('Cnh: ', cnh);
         console.log('Telefone: ', telefone);
         console.log('E-mail: ', email);
+        console.log('Cep: ', cep);
         console.log('Cidade: ', cidade);
         console.log('Rua: ', rua);
         console.log('Bairro: ', bairro);
-        console.log('Cep: ', cep);
+        console.log('Numero:', numero);
         console.log('Profissão: ', profissao);
         console.log('Estado civil: ', estadoCivil);
         console.log('Senha: ', senha);
@@ -47,6 +70,8 @@ export default function TelaCadastro() {
         <ScrollView style={styles.scrollContainer}>
             <View style={styles.container2}>
                 <Text style={styles.titulo}>Faça seu cadastro no App de alocação de veículo</Text>
+                
+                {/* Nome */}
                 <Text>Nome:</Text>
                 <TextInput
                     style={styles.input}
@@ -54,27 +79,41 @@ export default function TelaCadastro() {
                     value={nome}
                     onChangeText={setNome}
                 />
+
+                {/* Data de Nascimento */}
                 <Text>Data de Nascimento:</Text>
-                <TextInput
+                <TextInputMask
+                    type={'datetime'}
+                    options={{ format: 'DD/MM/YYYY' }}
                     style={styles.input}
-                    placeholder="Data de Nascimento DD/MM/AAAA"
+                    placeholder="Data de Nascimento"
                     value={dataNascimento}
                     onChangeText={setDataNascimento}
                 />
+
+                {/* CPF */}
                 <Text>CPF:</Text>
-                <TextInput
+                <TextInputMask
+                    type={'custom'}
+                    options={{ mask: '999.999.999-99' }}
                     style={styles.input}
                     placeholder="Digite seu CPF"
                     value={cpf}
                     onChangeText={setCpf}
                 />
+
+                {/* RG */}
                 <Text>RG:</Text>
-                <TextInput
+                <TextInputMask
+                    type={'custom'}
+                    options={{ mask: '999999999999-9' }}
                     style={styles.input}
                     placeholder="Digite seu RG"
                     value={rg}
                     onChangeText={setRg}
                 />
+
+                {/* Órgão Expeditor */}
                 <Text>Órgão Expeditor</Text>
                 <TextInput
                     style={styles.input}
@@ -82,21 +121,31 @@ export default function TelaCadastro() {
                     value={orgaoExpeditor}
                     onChangeText={setOrgaoExpeditor}
                 />
+
+                {/* CNH */}
                 <Text>CNH:</Text>
-                <TextInput
+                <TextInputMask
+                    type={'custom'}
+                    options={{ mask: '99999999999' }}
                     style={styles.input}
                     placeholder="Digite o número de sua CNH"
                     value={cnh}
                     onChangeText={setCnh}
                 />
+
+                {/* Telefone */}
                 <Text>Telefone:</Text>
-                <TextInput
+                <TextInputMask
+                    type={'custom'}
+                    options={{ mask: '(99)9 9999-9999' }}
                     style={styles.input}
                     placeholder="Digite o número do seu telefone"
                     keyboardType="number-pad"
                     value={telefone}
                     onChangeText={setTelefone}
                 />
+
+                {/* E-mail */}
                 <Text>E-mail:</Text>
                 <TextInput
                     style={styles.input}
@@ -105,6 +154,24 @@ export default function TelaCadastro() {
                     value={email}
                     onChangeText={setEmail}
                 />
+
+                {/* CEP */}
+                <Text>Cep:</Text>
+                <TextInputMask
+                    type={'custom'}
+                    options={{ mask: '99999-999' }}
+                    style={styles.input}
+                    placeholder="Digite seu CEP"
+                    value={cep}
+                    onChangeText={(value) => {
+                        setCep(value);
+                        if (value.length === 9) { // O CEP é preenchido quando contém 9 caracteres
+                            fetchAddress(value);
+                        }
+                    }}
+                />
+
+                {/* Cidade, Rua e Bairro preenchidos automaticamente */}
                 <Text>Cidade:</Text>
                 <TextInput
                     style={styles.input}
@@ -112,6 +179,7 @@ export default function TelaCadastro() {
                     value={cidade}
                     onChangeText={setCidade}
                 />
+
                 <Text>Rua:</Text>
                 <TextInput
                     style={styles.input}
@@ -119,6 +187,7 @@ export default function TelaCadastro() {
                     value={rua}
                     onChangeText={setRua}
                 />
+
                 <Text>Bairro:</Text>
                 <TextInput
                     style={styles.input}
@@ -126,13 +195,16 @@ export default function TelaCadastro() {
                     value={bairro}
                     onChangeText={setBairro}
                 />
-                <Text>Cep:</Text>
+
+                <Text>Número:</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Digite seu cep"
-                    value={cep}
-                    onChangeText={setCep}
+                    placeholder="Digite o número da sua residência"
+                    value={numero}
+                    onChangeText={setNumero}
                 />
+
+                {/* Profissão */}
                 <Text>Profissão:</Text>
                 <TextInput
                     style={styles.input}
@@ -140,18 +212,24 @@ export default function TelaCadastro() {
                     value={profissao}
                     onChangeText={setProfissao}
                 />
+
+                {/* Estado Civil */}
                 <Text>Estado Civil:</Text>
-                
-                <Picker
-                    selectedValue={estadoCivil}
-                    onValueChange={(itemValue) => setEstadoCivil(itemValue)}
-                >
-                    <Picker.Item label="Solteiro" value="Solteiro" key="solteiro" />
-                    <Picker.Item label="Casado" value="Casado" key="casado" />
-                    <Picker.Item label="Separado" value="Separado" key="separado" />
-                    <Picker.Item label="Divorciado" value="Divorciado" key="divorciado" />
-                    <Picker.Item label="Viúvo" value="Viúvo" key="viuvo" />
-                </Picker>
+                <RNPickerSelect
+                    onValueChange={(value) => setEstadoCivil(value)}
+                    items={[
+                        { label: 'Solteiro', value: 'Solteiro' },
+                        { label: 'Casado', value: 'Casado' },
+                        { label: 'Separado', value: 'Separado' },
+                        { label: 'Divorciado', value: 'Divorciado' },
+                        { label: 'Viúvo', value: 'Viúvo' },
+                    ]}
+                    value={estadoCivil}
+                    style={pickerSelectStyles}
+                    placeholder={{ label: 'Selecione seu estado civil', value: null }}
+                />
+
+                {/* Senha */}
                 <Text>Senha:</Text>
                 <TextInput
                     style={styles.input}
@@ -160,6 +238,8 @@ export default function TelaCadastro() {
                     value={senha}
                     onChangeText={setSenha}
                 />
+
+                {/* Confirmar Senha */}
                 <Text>Confirme sua senha:</Text>
                 <TextInput
                     style={styles.input}
@@ -169,21 +249,19 @@ export default function TelaCadastro() {
                     onChangeText={setConfirmarSenha}
                 />
 
+                {/* Botões */}
                 <View style={styles.botoesContainer}>
-                    <View style={styles.botao}>
-                        <Button title="Cadastrar" onPress={mostrarDadosCadastrados} />
-                    </View>
-                    <View style={styles.botao}>
-                        <Button
-                            title="Voltar"
-                            onPress={()=>navigation.goBack()}
-                        />
-                    </View>
+                    {/* Botão de Cadastrar */}
+                    <TouchableOpacity style={[styles.botao, styles.botaoCadastrar]} onPress={mostrarDadosCadastrados}>
+                        <Text style={styles.textoBotaoCadastrar}>Cadastrar</Text>
+                    </TouchableOpacity>
+
+                    {/* Botão de Voltar */}
+                    <TouchableOpacity style={[styles.botao, styles.botaoVoltar]} onPress={() => navigation.goBack()}>
+                        <Text style={styles.textoBotaoVoltar}>Voltar</Text>
+                    </TouchableOpacity>
                 </View>
-
             </View>
-        </ScrollView>
-
-        
-    )
+        </ScrollView> 
+    );
 }
