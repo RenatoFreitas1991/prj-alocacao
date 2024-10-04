@@ -1,14 +1,57 @@
 import React, { useState } from "react";
-import { Button, Text, TextInput, View, ScrollView, Alert, TouchableOpacity, Vibration } from "react-native";
-import { Picker } from "@react-native-picker/picker";
-import { useNavigation } from "@react-navigation/native";
+import { Text, View, TextInput, ScrollView, TouchableOpacity, Dimensions, Alert } from "react-native";
 import { TextInputMask } from 'react-native-masked-text';
 import RNPickerSelect from 'react-native-picker-select';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackParamList } from "../routes/stack.routes"; 
 import styles from "./styles/TelaCadastroStyle";
 import pickerSelectStyles from "./styles/selectStyles";
+import Animated, { useSharedValue, withTiming, useAnimatedStyle, runOnJS } from 'react-native-reanimated';
+
+
+type NavigationProp = NativeStackNavigationProp<StackParamList, 'Cadastro'>;
+
+const ErrorMessage = ({ error }: { error: string }) => (
+    error ? <Text style={styles.errorMessage}>{error}</Text> : null
+);
+
+const InputField = ({
+    label,
+    value,
+    placeholder,
+    onChangeText,
+    error,
+    keyboardType = "default",
+    mask,
+    maskOptions
+}: any) => (
+    <View style={styles.viewInput}>
+        <Text style={styles.textLabel}>{label}</Text>
+        <ErrorMessage error={error} />
+        {mask ? (
+            <TextInputMask
+                type={mask}
+                options={maskOptions}
+                style={styles.input}
+                placeholder={placeholder}
+                value={value}
+                onChangeText={onChangeText}
+            />
+        ) : (
+            <TextInput
+                style={styles.input}
+                placeholder={placeholder}
+                value={value}
+                onChangeText={onChangeText}
+                keyboardType={keyboardType}
+            />
+        )}
+    </View>
+);
 
 export default function TelaCadastro() {
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp>();
 
     // STATES DOS CAMPOS
     const [nome, setNome] = useState('');
@@ -26,8 +69,9 @@ export default function TelaCadastro() {
     const [numero, setNumero] = useState('');
     const [profissao, setProfissao] = useState('');
     const [estadoCivil, setEstadoCivil] = useState('Solteiro');
-    const [senha, setSenha] = useState('');
-    const [confirmarSenha, setConfirmarSenha] = useState('');
+
+    const [step, setStep] = useState(1);
+
 
     // STATES DAS MENSAGENS DE ERROR
     const [nomeError, setNomeError] = useState('');
@@ -45,22 +89,142 @@ export default function TelaCadastro() {
     const [numeroError, setNumeroError] = useState('');
     const [profissaoError, setProfissaoError] = useState('');
     const [estadoCivilError, setEstadoCivilError] = useState('');
-    const [senhaError, setSenhaError] = useState('');
-    const [confirmarSenhaError, setConfirmarSenhaError] = useState('');
 
+    // Validações e mudança de estado ao clicar "Avançar"
+    const nextStep = () => {
+        switch (step) {
+            case 1:
+                if (!nome.trim()) {
+                    setNomeError('O campo nome é obrigatório.');
+                    return;
+                }
+                setNomeError('');
+                break;
+            case 2:
+                if (!dataNascimento.trim()) {
+                    setDataNascimentoError('O campo data de nascimento é obrigatório.');
+                    return;
+                }
+                setDataNascimentoError('');
+                break;
+            case 3:
+                if (!cpf.trim()) {
+                    setCpfError('O campo CPF é obrigatório.');
+                    return;
+                }
+                setCpfError('');
+                break;
+            case 4:
+                if (!rg.trim()) {
+                    setRgError('O campo RG é obrigatório.');
+                    return;
+                }
+                setRgError('');
+                break;
+            case 5:
+                if (!orgaoExpeditor.trim()) {
+                    setOrgaoExpeditorError('O campo órgão expeditor é obrigatório.');
+                    return;
+                }
+                setOrgaoExpeditorError('');
+                break;
+            case 6:
+                if (!cnh.trim()) {
+                    setCnhError('O campo CNH é obrigatório.');
+                    return;
+                }
+                setCnhError('');
+                break;
+            case 7:
+                if (!telefone.trim()) {
+                    setTelefoneError('O campo telefone é obrigatório.');
+                    return;
+                }
+                setTelefoneError('');
+                break;
+            case 8:
+                if (!email.trim()) {
+                    setEmailError('O campo e-mail é obrigatório.');
+                    return;
+                }
+                setEmailError('');
+                break;
+            case 9:
+                if (!cep.trim()) {
+                    setCepError('O campo CEP é obrigatório.');
+                    return;
+                }
+                setCepError('');
+                break;
+            case 10:
+                if (!cidade.trim()) {
+                    setCidadeError('O campo cidade é obrigatório.');
+                    return;
+                }
+                setCidadeError('');
+                break;
+            case 11:
+                if (!rua.trim()) {
+                    setRuaError('O campo rua é obrigatório.');
+                    return;
+                }
+                setRuaError('');
+                break;
+            case 12:
+                if (!bairro.trim()) {
+                    setBairroError('O campo bairro é obrigatório.');
+                    return;
+                }
+                setBairroError('');
+                break;
+            case 13:
+                if (!numero.trim()) {
+                    setNumeroError('O campo número é obrigatório.');
+                    return;
+                }
+                setNumeroError('');
+                break;
+            case 14:
+                if (!profissao.trim()) {
+                    setProfissaoError('O campo profissão é obrigatório.');
+                    return;
+                }
+                setProfissaoError('');
+                break;
+            case 15:
+                if (!estadoCivil.trim()) {
+                    setEstadoCivilError('O campo estado civil é obrigatório.');
+                    return;
+                }
+                setEstadoCivilError('');
+                break;
+            default:
+                break;
+        }
+
+        // Muda para o próximo step
+        if (step < 15) {
+            setStep(prev => prev + 1);
+        } else {
+            navigation.navigate('TelaSenha');
+        }
+    };
+
+    const prevStep = () => {
+        if (step > 1) {
+            setStep(prev => prev - 1);
+        }
+    };
 
     const fetchAddress = async (cep: string) => {
         try {
             const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
             const data = await response.json();
-            if (data.erro) {
-                throw new Error('CEP não encontrado');
-            }
-            // Preenchendo os campos automaticamente com a resposta da API
+            if (data.erro) throw new Error('CEP não encontrado');
             setCidade(data.localidade);
             setRua(data.logradouro);
             setBairro(data.bairro);
-        } catch (error) {
+        } catch {
             Alert.alert('Erro', 'CEP inválido ou não encontrado.');
             setCidade('');
             setRua('');
@@ -68,278 +232,207 @@ export default function TelaCadastro() {
         }
     };
 
-
-
-    function mostrarDadosCadastrados() {
-        console.log('Nome: ', nome);
-        console.log('Data de nascimento: ', dataNascimento);
-        console.log('Cpf: ', cpf);
-        console.log('Rg: ', rg);
-        console.log('Órgão expeditor: ', orgaoExpeditor);
-        console.log('Cnh: ', cnh);
-        console.log('Telefone: ', telefone);
-        console.log('E-mail: ', email);
-        console.log('Cep: ', cep);
-        console.log('Cidade: ', cidade);
-        console.log('Rua: ', rua);
-        console.log('Bairro: ', bairro);
-        console.log('Numero:', numero);
-        console.log('Profissão: ', profissao);
-        console.log('Estado civil: ', estadoCivil);
-        console.log('Senha: ', senha);
-        
-    }
-
-    return(
-        <ScrollView style={styles.scrollContainer}>
-            <View style={styles.borda}></View>
-            <View style={styles.container2}>
-                <Text style={styles.titulo}>Faça seu Cadastro</Text>
-                
-                {/* Nome */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Nome:</Text>
-                    <Text style={styles.errorMessage}>{nomeError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite seu nome"
+    const renderStep = () => {
+        switch (step) {
+            case 1:
+                return (
+                    <InputField
+                        label="Nome"
                         value={nome}
+                        placeholder="Digite seu nome"
                         onChangeText={setNome}
+                        error={nomeError}
                     />
-                </View>
-
-                {/* Data de Nascimento */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Data de Nascimento:</Text>
-                    <Text style={styles.errorMessage}>{dataNascimentoError}</Text>
-                    <TextInputMask
-                        type={'datetime'}
-                        options={{ format: 'DD/MM/YYYY' }}
-                        style={styles.input}
-                        placeholder="Data de Nascimento"
+                );
+            case 2:
+                return (
+                    <InputField
+                        label="Data de Nascimento"
                         value={dataNascimento}
+                        placeholder="Digite sua data de nascimento"
                         onChangeText={setDataNascimento}
+                        error={dataNascimentoError}
+                        mask="custom"
+                        maskOptions={{ mask: '99/99/9999' }}
                     />
-                </View>
-
-                {/* CPF */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>CPF:</Text>
-                    <Text style={styles.errorMessage}>{cpfError}</Text>
-                    <TextInputMask
-                        type={'custom'}
-                        options={{ mask: '999.999.999-99' }}
-                        style={styles.input}
-                        placeholder="Digite seu CPF"
+                );
+            case 3:
+                return (
+                    <InputField
+                        label="CPF"
                         value={cpf}
+                        placeholder="Digite seu CPF"
                         onChangeText={setCpf}
+                        error={cpfError}
+                        mask="custom"
+                        maskOptions={{ mask: '999.999.999-99' }}
                     />
-                </View>
-
-                {/* RG */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>RG:</Text>
-                    <Text style={styles.errorMessage}>{rgError}</Text>
-                    <TextInputMask
-                        type={'custom'}
-                        options={{ mask: '999999999999-9' }}
-                        style={styles.input}
-                        placeholder="Digite seu RG"
+                );
+            case 4:
+                return (
+                    <InputField
+                        label="RG"
                         value={rg}
+                        placeholder="Digite seu RG"
                         onChangeText={setRg}
+                        error={rgError}
+                        mask="custom"
+                        maskOptions={{ mask: '999999999999-9' }}
                     />
-                </View>
-
-                {/* Órgão Expeditor */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Órgão Expeditor</Text>
-                    <Text style={styles.errorMessage}>{orgaoExpeditorError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite o órgão expeditor do RG"
+                );
+            case 5:
+                return (
+                    <InputField
+                        label="Órgão Expeditor"
                         value={orgaoExpeditor}
+                        placeholder="Digite o órgão expeditor do RG"
                         onChangeText={setOrgaoExpeditor}
+                        error={orgaoExpeditorError}
                     />
-                </View>
-
-                {/* CNH */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>CNH:</Text>
-                    <Text style={styles.errorMessage}>{cnhError}</Text>
-                    <TextInputMask
-                        type={'custom'}
-                        options={{ mask: '99999999999' }}
-                        style={styles.input}
-                        placeholder="Digite o número de sua CNH"
+                );
+            case 6:
+                return (
+                    <InputField
+                        label="CNH"
                         value={cnh}
+                        placeholder="Digite o número de sua CNH"
                         onChangeText={setCnh}
+                        error={cnhError}
+                        mask="custom"
+                        maskOptions={{ mask: '99999999999' }}
                     />
-                </View>
-
-                {/* Telefone */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Telefone:</Text>
-                    <Text style={styles.errorMessage}>{telefoneError}</Text>
-                    <TextInputMask
-                        type={'custom'}
-                        options={{ mask: '(99)9 9999-9999' }}
-                        style={styles.input}
-                        placeholder="Digite o número do seu telefone"
-                        keyboardType="number-pad"
+                );
+            case 7:
+                return (
+                    <InputField
+                        label="Telefone"
                         value={telefone}
+                        placeholder="Digite o número do seu telefone"
                         onChangeText={setTelefone}
+                        error={telefoneError}
+                        mask="custom"
+                        maskOptions={{ mask: '(99)9 9999-9999' }}
+                        keyboardType="number-pad"
                     />
-                </View>
-
-                {/* E-mail */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>E-mail:</Text>
-                    <Text style={styles.errorMessage}>{emailError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite seu e-mail"
-                        keyboardType="email-address"
+                );
+            case 8:
+                return (
+                    <InputField
+                        label="E-mail"
                         value={email}
+                        placeholder="Digite seu e-mail"
                         onChangeText={setEmail}
+                        error={emailError}
+                        keyboardType="email-address"
                     />
-                </View>
-
-                {/* CEP */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Cep:</Text>
-                    <Text style={styles.errorMessage}>{cepError}</Text>
-                    <TextInputMask
-                        type={'custom'}
-                        options={{ mask: '99999-999' }}
-                        style={styles.input}
-                        placeholder="Digite seu CEP"
+                );
+            case 9:
+                return (
+                    <InputField
+                        label="CEP"
                         value={cep}
-                        onChangeText={(value) => {
-                            setCep(value);
-                            if (value.length === 9) { // O CEP é preenchido quando contém 9 caracteres
-                                fetchAddress(value);
-                            }
+                        placeholder="Digite seu CEP"
+                        onChangeText={(text: string) => {
+                            setCep(text);
+                            if (text.length === 9) fetchAddress(text);
                         }}
+                        error={cepError}
+                        mask="custom"
+                        maskOptions={{ mask: '99999-999' }}
                     />
-                </View>
-
-                {/* Cidade, Rua e Bairro preenchidos automaticamente */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Cidade:</Text>
-                    <Text style={styles.errorMessage}>{cidadeError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite a cidade onde você mora"
+                );
+            case 10:
+                return (
+                    <InputField
+                        label="Cidade"
                         value={cidade}
+                        placeholder="Digite a cidade onde você mora"
                         onChangeText={setCidade}
+                        error={cidadeError}
                     />
-                </View>
-
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Rua:</Text>
-                    <Text style={styles.errorMessage}>{ruaError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite a rua onde você mora"
+                );
+            case 11:
+                return (
+                    <InputField
+                        label="Rua"
                         value={rua}
+                        placeholder="Digite a rua onde você mora"
                         onChangeText={setRua}
-                        keyboardType="default"
+                        error={ruaError}
                     />
-                </View>
-
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Bairro:</Text>
-                    <Text style={styles.errorMessage}>{bairroError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite o bairro onde você mora"
+                );
+            case 12:
+                return (
+                    <InputField
+                        label="Bairro"
                         value={bairro}
+                        placeholder="Digite o bairro onde você mora"
                         onChangeText={setBairro}
+                        error={bairroError}
                     />
-                </View>
-
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Número:</Text>
-                    <Text style={styles.errorMessage}>{numeroError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite o número da sua residência"
+                );
+            case 13:
+                return (
+                    <InputField
+                        label="Número"
                         value={numero}
+                        placeholder="Digite o número da sua residência"
                         onChangeText={setNumero}
+                        error={numeroError}
                         keyboardType="numeric"
                     />
-                </View>
-
-                {/* Profissão */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Profissão:</Text>
-                    <Text style={styles.errorMessage}>{profissaoError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite sua profissão"
+                );
+            case 14:
+                return (
+                    <InputField
+                        label="Profissão"
                         value={profissao}
+                        placeholder="Digite sua profissão"
                         onChangeText={setProfissao}
+                        error={profissaoError}
                     />
-                </View>
+                );
+            case 15:
+                return (
+                    <View style={styles.viewInput}>
+                        <Text style={styles.textLabel}>Estado Civil:</Text>
+                        <ErrorMessage error={estadoCivilError} />
+                        <RNPickerSelect
+                            onValueChange={setEstadoCivil}
+                            items={[
+                                { label: 'Solteiro', value: 'Solteiro' },
+                                { label: 'Casado', value: 'Casado' },
+                                { label: 'Divorciado', value: 'Divorciado' },
+                            ]}
+                            value={estadoCivil}
+                            style={pickerSelectStyles}
+                            placeholder={{ label: 'Selecione seu estado civil', value: null }}
+                        />
+                    </View>
+                );
+            default:
+                return null;
+        }
+    };
 
-                {/* Estado Civil */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Estado Civil:</Text>
-                    <Text style={styles.errorMessage}>{estadoCivilError}</Text>
-                    <RNPickerSelect
-                        onValueChange={(value) => setEstadoCivil(value)}
-                        items={[
-                            { label: 'Solteiro', value: 'Solteiro' },
-                            { label: 'Casado', value: 'Casado' },
-                            { label: 'Separado', value: 'Separado' },
-                            { label: 'Divorciado', value: 'Divorciado' },
-                            { label: 'Viúvo', value: 'Viúvo' },
-                        ]}
-                        value={estadoCivil}
-                        style={pickerSelectStyles}
-                        placeholder={{ label: 'Selecione seu estado civil', value: null }}
-                    />
-                </View>
-
-                {/* Senha */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Senha:</Text>
-                    <Text style={styles.errorMessage}>{senhaError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Digite sua senha"
-                        secureTextEntry
-                        value={senha}
-                        onChangeText={setSenha}
-                    />
-                </View>
-
-                {/* Confirmar Senha */}
-                <View style={styles.viewInput}>
-                    <Text style={styles.textLabel}>Confirme sua senha:</Text>
-                    <Text style={styles.errorMessage}>{confirmarSenhaError}</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Confirme sua senha"
-                        secureTextEntry
-                        value={confirmarSenha}
-                        onChangeText={setConfirmarSenha}
-                    />
-                </View>
-
-                {/* Botões */}
+    return (
+        <ScrollView style={styles.scrollContainer}>
+            <View style={styles.container}>
+                <Text style={styles.titulo}>Faça seu Cadastro</Text>
+                {renderStep()}
                 <View style={styles.botoesContainer}>
-                    {/* Botão de Cadastrar */}
-                    <TouchableOpacity style={[styles.botao, styles.botaoCadastrar]} onPress={() => mostrarDadosCadastrados()}>
-                        <Text style={styles.textoBotaoCadastrar}>Cadastrar</Text>
-                    </TouchableOpacity>
-
-                    {/* Botão de Voltar */}
-                    <TouchableOpacity style={[styles.botao, styles.botaoVoltar]} onPress={() => navigation.goBack()}>
-                        <Text style={styles.textoBotaoVoltar}>Voltar</Text>
+                    {step > 1 && (
+                        <TouchableOpacity style={[styles.botao, styles.botaoVoltar]} onPress={prevStep}>
+                            <Text style={styles.textoBotaoVoltar}>Voltar</Text>
+                        </TouchableOpacity>
+                    )}
+                    <TouchableOpacity style={[styles.botao, styles.botaoCadastrar]} onPress={nextStep}>
+                        <Text style={styles.textoBotaoCadastrar}>
+                            {step === 15 ? 'Concluir' : 'Avançar'}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
-        </ScrollView> 
+        </ScrollView>
     );
 }

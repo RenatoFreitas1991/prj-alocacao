@@ -80,25 +80,39 @@ const styles = StyleSheet.create({
   },
 
   botaoCadastrar: {
-        borderColor: 'green',
-        backgroundColor: 'green',
-        borderWidth: 2,
-    },
-    botaoVoltar: {
-        borderColor: '#d41717',
-        backgroundColor: '#d41717',
-        borderWidth: 2,
-    },
-    textoBotaoCadastrar: {
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    textoBotaoVoltar: {
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: 15,
-    },
+    borderColor: 'green',
+    width: '48%', // Largura fixa para ambos os botões
+    paddingVertical: 12, // Altura do botão padronizada
+    alignItems: 'center',
+    borderRadius: 8, // Deixando as bordas um pouco mais arredondadas
+    backgroundColor: 'green',
+    borderWidth: 2,
+    marginTop: 25,   
+  },
+  botaoVoltar: {
+    borderColor: '#d41717',
+    backgroundColor: '#d41717',
+    width: '48%', // Largura fixa para ambos os botões
+    paddingVertical: 12, // Altura do botão padronizada
+    alignItems: 'center',
+    borderRadius: 8, // Deixando as bordas um pouco mais arredondadas
+    borderWidth: 2,
+    marginTop: 25,
+  },
+  textoBotaoCadastrar: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  textoBotaoVoltar: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 15,
+  },
+  viewAnimated: {
+    width: '100%',  // Para assegurar que a animação ocupe a largura total da tela
+    flex: 1,        // Flexível para permitir que o conteúdo ocupe todo o espaço disponível
+}
 });
 
 export default styles;
