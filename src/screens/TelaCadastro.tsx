@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Text, TextInput, View, ScrollView, Alert, TouchableOpacity } from "react-native";
+import { Button, Text, TextInput, View, ScrollView, Alert, TouchableOpacity, Vibration } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { TextInputMask } from 'react-native-masked-text';
@@ -9,6 +9,8 @@ import pickerSelectStyles from "./styles/selectStyles";
 
 export default function TelaCadastro() {
     const navigation = useNavigation();
+
+    // STATES DOS CAMPOS
     const [nome, setNome] = useState('');
     const [dataNascimento, setDataNascimento] = useState('');
     const [cpf, setCpf] = useState('');
@@ -26,6 +28,25 @@ export default function TelaCadastro() {
     const [estadoCivil, setEstadoCivil] = useState('Solteiro');
     const [senha, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
+
+    // STATES DAS MENSAGENS DE ERROR
+    const [nomeError, setNomeError] = useState('');
+    const [dataNascimentoError, setDataNascimentoError] = useState('');
+    const [cpfError, setCpfError] = useState('');
+    const [rgError, setRgError] = useState('');
+    const [orgaoExpeditorError, setOrgaoExpeditorError] = useState('');
+    const [cnhError, setCnhError] = useState('');
+    const [telefoneError, setTelefoneError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [cepError, setCepError] = useState('');
+    const [cidadeError, setCidadeError] = useState('');
+    const [ruaError, setRuaError] = useState('');
+    const [bairroError, setBairroError] = useState('');
+    const [numeroError, setNumeroError] = useState('');
+    const [profissaoError, setProfissaoError] = useState('');
+    const [estadoCivilError, setEstadoCivilError] = useState('');
+    const [senhaError, setSenhaError] = useState('');
+    const [confirmarSenhaError, setConfirmarSenhaError] = useState('');
 
 
     const fetchAddress = async (cep: string) => {
@@ -46,6 +67,22 @@ export default function TelaCadastro() {
             setBairro('');
         }
     };
+
+    function camposNull() {
+        if(nome == '' || dataNascimento == '' || cpf == '' || rg == '' || orgaoExpeditor == '' || 
+            cnh == '' || telefone == '' || email == '' || cep == '' || cidade == '' || rua == '' ||
+            bairro == '' || numero == '' || profissao == '' || estadoCivil == '' || 
+            senha == '' || confirmarSenha == '') {
+                Vibration.vibrate();
+        }
+
+    }
+
+    function validarCampos() {
+        let messageError = "Campo Obrigatório*";
+        camposNull();
+    }
+
     function mostrarDadosCadastrados() {
         console.log('Nome: ', nome);
         console.log('Data de nascimento: ', dataNascimento);
@@ -252,7 +289,7 @@ export default function TelaCadastro() {
                 {/* Botões */}
                 <View style={styles.botoesContainer}>
                     {/* Botão de Cadastrar */}
-                    <TouchableOpacity style={[styles.botao, styles.botaoCadastrar]} onPress={mostrarDadosCadastrados}>
+                    <TouchableOpacity style={[styles.botao, styles.botaoCadastrar]} onPress={() => validarCampos()}>
                         <Text style={styles.textoBotaoCadastrar}>Cadastrar</Text>
                     </TouchableOpacity>
 
