@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Text, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import styles from "./styles/style";
+import styles from "./styles/TelaCadastroStyle";
 
 export default function TelaLogin() {
     const navigation = useNavigation()

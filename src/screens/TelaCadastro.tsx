@@ -4,7 +4,7 @@ import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { TextInputMask } from 'react-native-masked-text';
 import RNPickerSelect from 'react-native-picker-select';
-import styles from "./styles/style";
+import styles from "./styles/TelaCadastroStyle";
 import pickerSelectStyles from "./styles/selectStyles";
 
 export default function TelaCadastro() {
@@ -68,20 +68,7 @@ export default function TelaCadastro() {
         }
     };
 
-    function camposNull() {
-        if(nome == '' || dataNascimento == '' || cpf == '' || rg == '' || orgaoExpeditor == '' || 
-            cnh == '' || telefone == '' || email == '' || cep == '' || cidade == '' || rua == '' ||
-            bairro == '' || numero == '' || profissao == '' || estadoCivil == '' || 
-            senha == '' || confirmarSenha == '') {
-                Vibration.vibrate();
-        }
 
-    }
-
-    function validarCampos() {
-        let messageError = "Campo Obrigatório*";
-        camposNull();
-    }
 
     function mostrarDadosCadastrados() {
         console.log('Nome: ', nome);
@@ -105,191 +92,245 @@ export default function TelaCadastro() {
 
     return(
         <ScrollView style={styles.scrollContainer}>
+            <View style={styles.borda}></View>
             <View style={styles.container2}>
-                <Text style={styles.titulo}>Faça seu cadastro no App de alocação de veículo</Text>
+                <Text style={styles.titulo}>Faça seu Cadastro</Text>
                 
                 {/* Nome */}
-                <Text>Nome:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite seu nome"
-                    value={nome}
-                    onChangeText={setNome}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Nome:</Text>
+                    <Text style={styles.errorMessage}>{nomeError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite seu nome"
+                        value={nome}
+                        onChangeText={setNome}
+                    />
+                </View>
 
                 {/* Data de Nascimento */}
-                <Text>Data de Nascimento:</Text>
-                <TextInputMask
-                    type={'datetime'}
-                    options={{ format: 'DD/MM/YYYY' }}
-                    style={styles.input}
-                    placeholder="Data de Nascimento"
-                    value={dataNascimento}
-                    onChangeText={setDataNascimento}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Data de Nascimento:</Text>
+                    <Text style={styles.errorMessage}>{dataNascimentoError}</Text>
+                    <TextInputMask
+                        type={'datetime'}
+                        options={{ format: 'DD/MM/YYYY' }}
+                        style={styles.input}
+                        placeholder="Data de Nascimento"
+                        value={dataNascimento}
+                        onChangeText={setDataNascimento}
+                    />
+                </View>
 
                 {/* CPF */}
-                <Text>CPF:</Text>
-                <TextInputMask
-                    type={'custom'}
-                    options={{ mask: '999.999.999-99' }}
-                    style={styles.input}
-                    placeholder="Digite seu CPF"
-                    value={cpf}
-                    onChangeText={setCpf}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>CPF:</Text>
+                    <Text style={styles.errorMessage}>{cpfError}</Text>
+                    <TextInputMask
+                        type={'custom'}
+                        options={{ mask: '999.999.999-99' }}
+                        style={styles.input}
+                        placeholder="Digite seu CPF"
+                        value={cpf}
+                        onChangeText={setCpf}
+                    />
+                </View>
 
                 {/* RG */}
-                <Text>RG:</Text>
-                <TextInputMask
-                    type={'custom'}
-                    options={{ mask: '999999999999-9' }}
-                    style={styles.input}
-                    placeholder="Digite seu RG"
-                    value={rg}
-                    onChangeText={setRg}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>RG:</Text>
+                    <Text style={styles.errorMessage}>{rgError}</Text>
+                    <TextInputMask
+                        type={'custom'}
+                        options={{ mask: '999999999999-9' }}
+                        style={styles.input}
+                        placeholder="Digite seu RG"
+                        value={rg}
+                        onChangeText={setRg}
+                    />
+                </View>
 
                 {/* Órgão Expeditor */}
-                <Text>Órgão Expeditor</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite o órgão expeditor do RG"
-                    value={orgaoExpeditor}
-                    onChangeText={setOrgaoExpeditor}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Órgão Expeditor</Text>
+                    <Text style={styles.errorMessage}>{orgaoExpeditorError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite o órgão expeditor do RG"
+                        value={orgaoExpeditor}
+                        onChangeText={setOrgaoExpeditor}
+                    />
+                </View>
 
                 {/* CNH */}
-                <Text>CNH:</Text>
-                <TextInputMask
-                    type={'custom'}
-                    options={{ mask: '99999999999' }}
-                    style={styles.input}
-                    placeholder="Digite o número de sua CNH"
-                    value={cnh}
-                    onChangeText={setCnh}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>CNH:</Text>
+                    <Text style={styles.errorMessage}>{cnhError}</Text>
+                    <TextInputMask
+                        type={'custom'}
+                        options={{ mask: '99999999999' }}
+                        style={styles.input}
+                        placeholder="Digite o número de sua CNH"
+                        value={cnh}
+                        onChangeText={setCnh}
+                    />
+                </View>
 
                 {/* Telefone */}
-                <Text>Telefone:</Text>
-                <TextInputMask
-                    type={'custom'}
-                    options={{ mask: '(99)9 9999-9999' }}
-                    style={styles.input}
-                    placeholder="Digite o número do seu telefone"
-                    keyboardType="number-pad"
-                    value={telefone}
-                    onChangeText={setTelefone}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Telefone:</Text>
+                    <Text style={styles.errorMessage}>{telefoneError}</Text>
+                    <TextInputMask
+                        type={'custom'}
+                        options={{ mask: '(99)9 9999-9999' }}
+                        style={styles.input}
+                        placeholder="Digite o número do seu telefone"
+                        keyboardType="number-pad"
+                        value={telefone}
+                        onChangeText={setTelefone}
+                    />
+                </View>
 
                 {/* E-mail */}
-                <Text>E-mail:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite seu e-mail"
-                    keyboardType="email-address"
-                    value={email}
-                    onChangeText={setEmail}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>E-mail:</Text>
+                    <Text style={styles.errorMessage}>{emailError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite seu e-mail"
+                        keyboardType="email-address"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+                </View>
 
                 {/* CEP */}
-                <Text>Cep:</Text>
-                <TextInputMask
-                    type={'custom'}
-                    options={{ mask: '99999-999' }}
-                    style={styles.input}
-                    placeholder="Digite seu CEP"
-                    value={cep}
-                    onChangeText={(value) => {
-                        setCep(value);
-                        if (value.length === 9) { // O CEP é preenchido quando contém 9 caracteres
-                            fetchAddress(value);
-                        }
-                    }}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Cep:</Text>
+                    <Text style={styles.errorMessage}>{cepError}</Text>
+                    <TextInputMask
+                        type={'custom'}
+                        options={{ mask: '99999-999' }}
+                        style={styles.input}
+                        placeholder="Digite seu CEP"
+                        value={cep}
+                        onChangeText={(value) => {
+                            setCep(value);
+                            if (value.length === 9) { // O CEP é preenchido quando contém 9 caracteres
+                                fetchAddress(value);
+                            }
+                        }}
+                    />
+                </View>
 
                 {/* Cidade, Rua e Bairro preenchidos automaticamente */}
-                <Text>Cidade:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite a cidade onde você mora"
-                    value={cidade}
-                    onChangeText={setCidade}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Cidade:</Text>
+                    <Text style={styles.errorMessage}>{cidadeError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite a cidade onde você mora"
+                        value={cidade}
+                        onChangeText={setCidade}
+                    />
+                </View>
 
-                <Text>Rua:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite a rua onde você mora"
-                    value={rua}
-                    onChangeText={setRua}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Rua:</Text>
+                    <Text style={styles.errorMessage}>{ruaError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite a rua onde você mora"
+                        value={rua}
+                        onChangeText={setRua}
+                        keyboardType="default"
+                    />
+                </View>
 
-                <Text>Bairro:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite o bairro onde você mora"
-                    value={bairro}
-                    onChangeText={setBairro}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Bairro:</Text>
+                    <Text style={styles.errorMessage}>{bairroError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite o bairro onde você mora"
+                        value={bairro}
+                        onChangeText={setBairro}
+                    />
+                </View>
 
-                <Text>Número:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite o número da sua residência"
-                    value={numero}
-                    onChangeText={setNumero}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Número:</Text>
+                    <Text style={styles.errorMessage}>{numeroError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite o número da sua residência"
+                        value={numero}
+                        onChangeText={setNumero}
+                        keyboardType="numeric"
+                    />
+                </View>
 
                 {/* Profissão */}
-                <Text>Profissão:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite sua profissão"
-                    value={profissao}
-                    onChangeText={setProfissao}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Profissão:</Text>
+                    <Text style={styles.errorMessage}>{profissaoError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite sua profissão"
+                        value={profissao}
+                        onChangeText={setProfissao}
+                    />
+                </View>
 
                 {/* Estado Civil */}
-                <Text>Estado Civil:</Text>
-                <RNPickerSelect
-                    onValueChange={(value) => setEstadoCivil(value)}
-                    items={[
-                        { label: 'Solteiro', value: 'Solteiro' },
-                        { label: 'Casado', value: 'Casado' },
-                        { label: 'Separado', value: 'Separado' },
-                        { label: 'Divorciado', value: 'Divorciado' },
-                        { label: 'Viúvo', value: 'Viúvo' },
-                    ]}
-                    value={estadoCivil}
-                    style={pickerSelectStyles}
-                    placeholder={{ label: 'Selecione seu estado civil', value: null }}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Estado Civil:</Text>
+                    <Text style={styles.errorMessage}>{estadoCivilError}</Text>
+                    <RNPickerSelect
+                        onValueChange={(value) => setEstadoCivil(value)}
+                        items={[
+                            { label: 'Solteiro', value: 'Solteiro' },
+                            { label: 'Casado', value: 'Casado' },
+                            { label: 'Separado', value: 'Separado' },
+                            { label: 'Divorciado', value: 'Divorciado' },
+                            { label: 'Viúvo', value: 'Viúvo' },
+                        ]}
+                        value={estadoCivil}
+                        style={pickerSelectStyles}
+                        placeholder={{ label: 'Selecione seu estado civil', value: null }}
+                    />
+                </View>
 
                 {/* Senha */}
-                <Text>Senha:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Digite sua senha"
-                    secureTextEntry
-                    value={senha}
-                    onChangeText={setSenha}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Senha:</Text>
+                    <Text style={styles.errorMessage}>{senhaError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Digite sua senha"
+                        secureTextEntry
+                        value={senha}
+                        onChangeText={setSenha}
+                    />
+                </View>
 
                 {/* Confirmar Senha */}
-                <Text>Confirme sua senha:</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Confirme sua senha"
-                    secureTextEntry
-                    value={confirmarSenha}
-                    onChangeText={setConfirmarSenha}
-                />
+                <View style={styles.viewInput}>
+                    <Text style={styles.textLabel}>Confirme sua senha:</Text>
+                    <Text style={styles.errorMessage}>{confirmarSenhaError}</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Confirme sua senha"
+                        secureTextEntry
+                        value={confirmarSenha}
+                        onChangeText={setConfirmarSenha}
+                    />
+                </View>
 
                 {/* Botões */}
                 <View style={styles.botoesContainer}>
                     {/* Botão de Cadastrar */}
-                    <TouchableOpacity style={[styles.botao, styles.botaoCadastrar]} onPress={() => validarCampos()}>
+                    <TouchableOpacity style={[styles.botao, styles.botaoCadastrar]} onPress={() => mostrarDadosCadastrados()}>
                         <Text style={styles.textoBotaoCadastrar}>Cadastrar</Text>
                     </TouchableOpacity>
 

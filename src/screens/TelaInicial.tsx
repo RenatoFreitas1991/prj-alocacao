@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, ImageBackground, Text, View } from "react-native";
-import styles from "./styles/style";
+import styles from "./styles/TelaCadastroStyle";
 
 export default function TelaInicial({ navigation }) {
 
