@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Vibration } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from "../routes/stack.routes"; // Import StackParamList type
@@ -28,6 +28,7 @@ export default function TelaSenha() {
         // Validating password
         if (senha.length < 6) {
             setSenhaError('A senha deve ter no mínimo 6 caracteres.');
+            Vibration.vibrate()
             valid = false;
         } else {
             setSenhaError('');
@@ -36,6 +37,7 @@ export default function TelaSenha() {
         // Validating password confirmation
         if (senha !== confirmarSenha) {
             setConfirmarSenhaError('As senhas não coincidem.');
+            Vibration.vibrate()
             valid = false;
         } else {
             setConfirmarSenhaError('');

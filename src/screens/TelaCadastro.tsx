@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, ScrollView, TouchableOpacity, Dimensions, Alert } from "react-native";
+import { Text, View, TextInput, ScrollView, TouchableOpacity, Dimensions, Alert, Vibration } from "react-native";
 import { TextInputMask } from 'react-native-masked-text';
 import RNPickerSelect from 'react-native-picker-select';
 import { useNavigation } from '@react-navigation/native';
@@ -96,6 +96,7 @@ export default function TelaCadastro() {
             case 1:
                 if (!nome.trim()) {
                     setNomeError('O campo nome é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setNomeError('');
@@ -103,6 +104,7 @@ export default function TelaCadastro() {
             case 2:
                 if (!dataNascimento.trim()) {
                     setDataNascimentoError('O campo data de nascimento é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setDataNascimentoError('');
@@ -110,6 +112,7 @@ export default function TelaCadastro() {
             case 3:
                 if (!cpf.trim()) {
                     setCpfError('O campo CPF é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setCpfError('');
@@ -117,6 +120,7 @@ export default function TelaCadastro() {
             case 4:
                 if (!rg.trim()) {
                     setRgError('O campo RG é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setRgError('');
@@ -124,6 +128,7 @@ export default function TelaCadastro() {
             case 5:
                 if (!orgaoExpeditor.trim()) {
                     setOrgaoExpeditorError('O campo órgão expeditor é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setOrgaoExpeditorError('');
@@ -131,6 +136,7 @@ export default function TelaCadastro() {
             case 6:
                 if (!cnh.trim()) {
                     setCnhError('O campo CNH é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setCnhError('');
@@ -138,6 +144,7 @@ export default function TelaCadastro() {
             case 7:
                 if (!telefone.trim()) {
                     setTelefoneError('O campo telefone é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setTelefoneError('');
@@ -145,6 +152,7 @@ export default function TelaCadastro() {
             case 8:
                 if (!email.trim()) {
                     setEmailError('O campo e-mail é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setEmailError('');
@@ -152,6 +160,7 @@ export default function TelaCadastro() {
             case 9:
                 if (!cep.trim()) {
                     setCepError('O campo CEP é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setCepError('');
@@ -159,6 +168,7 @@ export default function TelaCadastro() {
             case 10:
                 if (!cidade.trim()) {
                     setCidadeError('O campo cidade é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setCidadeError('');
@@ -166,6 +176,7 @@ export default function TelaCadastro() {
             case 11:
                 if (!rua.trim()) {
                     setRuaError('O campo rua é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setRuaError('');
@@ -173,6 +184,7 @@ export default function TelaCadastro() {
             case 12:
                 if (!bairro.trim()) {
                     setBairroError('O campo bairro é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setBairroError('');
@@ -180,6 +192,7 @@ export default function TelaCadastro() {
             case 13:
                 if (!numero.trim()) {
                     setNumeroError('O campo número é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setNumeroError('');
@@ -187,6 +200,7 @@ export default function TelaCadastro() {
             case 14:
                 if (!profissao.trim()) {
                     setProfissaoError('O campo profissão é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setProfissaoError('');
@@ -194,6 +208,7 @@ export default function TelaCadastro() {
             case 15:
                 if (!estadoCivil.trim()) {
                     setEstadoCivilError('O campo estado civil é obrigatório.');
+                    Vibration.vibrate();
                     return;
                 }
                 setEstadoCivilError('');
