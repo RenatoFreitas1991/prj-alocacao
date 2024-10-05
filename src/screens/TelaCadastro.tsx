@@ -1,453 +1,357 @@
-import React, { useState } from "react";
-import { Text, View, TextInput, ScrollView, TouchableOpacity, Dimensions, Alert, Vibration } from "react-native";
-import { TextInputMask } from 'react-native-masked-text';
-import RNPickerSelect from 'react-native-picker-select';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { StackParamList } from "../routes/stack.routes"; 
+import React, { useRef, useEffect } from "react";
+import {
+  Text,
+  View,
+  ScrollView,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
+import { TextInputMask } from "react-native-masked-text";
+import RNPickerSelect from "react-native-picker-select";
 import styles from "./styles/TelaCadastroStyle";
 import pickerSelectStyles from "./styles/selectStyles";
-import Animated, { useSharedValue, withTiming, useAnimatedStyle, runOnJS } from 'react-native-reanimated';
+import useStep from "../hooks/useStep";
 
+const ErrorMessage = ({ error }: { error: string }) =>
+  error ? <Text style={styles.errorMessage}>{error}</Text> : null;
 
-type NavigationProp = NativeStackNavigationProp<StackParamList, 'Cadastro'>;
-
-const ErrorMessage = ({ error }: { error: string }) => (
-    error ? <Text style={styles.errorMessage}>{error}</Text> : null
-);
-
-const InputField = ({
-    label,
-    value,
-    placeholder,
-    onChangeText,
-    error,
-    keyboardType = "default",
-    mask,
-    maskOptions
-}: any) => (
+const InputField = React.forwardRef(
+  (
+    {
+      label,
+      value,
+      placeholder,
+      onChangeText,
+      error,
+      keyboardType = "default",
+      mask,
+      maskOptions,
+      returnKeyType = "next",
+      onSubmitEditing,
+    }: any,
+    ref: any
+  ) => (
     <View style={styles.viewInput}>
-        <Text style={styles.textLabel}>{label}</Text>
-        <ErrorMessage error={error} />
-        {mask ? (
-            <TextInputMask
-                type={mask}
-                options={maskOptions}
-                style={styles.input}
-                placeholder={placeholder}
-                value={value}
-                onChangeText={onChangeText}
-            />
-        ) : (
-            <TextInput
-                style={styles.input}
-                placeholder={placeholder}
-                value={value}
-                onChangeText={onChangeText}
-                keyboardType={keyboardType}
-            />
-        )}
+      <Text style={styles.textLabel}>{label}</Text>
+      <ErrorMessage error={error} />
+      {mask ? (
+        <TextInputMask
+          type={mask}
+          options={maskOptions}
+          style={styles.input}
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
+          refInput={ref} // Passa a ref
+          keyboardType={keyboardType}
+          returnKeyType={returnKeyType} // Define o tipo do botão no teclado
+          onSubmitEditing={onSubmitEditing} // Ação ao pressionar "Next"
+        />
+      ) : (
+        <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          value={value}
+          onChangeText={onChangeText}
+          ref={ref} // Passa a ref
+          keyboardType={keyboardType}
+          returnKeyType={returnKeyType} // Define o tipo do botão no teclado
+          onSubmitEditing={onSubmitEditing} // Ação ao pressionar "Next"
+        />
+      )}
     </View>
+  )
 );
 
 export default function TelaCadastro() {
-    const navigation = useNavigation<NavigationProp>();
+    const {
+        step, nextStep, prevStep, nome, setNome, nomeError, dataNascimento, setDataNascimento, dataNascimentoError, cpf, setCpf, cpfError, rg, setRg, rgError,
+        orgaoExpeditor, setOrgaoExpeditor, orgaoExpeditorError, cnh, setCnh, cnhError, telefone, setTelefone, telefoneError, email, setEmail, emailError, cep, setCep, fetchAddress,
+        cepError, cidade, setCidade, cidadeError, rua, setRua, ruaError, bairro, setBairro, bairroError, numero, setNumero, numeroError, profissao, setProfissao, profissaoError,
+        estadoCivil, setEstadoCivil, estadoCivilError,
+    } = useStep();
 
-    // STATES DOS CAMPOS
-    const [nome, setNome] = useState('');
-    const [dataNascimento, setDataNascimento] = useState('');
-    const [cpf, setCpf] = useState('');
-    const [rg, setRg] = useState('');
-    const [orgaoExpeditor, setOrgaoExpeditor] = useState('');
-    const [cnh, setCnh] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [email, setEmail] = useState('');
-    const [cep, setCep] = useState('');
-    const [cidade, setCidade] = useState('');
-    const [rua, setRua] = useState('');
-    const [bairro, setBairro] = useState('');
-    const [numero, setNumero] = useState('');
-    const [profissao, setProfissao] = useState('');
-    const [estadoCivil, setEstadoCivil] = useState('Solteiro');
+    const nomeRef = useRef<TextInput>(null);
+    const dataNascimentoRef = useRef<TextInput>(null);
+    const cpfRef = useRef<TextInput>(null);
+    const rgRef = useRef<TextInput>(null);
+    const orgaoExpeditorRef = useRef<TextInput>(null);
+    const cnhRef = useRef<TextInput>(null);
+    const telefoneRef = useRef<TextInput>(null);
+    const emailRef = useRef<TextInput>(null);
+    const cepRef = useRef<TextInput>(null);
+    const cidadeRef = useRef<TextInput>(null);
+    const ruaRef = useRef<TextInput>(null);
+    const bairroRef = useRef<TextInput>(null);
+    const numeroRef = useRef<TextInput>(null);
+    const profissaoRef = useRef<TextInput>(null);
 
-    const [step, setStep] = useState(1);
-
-
-    // STATES DAS MENSAGENS DE ERROR
-    const [nomeError, setNomeError] = useState('');
-    const [dataNascimentoError, setDataNascimentoError] = useState('');
-    const [cpfError, setCpfError] = useState('');
-    const [rgError, setRgError] = useState('');
-    const [orgaoExpeditorError, setOrgaoExpeditorError] = useState('');
-    const [cnhError, setCnhError] = useState('');
-    const [telefoneError, setTelefoneError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [cepError, setCepError] = useState('');
-    const [cidadeError, setCidadeError] = useState('');
-    const [ruaError, setRuaError] = useState('');
-    const [bairroError, setBairroError] = useState('');
-    const [numeroError, setNumeroError] = useState('');
-    const [profissaoError, setProfissaoError] = useState('');
-    const [estadoCivilError, setEstadoCivilError] = useState('');
-
-    // Validações e mudança de estado ao clicar "Avançar"
-    const nextStep = () => {
-        switch (step) {
-            case 1:
-                if (!nome.trim()) {
-                    setNomeError('O campo nome é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setNomeError('');
-                break;
-            case 2:
-                if (!dataNascimento.trim()) {
-                    setDataNascimentoError('O campo data de nascimento é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setDataNascimentoError('');
-                break;
-            case 3:
-                if (!cpf.trim()) {
-                    setCpfError('O campo CPF é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setCpfError('');
-                break;
-            case 4:
-                if (!rg.trim()) {
-                    setRgError('O campo RG é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setRgError('');
-                break;
-            case 5:
-                if (!orgaoExpeditor.trim()) {
-                    setOrgaoExpeditorError('O campo órgão expeditor é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setOrgaoExpeditorError('');
-                break;
-            case 6:
-                if (!cnh.trim()) {
-                    setCnhError('O campo CNH é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setCnhError('');
-                break;
-            case 7:
-                if (!telefone.trim()) {
-                    setTelefoneError('O campo telefone é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setTelefoneError('');
-                break;
-            case 8:
-                if (!email.trim()) {
-                    setEmailError('O campo e-mail é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setEmailError('');
-                break;
-            case 9:
-                if (!cep.trim()) {
-                    setCepError('O campo CEP é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setCepError('');
-                break;
-            case 10:
-                if (!cidade.trim()) {
-                    setCidadeError('O campo cidade é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setCidadeError('');
-                break;
-            case 11:
-                if (!rua.trim()) {
-                    setRuaError('O campo rua é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setRuaError('');
-                break;
-            case 12:
-                if (!bairro.trim()) {
-                    setBairroError('O campo bairro é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setBairroError('');
-                break;
-            case 13:
-                if (!numero.trim()) {
-                    setNumeroError('O campo número é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setNumeroError('');
-                break;
-            case 14:
-                if (!profissao.trim()) {
-                    setProfissaoError('O campo profissão é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setProfissaoError('');
-                break;
-            case 15:
-                if (!estadoCivil.trim()) {
-                    setEstadoCivilError('O campo estado civil é obrigatório.');
-                    Vibration.vibrate();
-                    return;
-                }
-                setEstadoCivilError('');
-                break;
-            default:
-                break;
-        }
-
-        // Muda para o próximo step
-        if (step < 15) {
-            setStep(prev => prev + 1);
-        } else {
-            navigation.navigate('TelaSenha');
-        }
+    // Ajustar o comportamento do teclado ao avançar para o próximo campo
+    const handleNextStep = () => {
+        nextStep(); // Avança para o próximo step
     };
 
-    const prevStep = () => {
-        if (step > 1) {
-            setStep(prev => prev - 1);
-        }
-    };
-
-    const fetchAddress = async (cep: string) => {
-        try {
-            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = await response.json();
-            if (data.erro) throw new Error('CEP não encontrado');
-            setCidade(data.localidade);
-            setRua(data.logradouro);
-            setBairro(data.bairro);
-        } catch {
-            Alert.alert('Erro', 'CEP inválido ou não encontrado.');
-            setCidade('');
-            setRua('');
-            setBairro('');
-        }
-    };
-
-    const renderStep = () => {
-        switch (step) {
-            case 1:
-                return (
-                    <InputField
-                        label="Nome"
-                        value={nome}
-                        placeholder="Digite seu nome"
-                        onChangeText={setNome}
-                        error={nomeError}
-                    />
-                );
-            case 2:
-                return (
-                    <InputField
-                        label="Data de Nascimento"
-                        value={dataNascimento}
-                        placeholder="Digite sua data de nascimento"
-                        onChangeText={setDataNascimento}
-                        error={dataNascimentoError}
-                        mask="custom"
-                        maskOptions={{ mask: '99/99/9999' }}
-                    />
-                );
-            case 3:
-                return (
-                    <InputField
-                        label="CPF"
-                        value={cpf}
-                        placeholder="Digite seu CPF"
-                        onChangeText={setCpf}
-                        error={cpfError}
-                        mask="custom"
-                        maskOptions={{ mask: '999.999.999-99' }}
-                    />
-                );
-            case 4:
-                return (
-                    <InputField
-                        label="RG"
-                        value={rg}
-                        placeholder="Digite seu RG"
-                        onChangeText={setRg}
-                        error={rgError}
-                        mask="custom"
-                        maskOptions={{ mask: '999999999999-9' }}
-                    />
-                );
-            case 5:
-                return (
-                    <InputField
-                        label="Órgão Expeditor"
-                        value={orgaoExpeditor}
-                        placeholder="Digite o órgão expeditor do RG"
-                        onChangeText={setOrgaoExpeditor}
-                        error={orgaoExpeditorError}
-                    />
-                );
-            case 6:
-                return (
-                    <InputField
-                        label="CNH"
-                        value={cnh}
-                        placeholder="Digite o número de sua CNH"
-                        onChangeText={setCnh}
-                        error={cnhError}
-                        mask="custom"
-                        maskOptions={{ mask: '99999999999' }}
-                    />
-                );
-            case 7:
-                return (
-                    <InputField
-                        label="Telefone"
-                        value={telefone}
-                        placeholder="Digite o número do seu telefone"
-                        onChangeText={setTelefone}
-                        error={telefoneError}
-                        mask="custom"
-                        maskOptions={{ mask: '(99)9 9999-9999' }}
-                        keyboardType="number-pad"
-                    />
-                );
-            case 8:
-                return (
-                    <InputField
-                        label="E-mail"
-                        value={email}
-                        placeholder="Digite seu e-mail"
-                        onChangeText={setEmail}
-                        error={emailError}
-                        keyboardType="email-address"
-                    />
-                );
-            case 9:
-                return (
-                    <InputField
-                        label="CEP"
-                        value={cep}
-                        placeholder="Digite seu CEP"
-                        onChangeText={(text: string) => {
-                            setCep(text);
-                            if (text.length === 9) fetchAddress(text);
-                        }}
-                        error={cepError}
-                        mask="custom"
-                        maskOptions={{ mask: '99999-999' }}
-                    />
-                );
-            case 10:
-                return (
-                    <InputField
-                        label="Cidade"
-                        value={cidade}
-                        placeholder="Digite a cidade onde você mora"
-                        onChangeText={setCidade}
-                        error={cidadeError}
-                    />
-                );
-            case 11:
-                return (
-                    <InputField
-                        label="Rua"
-                        value={rua}
-                        placeholder="Digite a rua onde você mora"
-                        onChangeText={setRua}
-                        error={ruaError}
-                    />
-                );
-            case 12:
-                return (
-                    <InputField
-                        label="Bairro"
-                        value={bairro}
-                        placeholder="Digite o bairro onde você mora"
-                        onChangeText={setBairro}
-                        error={bairroError}
-                    />
-                );
-            case 13:
-                return (
-                    <InputField
-                        label="Número"
-                        value={numero}
-                        placeholder="Digite o número da sua residência"
-                        onChangeText={setNumero}
-                        error={numeroError}
-                        keyboardType="numeric"
-                    />
-                );
-            case 14:
-                return (
-                    <InputField
-                        label="Profissão"
-                        value={profissao}
-                        placeholder="Digite sua profissão"
-                        onChangeText={setProfissao}
-                        error={profissaoError}
-                    />
-                );
-            case 15:
-                return (
-                    <View style={styles.viewInput}>
-                        <Text style={styles.textLabel}>Estado Civil:</Text>
-                        <ErrorMessage error={estadoCivilError} />
-                        <RNPickerSelect
-                            onValueChange={setEstadoCivil}
-                            items={[
-                                { label: 'Solteiro', value: 'Solteiro' },
-                                { label: 'Casado', value: 'Casado' },
-                                { label: 'Divorciado', value: 'Divorciado' },
-                            ]}
-                            value={estadoCivil}
-                            style={pickerSelectStyles}
-                            placeholder={{ label: 'Selecione seu estado civil', value: null }}
+    useEffect(() => {
+        nomeRef.current?.focus(); // Foca automaticamente no primeiro campo ao carregar a tela
+    }, []);
+        const renderStep = () => {
+            switch (step) {
+                case 1:
+                    return (
+                        <InputField
+                            ref={nomeRef}
+                            label="Nome"
+                            value={nome}
+                            placeholder="Digite seu nome"
+                            onChangeText={setNome}
+                            error={nomeError}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
                         />
-                    </View>
-                );
-            default:
-                return null;
-        }
-    };
+                    );
+                case 2:
+                    return (
+                        <InputField
+                            ref={dataNascimentoRef}
+                            label="Data de Nascimento"
+                            value={dataNascimento}
+                            placeholder="Digite sua data de nascimento"
+                            onChangeText={setDataNascimento}
+                            error={dataNascimentoError}
+                            mask="custom"
+                            maskOptions={{ mask: '99/99/9999' }}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 3:
+                    return (
+                        <InputField
+                            ref={cpfRef}
+                            label="CPF"
+                            value={cpf}
+                            placeholder="Digite seu CPF"
+                            onChangeText={setCpf}
+                            error={cpfError}
+                            mask="custom"
+                            maskOptions={{ mask: '999.999.999-99' }}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 4:
+                    return (
+                        <InputField
+                            ref={rgRef}
+                            label="RG"
+                            value={rg}
+                            placeholder="Digite seu RG"
+                            onChangeText={setRg}
+                            error={rgError}
+                            mask="custom"
+                            maskOptions={{ mask: '999999999999-9' }}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 5:
+                    return (
+                        <InputField
+                            ref={orgaoExpeditorRef}
+                            label="Órgão Expeditor"
+                            value={orgaoExpeditor}
+                            placeholder="Digite o órgão expeditor do RG"
+                            onChangeText={setOrgaoExpeditor}
+                            error={orgaoExpeditorError}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 6:
+                    return (
+                        <InputField
+                            ref={cnhRef}
+                            label="CNH"
+                            value={cnh}
+                            placeholder="Digite o número de sua CNH"
+                            onChangeText={setCnh}
+                            error={cnhError}
+                            mask="custom"
+                            maskOptions={{ mask: '99999999999' }}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 7:
+                    return (
+                        <InputField
+                            ref={telefoneRef}
+                            label="Telefone"
+                            value={telefone}
+                            placeholder="Digite o número do seu telefone"
+                            onChangeText={setTelefone}
+                            error={telefoneError}
+                            mask="custom"
+                            maskOptions={{ mask: '(99)9 9999-9999' }}
+                            keyboardType="number-pad"
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 8:
+                    return (
+                        <InputField
+                            ref={emailRef}
+                            label="E-mail"
+                            value={email}
+                            placeholder="Digite seu e-mail"
+                            onChangeText={setEmail}
+                            error={emailError}
+                            keyboardType="email-address"
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 9:
+                    return (
+                        <InputField
+                            ref={cepRef}
+                            label="CEP"
+                            value={cep}
+                            placeholder="Digite seu CEP"
+                            onChangeText={(text: string) => {
+                                setCep(text);
+                                if (text.length === 9) fetchAddress(text);
+                            }}
+                            error={cepError}
+                            mask="custom"
+                            maskOptions={{ mask: '99999-999' }}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 10:
+                    return (
+                        <InputField
+                            ref={cidadeRef}
+                            label="Cidade"
+                            value={cidade}
+                            placeholder="Digite a cidade onde você mora"
+                            onChangeText={setCidade}
+                            error={cidadeError}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 11:
+                    return (
+                        <InputField
+                            ref={ruaRef}
+                            label="Rua"
+                            value={rua}
+                            placeholder="Digite a rua onde você mora"
+                            onChangeText={setRua}
+                            error={ruaError}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 12:
+                    return (
+                        <InputField
+                            ref={bairroRef}
+                            label="Bairro"
+                            value={bairro}
+                            placeholder="Digite o bairro onde você mora"
+                            onChangeText={setBairro}
+                            error={bairroError}
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 13:
+                    return (
+                        <InputField
+                            ref={numeroRef}
+                            label="Número"
+                            value={numero}
+                            placeholder="Digite o número da sua residência"
+                            onChangeText={setNumero}
+                            error={numeroError}
+                            keyboardType="numeric"
+                            returnKeyType="next"
+                            onSubmitEditing={handleNextStep} // Chama handleNextStep no submit
+                        />
+                    );
+                case 14:
+                    return (
+                        <InputField
+                            ref={profissaoRef}
+                            label="Profissão"
+                            value={profissao}
+                            placeholder="Digite sua profissão"
+                            onChangeText={setProfissao}
+                            error={profissaoError}
+                            returnKeyType="done"
+                            onSubmitEditing={handleNextStep} // Quando clicar em "Done", avança para o próximo step
+                        />
+                    );
+                case 15:
+                    return (
+                        <View style={styles.viewInput}>
+                            <Text style={styles.textLabel}>Estado Civil:</Text>
+                            <ErrorMessage error={estadoCivilError} />
+                            <RNPickerSelect
+                                onValueChange={setEstadoCivil}
+                                items={[
+                                    { label: 'Solteiro', value: 'Solteiro' },
+                                    { label: 'Casado', value: 'Casado' },
+                                    { label: 'Divorciado', value: 'Divorciado' },
+                                ]}
+                                value={estadoCivil}
+                                style={pickerSelectStyles}
+                                placeholder={{ label: 'Selecione seu estado civil', value: null }}
+                            />
+                        </View>
+                    );
+                default:
+                    return null;
+            }
+        };
 
     return (
-        <ScrollView style={styles.scrollContainer}>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          enabled
+        >
+          <ScrollView style={styles.scrollContainer} keyboardShouldPersistTaps="handled">
             <View style={styles.container}>
-                <Text style={styles.titulo}>Faça seu Cadastro</Text>
-                {renderStep()}
+              <Text style={styles.titulo}>Faça seu Cadastro</Text>
+              {renderStep()}
                 <View style={styles.botoesContainer}>
-                    {step > 1 && (
-                        <TouchableOpacity style={[styles.botao, styles.botaoVoltar]} onPress={prevStep}>
-                            <Text style={styles.textoBotaoVoltar}>Voltar</Text>
-                        </TouchableOpacity>
-                    )}
-                    <TouchableOpacity style={[styles.botao, styles.botaoCadastrar]} onPress={nextStep}>
+                    {/* O botão "Voltar" sempre estará presente, mas ficará invisível na etapa 1 */}
+                    <TouchableOpacity
+                        style={[styles.botaoVoltar, styles.botao, step === 1 && styles.botaoInvisivel]} // Invisível no step 1
+                        onPress={step > 1 ? prevStep : () => {}} // Função vazia no step 1
+                        disabled={step === 1} // Desativado no step 1
+                    >
+                        <Text style={styles.textoBotaoVoltar}>Voltar</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={[styles.botaoCadastrar, styles.botao]} // Botão "Avançar" sempre à direita
+                        onPress={handleNextStep}
+                    >
                         <Text style={styles.textoBotaoCadastrar}>
-                            {step === 15 ? 'Concluir' : 'Avançar'}
+                        {step === 15 ? "Concluir" : "Avançar"}
                         </Text>
                     </TouchableOpacity>
                 </View>
             </View>
-        </ScrollView>
-    );
+          </ScrollView>
+        </KeyboardAvoidingView>
+      );
 }
