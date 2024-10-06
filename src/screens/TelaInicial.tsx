@@ -38,17 +38,17 @@ export default function TelaInicial() {
                 <View>
 
                     <TouchableOpacity 
-                        style={[styles.button, styles.botaoEntrar]}
+                        style={styles.button}
                         onPress={abrirTelaLogin}>
                         <Text style={styles.buttonText}>Entrar</Text>
                     </TouchableOpacity>
 
                 </View>
 
-                <View style={styles.botaoCadastrar}>
+                <View>
 
                     <TouchableOpacity 
-                        style={[styles.button, styles.botaoCadastrar]}
+                        style={styles.button}
                         onPress={abrirTelaCadastro}>
                         <Text style={styles.buttonText}>Cadastrar</Text>
                     </TouchableOpacity>

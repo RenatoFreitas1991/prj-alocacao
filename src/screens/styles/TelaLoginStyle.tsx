@@ -9,33 +9,39 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'rgb(251,234,203)',
     },
-    viewText: {
-        position: 'absolute',
-        backgroundColor: 'rgb(205,165,130)',
-        padding: '7%',
-        top: 0,
-        width: '100%',
+    container2: {
+        width: '80%',
+        height: '80%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '3%',
+        backgroundColor: 'rgba(205, 165, 130, 0.711)',
+        borderRadius: 13,
     },
     titulo: {
-        fontSize: 20,
-        color: 'white',
+        fontSize: 32,
+        color: 'black',
         textAlign: 'center',
         fontWeight: 'bold',
     },
-
-    bemVindo: {
-        fontSize: 30,
-        color: 'rgb(99, 49, 15)',
+    viewInput:{
+        width: '100%',
+        marginTop: '20%',
+    },
+    input: {
+        width: "80%",
+        margin: 'auto',
+        padding: 10,
+        marginBottom: 10,
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: "#ccc",
+        backgroundColor: "white",
     },
     botoesContainer: {
         width: '80%',
-        position: 'absolute',
-        bottom: 0,
-        marginBottom: '15%',
-    },
-    img: {
-        height: 160,
-        resizeMode: 'contain',
+        marginTop: '10%',
     },
     button: {
         backgroundColor: 'rgb(10, 106, 189)',
@@ -49,13 +55,6 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
-    footer: {
-        position: 'absolute',
-        bottom: 0,
-        backgroundColor: 'black',
-        height: '5%',
-        width: '100%',
-    }
 });
 
 export default styles;
