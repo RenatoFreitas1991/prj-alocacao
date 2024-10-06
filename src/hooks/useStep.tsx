@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Vibration, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { StackParamList } from "../routes/stack.routes"; 
+import { StackParamList } from "../routes/stack.routes";
+import errorMessages from './errorMessages';
 
 export default function useStep() {
     const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
@@ -26,145 +27,167 @@ export default function useStep() {
 
     const [step, setStep] = useState(1);
 
-    // STATES DAS MENSAGENS DE ERROR
-    const [nomeError, setNomeError] = useState('');
-    const [dataNascimentoError, setDataNascimentoError] = useState('');
-    const [cpfError, setCpfError] = useState('');
-    const [rgError, setRgError] = useState('');
-    const [orgaoExpeditorError, setOrgaoExpeditorError] = useState('');
-    const [cnhError, setCnhError] = useState('');
-    const [telefoneError, setTelefoneError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [cepError, setCepError] = useState('');
-    const [cidadeError, setCidadeError] = useState('');
-    const [ruaError, setRuaError] = useState('');
-    const [bairroError, setBairroError] = useState('');
-    const [numeroError, setNumeroError] = useState('');
-    const [profissaoError, setProfissaoError] = useState('');
-    const [estadoCivilError, setEstadoCivilError] = useState('');
+    const [error, setError] = useState(''); // State pra handler de erros  
+
+    // Função para validar o CPF
+    const validarCPF = (cpf: string) => {
+        cpf = cpf.replace(/[^\d]/g, ""); // regex pra contabilizar apenas numeros 
+
+        // verificar se o cpf tem 11 digitos e se nao sao iguais
+        if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) {
+            return false;
+        }
+
+        let soma = 0;
+        let resto;
+
+        // validando o primeiro digito verificador 
+        for (let i = 1; i <= 9; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+        }
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        if (resto !== parseInt(cpf.substring(9, 10))) {
+            return false;
+        }
+
+        soma = 0;
+
+        // validando o segundo digito verificador
+        for (let i = 1; i <= 10; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        }
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        if (resto !== parseInt(cpf.substring(10, 11))) {
+            return false;
+        }
+
+        return true; 
+    };
 
     // Função para avançar para o próximo step
     const nextStep = () => {
         switch (step) {
             case 1:
                 if (!nome.trim()) {
-                    setNomeError('O campo nome é obrigatório.');
+                    setError(errorMessages.nome);
                     Vibration.vibrate();
                     return;
                 }
-                setNomeError('');
+                setError('');
                 break;
             case 2:
                 if (!dataNascimento.trim()) {
-                    setDataNascimentoError('O campo data de nascimento é obrigatório.');
+                    setError(errorMessages.dataNascimento);
                     Vibration.vibrate();
                     return;
                 }
-                setDataNascimentoError('');
+                setError('');
                 break;
             case 3:
-                if (!cpf.trim()) {
-                    setCpfError('O campo CPF é obrigatório.');
+                if (!cpf || cpf.length !== 14 || !validarCPF(cpf)){
+                    setError('o CPF é inválido');
                     Vibration.vibrate();
                     return;
                 }
-                setCpfError('');
+                setError('');
                 break;
             case 4:
                 if (!rg.trim()) {
-                    setRgError('O campo RG é obrigatório.');
+                    setError(errorMessages.rg);
                     Vibration.vibrate();
                     return;
                 }
-                setRgError('');
+                setError('');
                 break;
             case 5:
                 if (!orgaoExpeditor.trim()) {
-                    setOrgaoExpeditorError('O campo órgão expeditor é obrigatório.');
+                    setError(errorMessages.orgaoExpeditor);
                     Vibration.vibrate();
                     return;
                 }
-                setOrgaoExpeditorError('');
+                setError('');
                 break;
             case 6:
                 if (!cnh.trim()) {
-                    setCnhError('O campo CNH é obrigatório.');
+                    setError(errorMessages.cnh);
                     Vibration.vibrate();
                     return;
                 }
-                setCnhError('');
+                setError('');
                 break;
             case 7:
                 if (!telefone.trim()) {
-                    setTelefoneError('O campo telefone é obrigatório.');
+                    setError(errorMessages.telefone);
                     Vibration.vibrate();
                     return;
                 }
-                setTelefoneError('');
+                setError('');
                 break;
             case 8:
                 if (!email.trim()) {
-                    setEmailError('O campo e-mail é obrigatório.');
+                    setError(errorMessages.email);
                     Vibration.vibrate();
                     return;
                 }
-                setEmailError('');
+                setError('');
                 break;
             case 9:
                 if (!cep.trim()) {
-                    setCepError('O campo CEP é obrigatório.');
+                    setError(errorMessages.cep);
                     Vibration.vibrate();
                     return;
                 }
-                setCepError('');
+                setError('');
                 break;
             case 10:
                 if (!cidade.trim()) {
-                    setCidadeError('O campo cidade é obrigatório.');
+                    setError(errorMessages.cidade);
                     Vibration.vibrate();
                     return;
                 }
-                setCidadeError('');
+                setError('');
                 break;
             case 11:
                 if (!rua.trim()) {
-                    setRuaError('O campo rua é obrigatório.');
+                    setError(errorMessages.rua);
                     Vibration.vibrate();
                     return;
                 }
-                setRuaError('');
+                setError('');
                 break;
             case 12:
                 if (!bairro.trim()) {
-                    setBairroError('O campo bairro é obrigatório.');
+                    setError(errorMessages.bairro)
                     Vibration.vibrate();
                     return;
                 }
-                setBairroError('');
+                setError('');
                 break;
             case 13:
                 if (!numero.trim()) {
-                    setNumeroError('O campo número é obrigatório.');
+                    setError(errorMessages.numero);
                     Vibration.vibrate();
                     return;
                 }
-                setNumeroError('');
+                setError('');
                 break;
             case 14:
                 if (!profissao.trim()) {
-                    setProfissaoError('O campo profissão é obrigatório.');
+                    setError(errorMessages.profissao);
                     Vibration.vibrate();
                     return;
                 }
-                setProfissaoError('');
+                setError('');
                 break;
             case 15:
                 if (!estadoCivil.trim()) {
-                    setEstadoCivilError('O campo estado civil é obrigatório.');
+                    setError(errorMessages.estadoCivil);
                     Vibration.vibrate();
                     return;
                 }
-                setEstadoCivilError('');
+                setError('');
                 break;
             default:
                 break;
@@ -184,42 +207,26 @@ export default function useStep() {
         }
     };
 
-    const fetchAddress = async (cep: string) => {
-        try {
-            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = await response.json();
-            if (data.erro) throw new Error('CEP não encontrado');
-            setCidade(data.localidade);
-            setRua(data.logradouro);
-            setBairro(data.bairro);
-        } catch {
-            Alert.alert('Erro', 'CEP inválido ou não encontrado.');
-            setCidade('');
-            setRua('');
-            setBairro('');
-        }
-    };
-
     return {
         step,
         setStep,
-        nome, setNome, nomeError,
-        dataNascimento, setDataNascimento, dataNascimentoError,
-        cpf, setCpf, cpfError,
-        rg, setRg, rgError,
-        orgaoExpeditor, setOrgaoExpeditor, orgaoExpeditorError,
-        cnh, setCnh, cnhError,
-        telefone, setTelefone, telefoneError,
-        email, setEmail, emailError,
-        cep, setCep, cepError,
-        cidade, setCidade, cidadeError,
-        rua, setRua, ruaError,
-        bairro, setBairro, bairroError,
-        numero, setNumero, numeroError,
-        profissao, setProfissao, profissaoError,
-        estadoCivil, setEstadoCivil, estadoCivilError,
+        nome, setNome,
+        dataNascimento, setDataNascimento,
+        cpf, setCpf,
+        rg, setRg,
+        orgaoExpeditor, setOrgaoExpeditor,
+        cnh, setCnh,
+        telefone, setTelefone,
+        email, setEmail,
+        cep, setCep,
+        cidade, setCidade,
+        rua, setRua,
+        bairro, setBairro,
+        numero, setNumero,
+        profissao, setProfissao,
+        estadoCivil, setEstadoCivil,
+        error, 
         nextStep,
         prevStep,
-        fetchAddress,
     };
 }
