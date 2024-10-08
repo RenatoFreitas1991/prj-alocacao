@@ -6,10 +6,18 @@ import { StackParamList } from "../routes/stack.routes"; // Import StackParamLis
 import styles from "./styles/TelaLoginStyle";
 
 // Define the navigation prop type
-type NavigationProp = NativeStackNavigationProp<StackParamList, 'Login'>;
+type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'Login'>;
 
 export default function TelaLogin() {
-    const navigation = useNavigation<NavigationProp>();
+    const navigation = useNavigation<NavigationPropInicial>();
+
+    function abrirTelaHomeUsuario() {
+        navigation.navigate("TelaHome");
+    }
+
+    function abrirTelaInicial() {
+        navigation.navigate("Home");
+    }
 
     return (
         <View style={styles.container}>
@@ -30,14 +38,14 @@ export default function TelaLogin() {
                     <View>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => {/* Login logic here */}}>
+                            onPress={abrirTelaHomeUsuario}>
                             <Text style={styles.buttonText}>Entrar</Text>
                         </TouchableOpacity>
                     </View>
                     <View>
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={navigation.goBack}>
+                            onPress={abrirTelaInicial}>
                             <Text style={styles.buttonText}>Voltar</Text>
                         </TouchableOpacity>
                     </View>
