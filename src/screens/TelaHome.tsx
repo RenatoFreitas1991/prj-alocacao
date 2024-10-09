@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
@@ -14,17 +14,22 @@ function HomeScreen() {
     const navigation = useNavigation<NavigationPropInicial>();
 
     return (
-      <View  style={styles.container}>
+      <ScrollView style={styles.container}>
         {/* <Button
           onPress={() => navigation.navigate('Home')}
           title="Go to notifications"
         /> */}
+        <View>
+
+        </View>
         <View  style={styles.cardsContainer}>
           <CardVeiculo/>
           <CardVeiculo/>
           <CardVeiculo/>
+          <CardVeiculo/>
+          <CardVeiculo/>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 

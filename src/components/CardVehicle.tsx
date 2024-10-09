@@ -1,15 +1,14 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles/CardVehicleStyle';
 
 export default function CardVehicle() {
     return(
         <View style={styles.cardContainer}>
-            <View style={styles.viewImg}>
-                <Image 
-                    style={styles.img}
-                    source={require('../../assets/carro-tela-inicial.png')}
-                />
-            </View>
+            <Image 
+                style={styles.img}
+                source={require('../../assets/carro-tela-inicial.png')}
+            />
+
             <View style={styles.textContainer}>
 
                 <View  style={styles.viewText}>
@@ -26,6 +25,17 @@ export default function CardVehicle() {
                     <Text style={styles.label}>Placa: </Text>
                     <Text style={styles.text}>MVB-6207</Text>
                 </View>
+
+            </View>
+            <View style={styles.viewButton}>
+
+                <TouchableOpacity style={[styles.button, styles.buttonUpdate]}>
+                    <Text style={styles.textButton}>Atualizar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.button, styles.buttonDelete]}>
+                    <Text style={styles.textButton}>Deletar</Text>
+                </TouchableOpacity>
 
             </View>
         </View>

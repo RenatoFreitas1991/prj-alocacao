@@ -2,23 +2,21 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     cardContainer: {
-        width: '40%',
-        height: '40%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        borderRadius: 12,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
         margin: 10,
-    },
-    viewImg: {
-
+        width: '44%',
+        padding: '2%',
     },
     img: {
-        display: 'flex',
-        margin: 'auto',
-        height: '55%',
-        resizeMode: 'contain',
+        width: '100%',
+        height: 100,
     },
     textContainer: {
         width: '75%',
@@ -28,13 +26,39 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: '2%',
         flexDirection: 'row',
+        padding: '3%',
     },
     label: {
         fontWeight: 'bold',
     },
     text: {
+        fontWeight: 'bold',
+        color: 'red',
         marginLeft: '2%',
     },
+    viewButton: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: '3%',
+        padding: 10,
+    },
+    button: {
+        borderColor: 'black',
+        padding: '4%',
+        borderRadius: 5,
+    },
+    buttonUpdate: {
+        backgroundColor: 'rgb(49, 49, 203)',
+    },
+    buttonDelete: {
+        backgroundColor: 'rgb(228, 90, 90)',
+    },
+    textButton: {
+        fontWeight: 'bold',
+        color: 'white',
+        fontSize: 14,
+    }
 });
 
 export default styles;

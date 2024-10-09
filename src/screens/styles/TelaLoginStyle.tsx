@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
         padding: '3%',
         backgroundColor: 'rgba(205, 165, 130, 0.711)',
         borderRadius: 13,
+        
     },
     titulo: {
         fontSize: 32,
