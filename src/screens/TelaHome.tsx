@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../routes/stack.routes"; // Import StackParamList type
 import styles from './styles/TelaHomeStyle'
 
-import CardVeiculo from '../components/CardVehicle';
+import CardVeiculo from '../components/CardVehicle/CardVehicle';
 
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'Login'>;
 
@@ -23,11 +23,36 @@ function HomeScreen() {
 
         </View>
         <View  style={styles.cardsContainer}>
-          <CardVeiculo/>
-          <CardVeiculo/>
-          <CardVeiculo/>
-          <CardVeiculo/>
-          <CardVeiculo/>
+          <CardVeiculo
+            modelo="Polo"
+            marca="Lexus"
+            placa="MVB-6207"
+          />
+
+          <CardVeiculo
+            modelo="Polo"
+            marca="Lexus"
+            placa="MVB-6207"
+          />
+          
+          <CardVeiculo
+            modelo="Polo"
+            marca="Lexus"
+            placa="MVB-6207"
+          />
+          
+          <CardVeiculo
+            modelo="Polo"
+            marca="Lexus"
+            placa="MVB-6207"
+          />
+          
+          <CardVeiculo
+            modelo="Polo"
+            marca="Lexus"
+            placa="MVB-6207"
+          />
+
         </View>
       </ScrollView>
     );

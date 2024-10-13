@@ -1,30 +1,39 @@
+import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
-import styles from './styles/CardVehicleStyle';
+import styles from './CardVehicleStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function CardVehicle() {
+interface CardVehicleProps {
+    modelo:string;
+    marca:string;
+    placa:string;
+    imgUrl?:string;
+}
+
+export default function CardVehicle({modelo, marca, placa, imgUrl}: CardVehicleProps) {
+
     return(
         <View style={styles.cardContainer}>
             <Image 
+                source={require('../../../assets/' + 'carro-tela-inicial.png')}
                 style={styles.img}
-                source={require('../../assets/carro-tela-inicial.png')}
             />
 
             <View style={styles.textContainer}>
 
                 <View  style={styles.viewText}>
                     <Text style={styles.label}>Modelo: </Text>
-                    <Text style={styles.text}>Polo</Text>
+                    <Text style={styles.text}>{modelo}</Text>
                 </View>
 
                 <View style={styles.viewText}>
                     <Text style={styles.label}>Marca: </Text>
-                    <Text style={styles.text}>Lexus</Text>
+                    <Text style={styles.text}>{marca}</Text>
                 </View>
 
                 <View style={styles.viewText}>
                     <Text style={styles.label}>Placa: </Text>
-                    <Text style={styles.text}>MVB-6207</Text>
+                    <Text style={styles.text}>{placa}</Text>
                 </View>
 
             </View>
