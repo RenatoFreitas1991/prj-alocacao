@@ -1,5 +1,6 @@
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles/CardVehicleStyle';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function CardVehicle() {
     return(
@@ -30,11 +31,15 @@ export default function CardVehicle() {
             <View style={styles.viewButton}>
 
                 <TouchableOpacity style={[styles.button, styles.buttonUpdate]}>
-                    <Text style={styles.textButton}>Atualizar</Text>
+                    <Text style={styles.textButton}>
+                        Editar <Icon name="edit" size={14} color="#ffff" />
+                    </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.button, styles.buttonDelete]}>
-                    <Text style={styles.textButton}>Deletar</Text>
+                    <Text style={styles.textButton}>
+                        Deletar <Icon name="trash" size={14} color="#ffff" />
+                    </Text>
                 </TouchableOpacity>
 
             </View>

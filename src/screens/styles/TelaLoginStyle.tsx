@@ -49,6 +49,11 @@ const styles = StyleSheet.create({
         marginTop: '5%',
         padding: '3%',
         borderRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
     },
     buttonText: {
         fontSize: 18,
