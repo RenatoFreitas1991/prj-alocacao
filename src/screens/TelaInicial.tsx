@@ -25,34 +25,26 @@ export default function TelaInicial() {
                 <Text style={[styles.titulo, styles.bemVindo]}>Bem vindo</Text>
                 <Text style={styles.titulo}>Ao seu App de alocação de veículo.</Text>
             </View>
-
-
                 <Image
                     source={require('../../assets/carro-tela-inicial.png')}
                     style={styles.img}
                 />
-
-
             <View style={styles.botoesContainer}>
                 
                 <View>
-
                     <TouchableOpacity 
                         style={styles.button}
                         onPress={abrirTelaLogin}>
                         <Text style={styles.buttonText}>Entrar</Text>
                     </TouchableOpacity>
-
                 </View>
 
                 <View>
-
                     <TouchableOpacity 
                         style={styles.button}
                         onPress={abrirTelaCadastro}>
                         <Text style={styles.buttonText}>Cadastrar</Text>
                     </TouchableOpacity>
-
                 </View>
             </View>
         </View>

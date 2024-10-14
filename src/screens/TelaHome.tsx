@@ -1,69 +1,18 @@
 import React, { useState } from "react";
-import { View, ScrollView } from "react-native";
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { StackParamList } from "../routes/stack.routes"; // Import StackParamList type
-import styles from './styles/TelaHomeStyle'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import CardVeiculo from '../components/CardVehicle/CardVehicle';
+import Alugados from './VeiculosAlugados';
+import VeiculosNaoAlugados from './VeiculosNaoAlugados'
+import VeiculosDeletados from './VeiculosDeletados';
 
-type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'Login'>;
-
-function HomeScreen() {
-    const navigation = useNavigation<NavigationPropInicial>();
-
-    return (
-      <ScrollView style={styles.container}>
-        {/* <Button
-          onPress={() => navigation.navigate('Home')}
-          title="Go to notifications"
-        /> */}
-        <View>
-
-        </View>
-        <View  style={styles.cardsContainer}>
-          <CardVeiculo
-            modelo="Polo"
-            marca="Lexus"
-            placa="MVB-6207"
-          />
-
-          <CardVeiculo
-            modelo="Polo"
-            marca="Lexus"
-            placa="MVB-6207"
-          />
-          
-          <CardVeiculo
-            modelo="Polo"
-            marca="Lexus"
-            placa="MVB-6207"
-          />
-          
-          <CardVeiculo
-            modelo="Polo"
-            marca="Lexus"
-            placa="MVB-6207"
-          />
-          
-          <CardVeiculo
-            modelo="Polo"
-            marca="Lexus"
-            placa="MVB-6207"
-          />
-
-        </View>
-      </ScrollView>
-    );
-  }
-
-const Drawer = createDrawerNavigator();
+const Tab = createMaterialTopTabNavigator();
 
 export default function TelaHome() {
-    return(
-        <Drawer.Navigator>
-            <Drawer.Screen name="Tela Home" component={HomeScreen} />
-        </Drawer.Navigator>
-    )
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Não Alugados" component={VeiculosNaoAlugados} />
+      <Tab.Screen name="Alugados" component={Alugados} />
+      <Tab.Screen name="Deletados" component={VeiculosDeletados} />
+    </Tab.Navigator>
+  );
 }
