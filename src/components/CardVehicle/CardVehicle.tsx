@@ -2,22 +2,35 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './CardVehicleStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Asset } from 'expo-asset';
 
 interface CardVehicleProps {
     modelo:string;
     marca:string;
     placa:string;
-    imgUrl?:string;
+    imgName?:string;
 }
 
-export default function CardVehicle({modelo, marca, placa, imgUrl}: CardVehicleProps) {
+export default function CardVehicle({modelo, marca, placa, imgName}: CardVehicleProps) {
+
+    //let imgFileName = `../../../assets/carro-tela-inicial.png`;
+    //const image = Asset.fromModule(require(`../../../assets/${imgName}`)).uri;
+    let img
 
     return(
         <View style={styles.cardContainer}>
-            <Image 
-                source={require('../../../assets/' + 'carro-tela-inicial.png')}
-                style={styles.img}
-            />
+            {imgName ? (
+                <Image 
+                    source={{ uri: imgName }}
+                    style={styles.img}
+                />
+            ): (
+                <Image 
+                    source={require('../../../assets/carro-tela-inicial.png')}
+                    style={styles.img}
+                />
+            )
+            }
 
             <View style={styles.textContainer}>
 
