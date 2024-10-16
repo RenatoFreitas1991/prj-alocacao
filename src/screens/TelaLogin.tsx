@@ -12,7 +12,7 @@ export default function TelaLogin() {
     const navigation = useNavigation<NavigationPropInicial>();
 
     function abrirTelaHomeUsuario() {
-        navigation.navigate("TelaHome");
+        navigation.navigate("TelaHomeAdmin");
     }
 
     function abrirTelaInicial() {

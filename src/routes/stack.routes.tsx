@@ -4,16 +4,22 @@ import TelaInicial from "../screens/TelaInicial";
 import TelaLogin from "../screens/TelaLogin";
 import TelaCadastro from "../screens/TelaCadastro";
 import TelaSenha from "../screens/TelaSenha"; 
-import TelaHome from "../screens/TelaHome";
-import Alugados from '../screens/VeiculosAlugados'; // Import the new password setup screen
+import TelaHomeAdmin from "../screens/TelaHomeAdmin";
+import TelaHomeUser from "../screens/TelaHomeUser";
+import Alugados from '../screens/VeiculosAlugados';
+import NaoAlugados from '../screens/VeiculosNaoAlugados';
+import Deletados from '../screens/VeiculosDeletados'; // Import the new password setup screen
 
 export type StackParamList = {
     Home: undefined;
     Login: undefined;
     Cadastro: undefined;
     TelaSenha: undefined;
-    TelaHome: undefined;
-    Alugados:undefined; // TelaSenha does not expect any parameters
+    TelaHomeAdmin: undefined;
+    TelaHomeUser: undefined;
+    Alugados:undefined;
+    NaoAlugados:undefined;
+    Deletados:undefined; // TelaSenha does not expect any parameters
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -25,8 +31,11 @@ export function StackRoutes() {
             <Stack.Screen name="Login" component={TelaLogin} />
             <Stack.Screen name="Cadastro" component={TelaCadastro} />
             <Stack.Screen name="TelaSenha" component={TelaSenha} />
-            <Stack.Screen name="TelaHome" component={TelaHome} />
+            <Stack.Screen name="TelaHomeAdmin" component={TelaHomeAdmin} />
+            <Stack.Screen name="TelaHomeUser" component={TelaHomeUser} />
             <Stack.Screen name="Alugados" component={Alugados} />
+            <Stack.Screen name="NaoAlugados" component={NaoAlugados} />
+            <Stack.Screen name="Deletados" component={Deletados} />
         </Stack.Navigator>
     );
 }
