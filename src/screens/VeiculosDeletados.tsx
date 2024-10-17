@@ -11,11 +11,11 @@ export default function VeiculosDeletados() {
 
         </View>
         <View  style={styles.cardsContainer}>
-          <CardVeiculo
+          {/* <CardVeiculo
             modelo="Polo"
             marca="Lexus"
             placa="MVB-6207"
-          />
+          /> */}
 
         </View>
       </ScrollView>

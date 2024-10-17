@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
     },
     viewButton: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        //justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         marginTop: '3%',
         padding: .5,

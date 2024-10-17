@@ -16,18 +16,24 @@ export default function VeiculosAlugados() {
             modelo="Polo"
             marca="Lexus"
             placa="MVB-6207"
+            nameButton="Editar"
+            iconButton="edit"
           />
 
           <CardVeiculo
             modelo="Polo"
             marca="Lexus"
             placa="MVB-6207"
+            nameButton="Editar"
+            iconButton="edit"
           />
           
           <CardVeiculo
             modelo="Polo"
             marca="Lexus"
             placa="MVB-6207"
+            nameButton="Editar"
+            iconButton="edit"
           />
 
         </View>

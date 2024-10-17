@@ -9,13 +9,14 @@ interface CardVehicleProps {
     marca:string;
     placa:string;
     imgName?:string;
+    nameButton?:string;
+    iconButton?:any;
 }
 
-export default function CardVehicle({modelo, marca, placa, imgName}: CardVehicleProps) {
+export default function CardVehicle({modelo, marca, placa, imgName, nameButton, iconButton}: CardVehicleProps) {
 
     //let imgFileName = `../../../assets/carro-tela-inicial.png`;
     //const image = Asset.fromModule(require(`../../../assets/${imgName}`)).uri;
-    let img
 
     return(
         <View style={styles.cardContainer}>
@@ -26,7 +27,7 @@ export default function CardVehicle({modelo, marca, placa, imgName}: CardVehicle
                 />
             ): (
                 <Image 
-                    source={require('../../../assets/carro-tela-inicial.png')}
+                    source={require(`../../../assets/carro-tela-inicial.png`)}
                     style={styles.img}
                 />
             )
@@ -54,15 +55,15 @@ export default function CardVehicle({modelo, marca, placa, imgName}: CardVehicle
 
                 <TouchableOpacity style={[styles.button, styles.buttonUpdate]}>
                     <Text style={styles.textButton}>
-                        Editar <Icon name="edit" size={14} color="#ffff" />
+                        {nameButton} <Icon name={iconButton} size={14} color="#ffff" />
                     </Text>
                 </TouchableOpacity>
-
+{/* 
                 <TouchableOpacity style={[styles.button, styles.buttonDelete]}>
                     <Text style={styles.textButton}>
                         Deletar <Icon name="trash" size={14} color="#ffff" />
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
             </View>
         </View>

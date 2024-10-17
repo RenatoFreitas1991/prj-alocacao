@@ -3,9 +3,7 @@ import { StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import Alugados from './VeiculosAlugados';
-import VeiculosNaoAlugados from './VeiculosNaoAlugados'
-import VeiculosDeletados from './VeiculosDeletados';
-import TelaInicial from "./TelaInicial";
+import VeiculosNaoAlugados from './VeiculosNaoAlugados';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,7 +17,6 @@ export default function TelaHome() {
     >
       <Tab.Screen name="Não Alugados" component={VeiculosNaoAlugados} />
       <Tab.Screen name="Alugados" component={Alugados} />
-      <Tab.Screen name="Deletados" component={VeiculosDeletados} />
     </Tab.Navigator>
   );
 }
