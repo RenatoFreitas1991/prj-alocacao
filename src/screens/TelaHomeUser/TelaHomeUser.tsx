@@ -1,11 +1,10 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-
-import Alugados from './VeiculosAlugados';
-import VeiculosNaoAlugados from './VeiculosNaoAlugados'
-import VeiculosDeletados from './VeiculosDeletados';
-import TelaInicial from "./TelaInicial";
+import styles from "./TelaHomeUserStyle";
+import Alugados from '../VeiculosAlugados/VeiculosAlugados';
+import VeiculosNaoAlugados from '../VeiculosNaoAlugados/VeiculosNaoAlugados'
+import TelaInicial from "../TelaInicial/TelaInicial";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -21,18 +20,3 @@ export default function TelaHome() {
     </Tab.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: '#f8f8f8',
-  },
-  indicator: {
-    backgroundColor: 'blue',
-    height: 3,
-  },
-  label: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-});

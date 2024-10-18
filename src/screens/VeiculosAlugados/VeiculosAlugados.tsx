@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { View, ScrollView } from "react-native";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import styles from './styles/TelaHomeStyle';
+import styles from '../styles/TelaHomeStyle';
 
-import CardVeiculo from '../components/CardVehicle/CardVehicle';
+import CardVeiculo from '../../components/CardVehicle/CardVehicle';
 
 export default function VeiculosAlugados() {
     return(

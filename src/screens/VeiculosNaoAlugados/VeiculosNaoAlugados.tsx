@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, ScrollView } from "react-native";
-import styles from './styles/TelaHomeStyle';
+import styles from '../styles/TelaHomeStyle';
 
-import CardVeiculo from '../components/CardVehicle/CardVehicle';
+import CardVeiculo from '../../components/CardVehicle/CardVehicle';
 
 export default function VeiculosNaoAlugados() {
     return(
