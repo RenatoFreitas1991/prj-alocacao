@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Image, ScrollView } from 'react-native';
 import styles from './TeleEditarVeiculoStyle';
+import { useRoute } from '@react-navigation/native';
+
+type RouteParams = {
+    modeloProp:string;
+    marcaProp:string;
+    placaProp:string;
+};
 
 export default function TelaEditarVeiculo() {
+
+    const route = useRoute();
+    const { modeloProp, marcaProp, placaProp } = route.params as RouteParams;
 
     const [modelo, setModelo] = useState("");
     const [marca, setMarca] = useState("");
@@ -32,7 +42,7 @@ export default function TelaEditarVeiculo() {
                     <TextInput
                         style={styles.input}
                         onChangeText={setModelo}
-                        value={modelo}
+                        value={modeloProp}
                         placeholder='Modelo'
                         keyboardType='default'
                     />
@@ -42,7 +52,7 @@ export default function TelaEditarVeiculo() {
                     <TextInput
                         style={styles.input}
                         onChangeText={setMarca}
-                        value={marca}
+                        value={marcaProp}
                         placeholder='Marca'
                     />
                 </View>
@@ -60,7 +70,7 @@ export default function TelaEditarVeiculo() {
                     <TextInput
                         style={styles.input}
                         onChangeText={setPlaca}
-                        value={placa}
+                        value={placaProp}
                         placeholder='Placa'
                     />
                 </View>

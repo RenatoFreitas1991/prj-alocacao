@@ -20,7 +20,7 @@ export type StackParamList = {
     TelaHomeUser: undefined;
     Alugados:undefined;
     NaoAlugados:undefined;
-    TelaEditarVeiculo:undefined; // TelaSenha does not expect any parameters
+    TelaEditarVeiculo: {modeloProp?:string, marcaProp?:String, placaProp?:string};
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();

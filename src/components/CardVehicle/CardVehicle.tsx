@@ -19,12 +19,18 @@ type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'TelaHome
 
 export default function CardVehicle({modelo, marca, placa, imgName, nameButton, iconButton}: CardVehicleProps) {
 
-    //const image = Asset.fromModule(require(`../../../assets/${imgName}`)).uri;
-
     const navigation = useNavigation<NavigationPropInicial>();
 
+    let modeloProp = modelo;
+    let marcaProp = marca;
+    let placaProp = modelo;
+
     function abrirTelaEditarVeiculo() {
-        navigation.navigate('TelaEditarVeiculo');
+        navigation.navigate('TelaEditarVeiculo', {
+            modeloProp,
+            marcaProp,
+            placaProp,
+        });
     }
 
     return(
