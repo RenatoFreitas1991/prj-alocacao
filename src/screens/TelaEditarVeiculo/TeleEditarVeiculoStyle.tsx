@@ -2,33 +2,39 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container:{
-        height: '100%',
+        minHeight: '100%',
         width: '100%',
         display: 'flex',
+    },
+    viewTitulo: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     titulo: {
         fontSize: 20,
         color: 'black',
-        textAlign: 'center',
+        textAlign: 'auto',
         fontWeight: 'bold',
-        position: 'absolute',
-        top: 0,
-        marginTop: 5,
+        marginTop: 20,
+    },
+    img: {
+        width: '100%',
+        height: '20%',
+        borderRadius: 5,
+        padding: 5,
+        marginTop: 20,
     },
     viewInput: {
         width: "100%",
-        height: '9%',
-        marginTop: 17,
+        marginTop: 30,
     },
     textLabel: {
         marginLeft: '10%',
         textAlign: "left",
         fontWeight: "bold",
         fontSize: 15,
-    },
-    label: {
-        textAlign: "left",
-        fontWeight: "bold",
     },
     input: {
         width: '80%',
@@ -38,6 +44,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 5,
     },
+
 })
 
 export default styles;
