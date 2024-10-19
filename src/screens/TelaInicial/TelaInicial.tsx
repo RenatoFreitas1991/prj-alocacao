@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Text, View, TouchableOpacity, Image } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { StackParamList } from "../routes/stack.routes"; // Import the StackParamList
-import styles from "./styles/TelaInicialStyle";
+import { StackParamList } from "../../routes/stack.routes"; // Import the StackParamList
+import styles from "./TelaInicialStyle";
 import { useNavigation } from "@react-navigation/native";
 
 // Define the navigation prop type
@@ -26,7 +26,7 @@ export default function TelaInicial() {
                 <Text style={styles.titulo}>Ao seu App de alocação de veículo.</Text>
             </View>
                 <Image
-                    source={require('../../assets/carro-tela-inicial.png')}
+                    source={require('../../../assets/carro-tela-inicial.png')}
                     style={styles.img}
                 />
             <View style={styles.botoesContainer}>

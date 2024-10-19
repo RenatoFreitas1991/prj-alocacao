@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Vibration } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { StackParamList } from "../routes/stack.routes"; // Import StackParamList type
-import styles from "./styles/TelaCadastroStyle";
+import { StackParamList } from "../../routes/stack.routes"; // Import StackParamList type
+import styles from "../TelaCadastro/TelaCadastroStyle";
 
 // Define the navigation prop type
 type NavigationProp = NativeStackNavigationProp<StackParamList, 'TelaSenha'>;

@@ -2,8 +2,8 @@ import React from "react";
 import { Button, Text, TextInput, View, TouchableOpacity } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { StackParamList } from "../routes/stack.routes"; // Import StackParamList type
-import styles from "./styles/TelaLoginStyle";
+import { StackParamList } from "../../routes/stack.routes"; // Import StackParamList type
+import styles from "./TelaLoginStyle";
 
 // Define the navigation prop type
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'Login'>;

@@ -1,14 +1,15 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TelaInicial from "../screens/TelaInicial";
-import TelaLogin from "../screens/TelaLogin";
-import TelaCadastro from "../screens/TelaCadastro";
-import TelaSenha from "../screens/TelaSenha"; 
-import TelaHomeAdmin from "../screens/TelaHomeAdmin";
-import TelaHomeUser from "../screens/TelaHomeUser";
-import Alugados from '../screens/VeiculosAlugados';
-import NaoAlugados from '../screens/VeiculosNaoAlugados';
-import TelaEditarVeiculo from '../screens/TelaEditarVeiculo'; // Import the new password setup screen
+
+import TelaInicial from "../screens/TelaInicial/TelaInicial";
+import TelaLogin from "../screens/TelaLogin/TelaLogin";
+import TelaCadastro from "../screens/TelaCadastro/TelaCadastro";
+import TelaSenha from "../screens//TelaSenha/TelaSenha"; 
+import TelaHomeAdmin from "../screens/TelaHomeAdmin/TelaHomeAdmin";
+import TelaHomeUser from "../screens/TelaHomeUser/TelaHomeUser";
+import Alugados from '../screens/VeiculosAlugados/VeiculosAlugados';
+import NaoAlugados from '../screens/VeiculosNaoAlugados/VeiculosNaoAlugados';
+import TelaEditarVeiculo from '../screens/TelaEditarVeiculo/TelaEditarVeiculo';
 
 export type StackParamList = {
     Home: undefined;
@@ -35,6 +36,7 @@ export function StackRoutes() {
             <Stack.Screen name="TelaHomeUser" component={TelaHomeUser} />
             <Stack.Screen name="Alugados" component={Alugados} />
             <Stack.Screen name="NaoAlugados" component={NaoAlugados} />
+
             <Stack.Screen name="TelaEditarVeiculo" component={TelaEditarVeiculo} />
         </Stack.Navigator>
     );

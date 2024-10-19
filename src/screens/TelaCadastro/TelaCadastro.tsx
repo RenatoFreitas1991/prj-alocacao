@@ -10,10 +10,10 @@ import {
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import RNPickerSelect from "react-native-picker-select";
-import styles from "./styles/TelaCadastroStyle";
-import pickerSelectStyles from "./styles/selectStyles";
-import useStep from "../hooks/useStep";                 // States of inputs 
-import fetchAddress from '../hooks/cepRequest';
+import styles from "./TelaCadastroStyle";
+import pickerSelectStyles from "../styles/selectStyles";
+import useStep from "../../hooks/useStep";                 // States of inputs 
+import fetchAddress from '../../hooks/cepRequest';
 
 const ErrorMessage = ({ error }: { error: string }) =>
   error ? <Text style={styles.errorMessage}>{error}</Text> : null;

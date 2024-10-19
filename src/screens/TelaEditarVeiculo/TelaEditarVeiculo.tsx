@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Image, ScrollView } from 'react-native';
-import styles from './styles/TeleEditarVeiculoStyle';
+import styles from './TeleEditarVeiculoStyle';
 
 export default function TelaEditarVeiculo() {
 

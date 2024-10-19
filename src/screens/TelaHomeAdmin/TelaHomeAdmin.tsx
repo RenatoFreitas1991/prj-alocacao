@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import Alugados from './VeiculosAlugados';
-import VeiculosNaoAlugados from './VeiculosNaoAlugados';
+import Alugados from '../VeiculosAlugados/VeiculosAlugados';
+import VeiculosNaoAlugados from '../VeiculosNaoAlugados/VeiculosNaoAlugados';
 
 const Tab = createMaterialTopTabNavigator();
 
