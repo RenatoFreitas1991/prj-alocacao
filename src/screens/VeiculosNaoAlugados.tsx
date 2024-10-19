@@ -6,7 +6,7 @@ import CardVeiculo from '../components/CardVehicle/CardVehicle';
 
 export default function VeiculosNaoAlugados() {
     return(
-        <ScrollView style={styles.container}>
+      <ScrollView style={styles.container}>
         <View>
 
         </View>

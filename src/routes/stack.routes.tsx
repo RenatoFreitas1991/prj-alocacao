@@ -8,7 +8,7 @@ import TelaHomeAdmin from "../screens/TelaHomeAdmin";
 import TelaHomeUser from "../screens/TelaHomeUser";
 import Alugados from '../screens/VeiculosAlugados';
 import NaoAlugados from '../screens/VeiculosNaoAlugados';
-import Deletados from '../screens/VeiculosDeletados'; // Import the new password setup screen
+import TelaEditarVeiculo from '../screens/TelaEditarVeiculo'; // Import the new password setup screen
 
 export type StackParamList = {
     Home: undefined;
@@ -19,7 +19,7 @@ export type StackParamList = {
     TelaHomeUser: undefined;
     Alugados:undefined;
     NaoAlugados:undefined;
-    Deletados:undefined; // TelaSenha does not expect any parameters
+    TelaEditarVeiculo:undefined; // TelaSenha does not expect any parameters
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -35,7 +35,7 @@ export function StackRoutes() {
             <Stack.Screen name="TelaHomeUser" component={TelaHomeUser} />
             <Stack.Screen name="Alugados" component={Alugados} />
             <Stack.Screen name="NaoAlugados" component={NaoAlugados} />
-            <Stack.Screen name="Deletados" component={Deletados} />
+            <Stack.Screen name="TelaEditarVeiculo" component={TelaEditarVeiculo} />
         </Stack.Navigator>
     );
 }

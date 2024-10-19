@@ -2,7 +2,9 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './CardVehicleStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Asset } from 'expo-asset';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { StackParamList } from "../../routes/stack.routes";
 
 interface CardVehicleProps {
     modelo:string;
@@ -13,10 +15,17 @@ interface CardVehicleProps {
     iconButton?:any;
 }
 
+type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'TelaHomeAdmin'>;
+
 export default function CardVehicle({modelo, marca, placa, imgName, nameButton, iconButton}: CardVehicleProps) {
 
-    //let imgFileName = `../../../assets/carro-tela-inicial.png`;
     //const image = Asset.fromModule(require(`../../../assets/${imgName}`)).uri;
+
+    const navigation = useNavigation<NavigationPropInicial>();
+
+    function abrirTelaEditarVeiculo() {
+        navigation.navigate('TelaEditarVeiculo');
+    }
 
     return(
         <View style={styles.cardContainer}>
@@ -53,7 +62,7 @@ export default function CardVehicle({modelo, marca, placa, imgName, nameButton, 
             </View>
             <View style={styles.viewButton}>
 
-                <TouchableOpacity style={[styles.button, styles.buttonUpdate]}>
+                <TouchableOpacity style={[styles.button, styles.buttonUpdate]} onPress={abrirTelaEditarVeiculo}>
                     <Text style={styles.textButton}>
                         {nameButton} <Icon name={iconButton} size={14} color="#ffff" />
                     </Text>
