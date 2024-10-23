@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -10,9 +10,10 @@ import {
 } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import RNPickerSelect from "react-native-picker-select";
+import axios from 'axios'; 
 import styles from "./TelaCadastroStyle";
 import pickerSelectStyles from "../styles/selectStyles";
-import useStep from "../../hooks/useStep";                 // States of inputs 
+import useStep from "../../hooks/useStep";
 import fetchAddress from '../../hooks/cepRequest';
 
 const ErrorMessage = ({ error }: { error: string }) =>
@@ -103,7 +104,7 @@ export default function TelaCadastro() {
     setEstadoCivil,
     error,
   } = useStep();
-
+  const [profissoes, setProfissoes] = useState([]);
   const nomeRef = useRef<TextInput>(null);
   const dataNascimentoRef = useRef<TextInput>(null);
   const cpfRef = useRef<TextInput>(null);
@@ -124,7 +125,22 @@ export default function TelaCadastro() {
   };
 
   useEffect(() => {
-    nomeRef.current?.focus(); // Foca automaticamente no primeiro campo ao carregar a tela
+    nomeRef.current?.focus(); // Automatically focuses on the first field when loading the screen
+    // Function to search professions
+    const fetchProfissoes = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/profissoes'); // API to get profissoes
+        const profissaoItems = response.data.map((profissao: any) => ({
+          label: profissao.profissao, // 'profissao' field coming from database
+          value: profissao.profissao,
+        }));
+        setProfissoes(profissaoItems); // update the status with professions
+      } catch (error) {
+        console.error('Erro ao buscar profissões:', error);
+      }
+    };
+
+    fetchProfissoes(); // calling the function when the component is mounted
   }, []);
 
   const renderStep = () => {
@@ -316,19 +332,20 @@ export default function TelaCadastro() {
             onSubmitEditing={handleNextStep}
           />
         );
-      case 14:
-        return (
-          <InputField
-            ref={profissaoRef}
-            label="Profissão"
-            value={profissao}
-            placeholder="Digite sua profissão"
-            onChangeText={setProfissao}
-            error={error}
-            returnKeyType="done"
-            onSubmitEditing={handleNextStep}
-          />
-        );
+        case 14:
+          return (
+            <View style={styles.viewInput}>
+              <Text style={styles.textLabel}>Profissão</Text>
+              <ErrorMessage error={error} />
+              <RNPickerSelect
+                onValueChange={setProfissao}
+                items={profissoes} // picker with 'profissoes' loaded from the API
+                value={profissao}  // sets the current selected value
+                style={pickerSelectStyles}
+                placeholder={{ label: 'Selecione sua profissão', value: null }}
+              />
+            </View>
+          );
       case 15:
         return (
           <View style={styles.viewInput}>

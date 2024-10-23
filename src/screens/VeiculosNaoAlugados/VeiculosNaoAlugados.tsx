@@ -42,7 +42,6 @@ export default function VeiculosNaoAlugados() {
               nameButton="Editar"
               iconButton="edit"
             />
-        
             <CardVeiculo
               modelo="Polo"
               marca="Lexus"
