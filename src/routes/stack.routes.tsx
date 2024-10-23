@@ -1,17 +1,28 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import TelaInicial from "../screens/TelaInicial";
-import TelaLogin from "../screens/TelaLogin";
-import TelaCadastro from "../screens/TelaCadastro";
-import TelaSenha from "../screens/TelaSenha"; 
-import TelaHome from "../screens/TelaHome"; // Import the new password setup screen
+
+import TelaInicial from "../screens/TelaInicial/TelaInicial";
+import TelaLogin from "../screens/TelaLogin/TelaLogin";
+import TelaCadastro from "../screens/TelaCadastro/TelaCadastro";
+import TelaSenha from "../screens//TelaSenha/TelaSenha"; 
+import TelaHomeAdmin from "../screens/TelaHomeAdmin/TelaHomeAdmin";
+import TelaHomeUser from "../screens/TelaHomeUser/TelaHomeUser";
+import Alugados from '../screens/VeiculosAlugados/VeiculosAlugados';
+import NaoAlugados from '../screens/VeiculosNaoAlugados/VeiculosNaoAlugados';
+import TelaEditarVeiculo from '../screens/TelaEditarVeiculo/TelaEditarVeiculo';
+import TelaBlackList from '../screens/TelaBlackList/TelaBlackList'
 
 export type StackParamList = {
     Home: undefined;
     Login: undefined;
     Cadastro: undefined;
     TelaSenha: undefined;
-    TelaHome: undefined; // TelaSenha does not expect any parameters
+    TelaHomeAdmin: undefined;
+    TelaHomeUser: undefined;
+    Alugados:undefined;
+    NaoAlugados:undefined;
+    TelaEditarVeiculo: {modeloProp?:string, marcaProp?:String, placaProp?:string};
+    TelaBlackList: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -23,7 +34,12 @@ export function StackRoutes() {
             <Stack.Screen name="Login" component={TelaLogin} />
             <Stack.Screen name="Cadastro" component={TelaCadastro} />
             <Stack.Screen name="TelaSenha" component={TelaSenha} />
-            <Stack.Screen name="TelaHome" component={TelaHome} />
+            <Stack.Screen name="TelaHomeAdmin" component={TelaHomeAdmin} />
+            <Stack.Screen name="TelaHomeUser" component={TelaHomeUser} />
+            <Stack.Screen name="Alugados" component={Alugados} />
+            <Stack.Screen name="NaoAlugados" component={NaoAlugados} />
+            <Stack.Screen name="TelaEditarVeiculo" component={TelaEditarVeiculo} />
+            <Stack.Screen name="TelaBlackList" component={TelaBlackList} />
         </Stack.Navigator>
     );
 }
