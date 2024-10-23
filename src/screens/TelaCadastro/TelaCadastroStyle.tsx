@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "rgb(30,30,30)",
   },
 
   container: {
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontWeight: "bold",
     textAlign: "center",
+    color:"white"
   },
 
   viewInput: {
@@ -28,8 +29,9 @@ const styles = StyleSheet.create({
   textLabel: {
     textAlign: "left",
     fontWeight: "bold",
+    color:"white"
   },
-
+  
   input: {
     width: "100%",
     padding: 10,
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#ccc",
-    backgroundColor: "white",
+    backgroundColor: "rgb(86,85,92)",
   },
 
   errorMessage: {
@@ -64,8 +66,8 @@ const styles = StyleSheet.create({
   },
 
   botaoCadastrar: {
-    borderColor: "green",
-    backgroundColor: "green",
+    borderColor: "rgb(39,6,229)",
+    backgroundColor: "rgb(39,6,229)",
     borderWidth: 2,
     borderRadius: 8,
     paddingVertical: 12,

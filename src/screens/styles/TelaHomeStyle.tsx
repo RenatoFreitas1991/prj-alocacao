@@ -7,12 +7,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        backgroundColor: 'rgb(251,234,203)',
+        backgroundColor: "#333",
     },
     container2: {
         width: '100%',
         height: '100%',
-        backgroundColor: 'rgb(251,234,203)',
+        backgroundColor: "#333",
     },
     cardsContainer: {
         flexDirection: 'row',

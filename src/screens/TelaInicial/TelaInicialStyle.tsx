@@ -7,11 +7,11 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgb(251,234,203)',
+        backgroundColor: 'rgb(30,30,30)',
     },
     viewText: {
         position: 'absolute',
-        backgroundColor: 'rgb(205,165,130)',
+        backgroundColor: 'rgb(30,30,30)',
         padding: '7%',
         top: 0,
         width: '100%',
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
     bemVindo: {
         fontSize: 30,
-        color: 'rgb(99, 49, 15)',
+        color: 'white',
     },
     botoesContainer: {
         width: '80%',
@@ -38,10 +38,10 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     button: {
-        backgroundColor: 'rgb(10, 106, 189)',
+        backgroundColor: 'rgb(39, 6, 229)',
         marginTop: '5%',
         padding: '3%',
-        borderRadius: 8,
+        borderRadius: 20,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
