@@ -10,6 +10,7 @@ import TelaHomeUser from "../screens/TelaHomeUser/TelaHomeUser";
 import Alugados from '../screens/VeiculosAlugados/VeiculosAlugados';
 import NaoAlugados from '../screens/VeiculosNaoAlugados/VeiculosNaoAlugados';
 import TelaEditarVeiculo from '../screens/TelaEditarVeiculo/TelaEditarVeiculo';
+import TelaBlackList from '../screens/TelaBlackList/TelaBlackList'
 
 export type StackParamList = {
     Home: undefined;
@@ -21,6 +22,7 @@ export type StackParamList = {
     Alugados:undefined;
     NaoAlugados:undefined;
     TelaEditarVeiculo: {modeloProp?:string, marcaProp?:String, placaProp?:string};
+    TelaBlackList: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -36,8 +38,8 @@ export function StackRoutes() {
             <Stack.Screen name="TelaHomeUser" component={TelaHomeUser} />
             <Stack.Screen name="Alugados" component={Alugados} />
             <Stack.Screen name="NaoAlugados" component={NaoAlugados} />
-
             <Stack.Screen name="TelaEditarVeiculo" component={TelaEditarVeiculo} />
+            <Stack.Screen name="TelaBlackList" component={TelaBlackList} />
         </Stack.Navigator>
     );
 }

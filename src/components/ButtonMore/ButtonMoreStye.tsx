@@ -1,17 +1,18 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
+    containerBtnMore: {
+        //display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 10,
+        height: 60,
         backgroundColor: "black",
         margin: 'auto',
-        padding: '6%',
-        width: '10%',
+        padding: 10,
+        width: 60,
         borderRadius: 50,
         zIndex: 1000,
+        marginRight: '5%',
     },
 })
 
