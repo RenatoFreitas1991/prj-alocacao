@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
   "scripts": {
-    "start": "concurrently --kill-others-on-fail \"npm run start:backend\" \"npm run start:expo\"", 
+    "start": "concurrently --kill-others-on-fail \"npm run start:backend\" \"npm run start:expo\"",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "start:backend": "node app.js", 
-    "start:expo": "expo start" 
+    "start:backend": "node app.js",
+    "start:expo": "expo start"
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
