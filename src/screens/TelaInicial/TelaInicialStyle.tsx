@@ -10,10 +10,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(30,30,30)',
     },
     viewText: {
-        position: 'absolute',
         backgroundColor: 'rgb(30,30,30)',
         padding: '7%',
-        top: 0,
         width: '100%',
     },
     titulo: {
@@ -21,6 +19,7 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'center',
         fontWeight: 'bold',
+        marginTop: '30%',
     },
 
     bemVindo: {
