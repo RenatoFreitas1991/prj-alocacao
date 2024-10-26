@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
         padding: '3%',
         backgroundColor: 'rgb(30,30,30)',
         borderRadius: 13,
-        
     },
     titulo: {
         fontSize: 32,
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         borderColor: "#ccc",
-        backgroundColor: "rgb(45,45,47)",
+        backgroundColor: "white",
     },
     botoesContainer: {
         width: '80%',

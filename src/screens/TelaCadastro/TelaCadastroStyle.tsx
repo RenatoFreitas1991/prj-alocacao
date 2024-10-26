@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
   textLabel: {
     textAlign: "left",
     fontWeight: "bold",
-    color:"white"
+    color:"white",
+    marginBottom: 6,
   },
   
   input: {
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: "#ccc",
-    backgroundColor: "rgb(86,85,92)",
+    backgroundColor: "white",
   },
 
   errorMessage: {

@@ -16,6 +16,8 @@ const styles = StyleSheet.create({
     },
     label: {
         color: '#fff',
+        marginTop: 10,
+        fontWeight: 'bold',
     },
     input: {
         height: 40,
@@ -24,6 +26,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         padding: 8,
         borderRadius: 5,
+        backgroundColor: 'white',
     },
     botoesContainer: {
         flexDirection: 'row',

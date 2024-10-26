@@ -7,6 +7,7 @@ import {
     ScrollView
 } from "react-native";
 import { Picker } from '@react-native-picker/picker';
+import BR from '../../components/BR/BR';
 import styles from "./CadastrarVeiculoStyles";
 
 export default function CadastrarVeiculo() {
@@ -128,6 +129,7 @@ export default function CadastrarVeiculo() {
                     </View>
                 </View>
             </View>
+            <BR/>
         </ScrollView>
     )
 }
