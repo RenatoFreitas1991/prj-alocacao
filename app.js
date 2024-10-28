@@ -1,10 +1,12 @@
 const express = require('express');
 const sequelize = require('./src/config/database');
 const profissoesRoutes = require('./src/routes/profissoes');
+const estadosCivisRoutes = require('./src/routes/estadoCivis');
 const app = express();
 
 // using middleware
 app.use('/api', profissoesRoutes);
+app.use('/api', estadosCivisRoutes);
 
 const PORT = process.env.PORT || 3000;
 
