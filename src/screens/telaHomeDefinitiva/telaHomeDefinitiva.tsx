@@ -24,7 +24,7 @@ const navigation = useNavigation();
     { title: "Não alugados", iconName: "directions-car", screen: "NaoAlugados" },
     { title: "Alugados", iconName: "directions-car", screen: "Alugados"},
     { title: "Black List", iconName: "list", screen: "TelaBlackList"},
-    { title: "Histórico de Manutenção", iconName: "history", screen: "HistoricoManutencao"},
+    { title: "Histórico Veículos Aludados", iconName: "history", screen: "HistoricoAlugados" },
     { title: "Notificação", iconName: "message" },
     { title: "Calendário de Pagamentos", iconName: "calendar-today" },
     { title: "Fodase 1", iconName: "favorite" },

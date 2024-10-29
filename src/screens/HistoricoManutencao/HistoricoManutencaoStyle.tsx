@@ -6,6 +6,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#333',
     padding: 16,
   },
+  infoCliente: {
+    fontSize: 18,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginVertical: 15,
+  },
   title: {
     fontSize: 24,
     color: 'white',

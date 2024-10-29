@@ -1,8 +1,19 @@
 import React from "react";
 import { View, Text, ScrollView } from "react-native";
 import styles from "./HistoricoManutencaoStyle";
+import { useRoute } from '@react-navigation/native';
+
+type RouteParams = {
+    clienteProp:string;
+    marcaProp:string;
+    placaProp:string;
+};
 
 export default function HistoricoManutencao() {
+    const route = useRoute();
+    const { clienteProp, marcaProp, placaProp } = route.params as RouteParams;
+
+
     const manutencoes = [
         { data: '01/04/24', descricao: 'Lona e pastilha', valor: '80', pagamento: 'Cartão de Crédito' },
         { data: '17/04/24', descricao: 'Amortecedor', valor: '145', pagamento: 'Pix' },
@@ -16,6 +27,9 @@ export default function HistoricoManutencao() {
 
     return(
         <ScrollView style={styles.container}>
+        <Text style={styles.infoCliente}>Cliente: {clienteProp}</Text>
+        <Text style={styles.infoCliente}>Marca do veículo: {marcaProp}</Text>
+        <Text style={styles.infoCliente}>Placa do veículo: {placaProp}</Text>
         <Text style={styles.title}>Histórico de Manutenções</Text>
       
         {/* Cabeçalho da tabela */}
