@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Profissao = require('../screens/models/profissao/profissao');
+const Profissao = require('../../models/profissao');
 
-
-router.get('/profissoes', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const profissoes = await Profissao.findAll();
     res.json(profissoes);

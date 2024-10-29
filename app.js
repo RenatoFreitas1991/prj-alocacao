@@ -1,32 +1,45 @@
+require('dotenv').config();
 const express = require('express');
 const sequelize = require('./src/config/database');
-const profissoesRoutes = require('./src/routes/profissoes');
-const estadosCivisRoutes = require('./src/routes/estadoCivis');
+const routes = require('./src/routes/backend');
 const app = express();
 
-// using middleware
-app.use('/api', profissoesRoutes);
-app.use('/api', estadosCivisRoutes);
+const PORT = process.env.PORT || 8080;
 
-const PORT = process.env.PORT || 3000;
+// Middleware para JSON
+app.use(express.json());
 
-// trying to connect with mariaDB
-const startServer = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Conexão com o banco de dados estabelecida com sucesso.');
-    
-    // If the connection is successful, starts the server
-    app.listen(PORT, () => {
-      console.log(`Servidor rodando na porta ${PORT}`);
-    });
-  } catch (error) {
-    console.error('Falha ao conectar com o banco de dados:', error.message);
-    console.error('Certifique-se de que o servidor do MariaDB está rodando em seu localhost.');
-
-    // Stop the process with an error code if you were unable to connect to the database
-    process.exit(1); // status 1 (error)
+// Rotas
+app.use('/api', routes);
+// Função para conectar com o banco de dados com tentativas de reconexão
+const connectToDatabase = async (retries = 5) => {
+  while (retries) {
+    try {
+      await sequelize.authenticate();
+      console.log('Conexão com o banco de dados estabelecida com sucesso.');
+      break;
+    } catch (error) {
+      console.error('Falha ao conectar com o banco de dados:', error.message);
+      retries -= 1;
+      console.log(`Tentando reconectar... ${retries} tentativa(s) restante(s)`);
+      await new Promise(res => setTimeout(res, 5000));
+    }
   }
 };
+
+// Iniciar o servidor
+const startServer = async () => {
+  await connectToDatabase();
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+  });
+};
+
+
+// Middleware de tratamento global de erros
+app.use((err, req, res, next) => {
+  console.error('Erro não tratado:', err.stack);
+  res.status(500).json({ error: 'Erro interno no servidor' });
+});
 
 startServer();

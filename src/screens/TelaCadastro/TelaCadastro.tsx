@@ -15,6 +15,14 @@ import styles from "./TelaCadastroStyle";
 import pickerSelectStyles from "../styles/selectStyles";
 import useStep from "../../hooks/useStep";
 import fetchAddress from '../../hooks/cepRequest';
+import { API_URL } from '@env';
+
+console.log('API_URL:', API_URL);
+
+if (!API_URL) {
+  console.error('API_URL is not defined in @env');
+}
+
 
 const ErrorMessage = ({ error }: { error: string }) =>
   error ? <Text style={styles.errorMessage}>{error}</Text> : null;
@@ -125,22 +133,23 @@ export default function TelaCadastro() {
   };
 
   useEffect(() => {
-    nomeRef.current?.focus(); // Automatically focuses on the first field when loading the screen
-    // Function to search professions
+    nomeRef.current?.focus();
+
+    // Função para buscar profissões
     const fetchProfissoes = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/profissoes'); // API to get profissoes
+        const response = await axios.get(`${API_URL}/api/profissoes`);
         const profissaoItems = response.data.map((profissao: any) => ({
-          label: profissao.profissao, // 'profissao' field coming from database
+          label: profissao.profissao,
           value: profissao.profissao,
         }));
-        setProfissoes(profissaoItems); // update the status with professions
+        setProfissoes(profissaoItems);
       } catch (error) {
         console.error('Erro ao buscar profissões:', error);
       }
     };
 
-    fetchProfissoes(); // calling the function when the component is mounted
+    fetchProfissoes();
   }, []);
 
   const renderStep = () => {

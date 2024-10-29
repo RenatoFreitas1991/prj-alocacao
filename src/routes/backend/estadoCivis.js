@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const EstadoCivil = require('./../screens/models/estadoCivil/estadoCivil');
+const EstadoCivil = require('../../models/estadoCivil');
 
-router.get('/estadosCivis', async (req, res) => {
+router.get('/', async (req, res) => { 
   try {
     const estadosCivis = await EstadoCivil.findAll();
     res.json(estadosCivis);

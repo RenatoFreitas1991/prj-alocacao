@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/10/2024 às 06:51
+-- Tempo de geração: 28/10/2024 às 21:20
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -29,32 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tbl_avaliacao` (
   `id` int(10) UNSIGNED NOT NULL,
-  `id_usuario` int(50) NOT NULL,
   `avaliacao` int(5) NOT NULL,
   `motivo` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `tbl_carro`
---
-
-CREATE TABLE `tbl_carro` (
-  `id` int(10) NOT NULL,
-  `id_motorista` int(10) NOT NULL,
-  `id_modelo` int(10) NOT NULL,
-  `id_marca` int(10) NOT NULL,
-  `id_cor` int(10) NOT NULL,
-  `id_combustivel` int(10) NOT NULL,
-  `disponibilidade` tinyint(1) NOT NULL,
-  `placa` varchar(10) NOT NULL,
-  `chassi` varchar(20) NOT NULL,
-  `motor` varchar(10) NOT NULL,
-  `ano` varchar(10) NOT NULL,
-  `data_de_entrega` date NOT NULL,
-  `data_de_devolucao` date NOT NULL,
-  `quilometragem` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -94,7 +70,6 @@ INSERT INTO `tbl_combustivel` (`id`, `combustivel`) VALUES
 
 CREATE TABLE `tbl_contato` (
   `id` int(10) NOT NULL,
-  `id_usuario` int(10) NOT NULL,
   `email` varchar(100) NOT NULL,
   `telefone` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -139,7 +114,6 @@ INSERT INTO `tbl_cor` (`id`, `cor`) VALUES
 
 CREATE TABLE `tbl_endereco` (
   `id` int(10) NOT NULL,
-  `id_usuario` int(10) NOT NULL,
   `cidade` varchar(50) NOT NULL,
   `rua` varchar(50) NOT NULL,
   `bairro` varchar(50) NOT NULL,
@@ -190,7 +164,7 @@ CREATE TABLE `tbl_manutencao` (
 
 CREATE TABLE `tbl_marca` (
   `id` int(10) NOT NULL,
-  `id_tipo_veiculo` int(50) NOT NULL,
+  `id_tipo_veiculo` int(11) NOT NULL,
   `marca` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1425,8 +1399,8 @@ CREATE TABLE `tbl_tipo_veiculo` (
 --
 
 INSERT INTO `tbl_tipo_veiculo` (`id`, `tipo_veiculo`) VALUES
-(1, 'Motocicleta'),
-(2, 'Carro');
+(1, 'Carro'),
+(2, 'Motocicleta');
 
 -- --------------------------------------------------------
 
@@ -1449,7 +1423,31 @@ CREATE TABLE `tbl_usuario` (
   `id_endereco` int(10) NOT NULL,
   `id_locador` int(10) NOT NULL,
   `id_estado_civil` int(10) NOT NULL,
-  `id_avaliacao` int(5) NOT NULL
+  `id_avaliacao` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tbl_veiculo`
+--
+
+CREATE TABLE `tbl_veiculo` (
+  `id` int(10) NOT NULL,
+  `id_tipo_veiculo` int(10) NOT NULL,
+  `id_motorista` int(10) NOT NULL,
+  `id_modelo` int(10) NOT NULL,
+  `id_marca` int(10) NOT NULL,
+  `id_cor` int(10) NOT NULL,
+  `id_combustivel` int(10) NOT NULL,
+  `disponibilidade` tinyint(1) NOT NULL,
+  `placa` varchar(10) NOT NULL,
+  `chassi` varchar(20) NOT NULL,
+  `motor` varchar(10) NOT NULL,
+  `ano` varchar(10) NOT NULL,
+  `data_de_entrega` date NOT NULL,
+  `data_de_devolucao` date NOT NULL,
+  `quilometragem` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1460,12 +1458,6 @@ CREATE TABLE `tbl_usuario` (
 -- Índices de tabela `tbl_avaliacao`
 --
 ALTER TABLE `tbl_avaliacao`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices de tabela `tbl_carro`
---
-ALTER TABLE `tbl_carro`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1502,13 +1494,15 @@ ALTER TABLE `tbl_estado_civil`
 -- Índices de tabela `tbl_manutencao`
 --
 ALTER TABLE `tbl_manutencao`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_veiculo` (`id_veiculo`);
 
 --
 -- Índices de tabela `tbl_marca`
 --
 ALTER TABLE `tbl_marca`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_marca_tipo_veiculo` (`id_tipo_veiculo`);
 
 --
 -- Índices de tabela `tbl_modelo`
@@ -1532,7 +1526,24 @@ ALTER TABLE `tbl_tipo_veiculo`
 -- Índices de tabela `tbl_usuario`
 --
 ALTER TABLE `tbl_usuario`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_profissao` (`id_profissao`),
+  ADD KEY `fk_contato` (`id_contato`),
+  ADD KEY `fk_endereco` (`id_endereco`),
+  ADD KEY `fk_estado_civil` (`id_estado_civil`),
+  ADD KEY `fk_avaliacao` (`id_avaliacao`);
+
+--
+-- Índices de tabela `tbl_veiculo`
+--
+ALTER TABLE `tbl_veiculo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_tipo_veiculo` (`id_tipo_veiculo`),
+  ADD KEY `fk_motorista` (`id_motorista`),
+  ADD KEY `fk_modelo` (`id_modelo`),
+  ADD KEY `fk_marca` (`id_marca`),
+  ADD KEY `fk_cor` (`id_cor`),
+  ADD KEY `fk_combustivel` (`id_combustivel`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -1543,12 +1554,6 @@ ALTER TABLE `tbl_usuario`
 --
 ALTER TABLE `tbl_avaliacao`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `tbl_carro`
---
-ALTER TABLE `tbl_carro`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_combustivel`
@@ -1615,6 +1620,49 @@ ALTER TABLE `tbl_tipo_veiculo`
 --
 ALTER TABLE `tbl_usuario`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `tbl_veiculo`
+--
+ALTER TABLE `tbl_veiculo`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `tbl_manutencao`
+--
+ALTER TABLE `tbl_manutencao`
+  ADD CONSTRAINT `fk_id_veiculo` FOREIGN KEY (`id_veiculo`) REFERENCES `tbl_veiculo` (`id`);
+
+--
+-- Restrições para tabelas `tbl_marca`
+--
+ALTER TABLE `tbl_marca`
+  ADD CONSTRAINT `fk_marca_tipo_veiculo` FOREIGN KEY (`id_tipo_veiculo`) REFERENCES `tbl_tipo_veiculo` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `tbl_usuario`
+--
+ALTER TABLE `tbl_usuario`
+  ADD CONSTRAINT `fk_avaliacao` FOREIGN KEY (`id_avaliacao`) REFERENCES `tbl_avaliacao` (`id`),
+  ADD CONSTRAINT `fk_contato` FOREIGN KEY (`id_contato`) REFERENCES `tbl_contato` (`id`),
+  ADD CONSTRAINT `fk_endereco` FOREIGN KEY (`id_endereco`) REFERENCES `tbl_endereco` (`id`),
+  ADD CONSTRAINT `fk_estado_civil` FOREIGN KEY (`id_estado_civil`) REFERENCES `tbl_estado_civil` (`id`),
+  ADD CONSTRAINT `fk_profissao` FOREIGN KEY (`id_profissao`) REFERENCES `tbl_profissao` (`id`);
+
+--
+-- Restrições para tabelas `tbl_veiculo`
+--
+ALTER TABLE `tbl_veiculo`
+  ADD CONSTRAINT `fk_combustivel` FOREIGN KEY (`id_combustivel`) REFERENCES `tbl_combustivel` (`id`),
+  ADD CONSTRAINT `fk_cor` FOREIGN KEY (`id_cor`) REFERENCES `tbl_cor` (`id`),
+  ADD CONSTRAINT `fk_marca` FOREIGN KEY (`id_marca`) REFERENCES `tbl_marca` (`id`),
+  ADD CONSTRAINT `fk_modelo` FOREIGN KEY (`id_modelo`) REFERENCES `tbl_modelo` (`id`),
+  ADD CONSTRAINT `fk_motorista` FOREIGN KEY (`id_motorista`) REFERENCES `tbl_usuario` (`id`),
+  ADD CONSTRAINT `fk_tipo_veiculo` FOREIGN KEY (`id_tipo_veiculo`) REFERENCES `tbl_tipo_veiculo` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

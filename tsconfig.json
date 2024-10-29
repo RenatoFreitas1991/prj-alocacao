@@ -8,5 +8,5 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["types/**/*.d.ts", "src/**/*"]
+  "include": ["types/**/*.d.ts", "src/**/*", "src/**/*.ts", "global.d.ts", "src", "env.d.ts"]
 }
