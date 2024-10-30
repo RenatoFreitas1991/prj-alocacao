@@ -4,13 +4,28 @@ import {
     View,
     Text,
     TextInput,
-    ScrollView
+    ScrollView,
+    Alert
 } from "react-native";
+
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RouteProp } from '@react-navigation/native';
+import { StackParamList } from "../../routes/stack.routes";
+
 import { Picker } from '@react-native-picker/picker';
 import BR from '../../components/BR/BR';
 import styles from "./CadastrarVeiculoStyles";
+import axios from 'axios';
+import { API_URL } from '@env';
+
+type NavigationProp = NativeStackNavigationProp<StackParamList, 'TelaSenha'>;
+type TelaSenhaRouteProp = RouteProp<StackParamList, 'TelaSenha'>;
 
 export default function CadastrarVeiculo() {
+    const navigation = useNavigation<NavigationProp>();
+    const route = useRoute<TelaSenhaRouteProp>();
+
     const [tipo, setTipo] = useState('Motocicleta'); // tipo de veículo: carro ou moto
     const [marca, setMarca] = useState('Chevrolet'); // marca do veículo
     const [modelo, setModelo] = useState(''); // modelo do veículo
@@ -34,6 +49,31 @@ export default function CadastrarVeiculo() {
             `Ano: ${ano}\n` +
             `Quilometragem: ${quilometragem}\n`
         );
+    }
+
+    const cadastrarVeiculo = async () => {
+
+        const vehicleData = {
+            tipo,
+            marca,
+            modelo,
+            cor,
+            combustivel,
+            placa,
+            chassi,
+            motor,
+            ano,
+            quilometragem
+        }
+
+        try {
+            const response = await axios.post(`${API_URL}/api/vehicles/`, vehicleData);
+            Alert.alert('Sucesso', 'Cadastro finalizado com sucesso!');
+            navigation.navigate('NaoAlugados'); // Navegue para a tela desejada
+        } catch (error) {
+            console.error('Erro ao registrar usuário:', error);
+            Alert.alert('Erro', 'Não foi possível registrar o usuário.');
+        }
     }
 
     return(
@@ -125,7 +165,7 @@ export default function CadastrarVeiculo() {
 
                 <View style={styles.botoesContainer}>
                     <View style={styles.botao}>
-                        <Button title="Cadastrar" color="green" onPress={mostrarVeiculoCadastrado} />
+                        <Button title="Cadastrar" color="green" onPress={cadastrarVeiculo} />
                     </View>
                 </View>
             </View>
