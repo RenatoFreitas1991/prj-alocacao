@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28/10/2024 às 21:20
+-- Tempo de geração: 30/10/2024 às 06:11
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -32,6 +32,13 @@ CREATE TABLE `tbl_avaliacao` (
   `avaliacao` int(5) NOT NULL,
   `motivo` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_avaliacao`
+--
+
+INSERT INTO `tbl_avaliacao` (`id`, `avaliacao`, `motivo`) VALUES
+(1, 0, 'Avaliação inicial');
 
 -- --------------------------------------------------------
 
@@ -73,6 +80,13 @@ CREATE TABLE `tbl_contato` (
   `email` varchar(100) NOT NULL,
   `telefone` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_contato`
+--
+
+INSERT INTO `tbl_contato` (`id`, `email`, `telefone`) VALUES
+(1, 'jailson@gmail.com', '(98)9 9449-4764');
 
 -- --------------------------------------------------------
 
@@ -117,8 +131,16 @@ CREATE TABLE `tbl_endereco` (
   `cidade` varchar(50) NOT NULL,
   `rua` varchar(50) NOT NULL,
   `bairro` varchar(50) NOT NULL,
-  `cep` varchar(20) NOT NULL
+  `cep` varchar(20) NOT NULL,
+  `numero` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_endereco`
+--
+
+INSERT INTO `tbl_endereco` (`id`, `cidade`, `rua`, `bairro`, `cep`, `numero`) VALUES
+(1, 'São Luís', 'Avenida Um', 'Vinhais', '65071-010', '64');
 
 -- --------------------------------------------------------
 
@@ -1426,6 +1448,13 @@ CREATE TABLE `tbl_usuario` (
   `id_avaliacao` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `tbl_usuario`
+--
+
+INSERT INTO `tbl_usuario` (`id`, `nome`, `cpf`, `cnh`, `nascimento`, `senha`, `rg`, `orgao_expedidor`, `blacklist`, `id_profissao`, `id_contato`, `id_endereco`, `id_locador`, `id_estado_civil`, `id_avaliacao`) VALUES
+(1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 0, 4, 1, 1, 0, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -1553,7 +1582,7 @@ ALTER TABLE `tbl_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_avaliacao`
 --
 ALTER TABLE `tbl_avaliacao`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_combustivel`
@@ -1565,7 +1594,7 @@ ALTER TABLE `tbl_combustivel`
 -- AUTO_INCREMENT de tabela `tbl_contato`
 --
 ALTER TABLE `tbl_contato`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_cor`
@@ -1577,7 +1606,7 @@ ALTER TABLE `tbl_cor`
 -- AUTO_INCREMENT de tabela `tbl_endereco`
 --
 ALTER TABLE `tbl_endereco`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_estado_civil`
@@ -1619,7 +1648,7 @@ ALTER TABLE `tbl_tipo_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_usuario`
 --
 ALTER TABLE `tbl_usuario`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_veiculo`

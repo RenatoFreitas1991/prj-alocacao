@@ -1,10 +1,12 @@
 const express = require('express');
-const profissoesRoutes = require('./profissoes');
-const estadosCivisRoutes = require('./estadoCivis');
-
 const router = express.Router();
 
-router.use('/profissoes', profissoesRoutes);
-router.use('/estadosCivis', estadosCivisRoutes);
+const profissoesRouter = require('./profissoes');
+const estadosCivisRouter = require('./estadoscivis'); // Ajustado para corresponder ao nome do arquivo
+const userRouter = require('./user'); // Importa as rotas de usuário
+
+router.use('/profissoes', profissoesRouter);
+router.use('/estadosCivis', estadosCivisRouter);
+router.use('/', userRouter); // Utiliza as rotas de usuário
 
 module.exports = router;

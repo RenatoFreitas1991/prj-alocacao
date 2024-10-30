@@ -21,7 +21,7 @@ export type StackParamList = {
     Home: undefined;
     Login: undefined;
     Cadastro: undefined;
-    TelaSenha: undefined;
+    TelaSenha: { userData: UserData };
     TelaHomeAdmin: undefined;
     Tela_Home_User: undefined;
     Alugados:undefined;
@@ -32,8 +32,25 @@ export type StackParamList = {
     telaHomeDefinitiva:undefined;
     HistoricoManutencao:{clienteProp?:string, marcaProp?:string, placaProp?:string};
     HistoricoAlugados:undefined;
+    TelaAvaliacaocliente:undefined;
 };
-
+export type UserData = {
+    nome: string;
+    dataNascimento: string;
+    cpf: string;
+    rg: string;
+    orgaoExpeditor: string;
+    cnh: string;
+    telefone: string;
+    email: string;
+    cep: string;
+    cidade: string;
+    rua: string;
+    bairro: string;
+    numero: string;
+    profissao: string;
+    estadoCivil: string;
+  };
 const Stack = createNativeStackNavigator<StackParamList>();
 
 export function StackRoutes() {

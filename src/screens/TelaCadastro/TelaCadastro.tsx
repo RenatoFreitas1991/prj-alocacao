@@ -8,21 +8,23 @@ import {
   Platform,
   TouchableOpacity,
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TextInputMask } from "react-native-masked-text";
 import RNPickerSelect from "react-native-picker-select";
-import axios from 'axios'; 
 import styles from "./TelaCadastroStyle";
 import pickerSelectStyles from "../styles/selectStyles";
 import useStep from "../../hooks/useStep";
 import fetchAddress from '../../hooks/cepRequest';
+import { fetchProfissoes, fetchEstadosCivis } from './fetchs';
 import { API_URL } from '@env';
-
+import { StackParamList } from '../../routes/stack.routes';
+type TelaCadastroNavigationProp = NativeStackNavigationProp<StackParamList, 'Cadastro'>;
 console.log('API_URL:', API_URL);
 
 if (!API_URL) {
   console.error('API_URL is not defined in @env');
 }
-
 
 const ErrorMessage = ({ error }: { error: string }) =>
   error ? <Text style={styles.errorMessage}>{error}</Text> : null;
@@ -112,7 +114,6 @@ export default function TelaCadastro() {
     setEstadoCivil,
     error,
   } = useStep();
-  const [profissoes, setProfissoes] = useState([]);
   const nomeRef = useRef<TextInput>(null);
   const dataNascimentoRef = useRef<TextInput>(null);
   const cpfRef = useRef<TextInput>(null);
@@ -126,30 +127,51 @@ export default function TelaCadastro() {
   const ruaRef = useRef<TextInput>(null);
   const bairroRef = useRef<TextInput>(null);
   const numeroRef = useRef<TextInput>(null);
-  const profissaoRef = useRef<TextInput>(null);
-
+  const [estadosCivis, setEstadosCivis] = useState<Array<{ label: string; value: string }>>([]);
+  const [profissoes, setProfissoes] = useState<Array<{ label: string; value: string }>>([]);
+  const navigation = useNavigation<TelaCadastroNavigationProp>();
   const handleNextStep = () => {
-    nextStep();
+    if (step < 15) {
+      nextStep();
+    } else {
+      // Coleta todos os dados
+      const userData = {
+        nome,
+        dataNascimento,
+        cpf,
+        rg,
+        orgaoExpeditor,
+        cnh,
+        telefone,
+        email,
+        cep,
+        cidade,
+        rua,
+        bairro,
+        numero,
+        profissao,
+        estadoCivil,
+      };
+      navigation.navigate('TelaSenha', { userData });
+    }
   };
 
   useEffect(() => {
     nomeRef.current?.focus();
 
-    // Função para buscar profissões
-    const fetchProfissoes = async () => {
+    const loadData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/profissoes`);
-        const profissaoItems = response.data.map((profissao: any) => ({
-          label: profissao.profissao,
-          value: profissao.profissao,
-        }));
+        const profissaoItems = await fetchProfissoes();
         setProfissoes(profissaoItems);
+  
+        const estadosCivisItems = await fetchEstadosCivis();
+        setEstadosCivis(estadosCivisItems);
       } catch (error) {
-        console.error('Erro ao buscar profissões:', error);
+        console.error('Erro ao carregar dados:', error);
       }
     };
-
-    fetchProfissoes();
+  
+    loadData();
   }, []);
 
   const renderStep = () => {
@@ -164,7 +186,8 @@ export default function TelaCadastro() {
             onChangeText={setNome}
             error={error}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            autoFocus={true} // Foca automaticamente no primeiro campo
+            onSubmitEditing={() => dataNascimentoRef.current?.focus()} // Avança para o próximo campo
           />
         );
       case 2:
@@ -179,7 +202,7 @@ export default function TelaCadastro() {
             mask="custom"
             maskOptions={{ mask: '99/99/9999' }}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => cpfRef.current?.focus()}
           />
         );
       case 3:
@@ -194,7 +217,7 @@ export default function TelaCadastro() {
             mask="custom"
             maskOptions={{ mask: '999.999.999-99' }}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => rgRef.current?.focus()}
           />
         );
       case 4:
@@ -209,7 +232,7 @@ export default function TelaCadastro() {
             mask="custom"
             maskOptions={{ mask: '999999999999-9' }}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => orgaoExpeditorRef.current?.focus()}
           />
         );
       case 5:
@@ -222,7 +245,7 @@ export default function TelaCadastro() {
             onChangeText={setOrgaoExpeditor}
             error={error}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => cnhRef.current?.focus()}
           />
         );
       case 6:
@@ -237,7 +260,7 @@ export default function TelaCadastro() {
             mask="custom"
             maskOptions={{ mask: '99999999999' }}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => telefoneRef.current?.focus()}
           />
         );
       case 7:
@@ -253,7 +276,7 @@ export default function TelaCadastro() {
             maskOptions={{ mask: '(99)9 9999-9999' }}
             keyboardType="number-pad"
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => emailRef.current?.focus()}
           />
         );
       case 8:
@@ -267,7 +290,7 @@ export default function TelaCadastro() {
             error={error}
             keyboardType="email-address"
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => cepRef.current?.focus()}
           />
         );
       case 9:
@@ -285,7 +308,7 @@ export default function TelaCadastro() {
             mask="custom"
             maskOptions={{ mask: '99999-999' }}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => cidadeRef.current?.focus()}
           />
         );
       case 10:
@@ -298,7 +321,7 @@ export default function TelaCadastro() {
             onChangeText={setCidade}
             error={error}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => ruaRef.current?.focus()}
           />
         );
       case 11:
@@ -311,7 +334,7 @@ export default function TelaCadastro() {
             onChangeText={setRua}
             error={error}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => bairroRef.current?.focus()}
           />
         );
       case 12:
@@ -324,7 +347,7 @@ export default function TelaCadastro() {
             onChangeText={setBairro}
             error={error}
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => numeroRef.current?.focus()}
           />
         );
       case 13:
@@ -338,23 +361,23 @@ export default function TelaCadastro() {
             error={error}
             keyboardType="numeric"
             returnKeyType="next"
-            onSubmitEditing={handleNextStep}
+            onSubmitEditing={() => handleNextStep()}
           />
         );
-        case 14:
-          return (
-            <View style={styles.viewInput}>
-              <Text style={styles.textLabel}>Profissão</Text>
-              <ErrorMessage error={error} />
-              <RNPickerSelect
-                onValueChange={setProfissao}
-                items={profissoes} // picker with 'profissoes' loaded from the API
-                value={profissao}  // sets the current selected value
-                style={pickerSelectStyles}
-                placeholder={{ label: 'Selecione sua profissão', value: null }}
-              />
-            </View>
-          );
+      case 14:
+        return (
+          <View style={styles.viewInput}>
+            <Text style={styles.textLabel}>Profissão</Text>
+            <ErrorMessage error={error} />
+            <RNPickerSelect
+              onValueChange={setProfissao}
+              items={profissoes}
+              value={profissao}
+              style={pickerSelectStyles}
+              placeholder={{ label: 'Selecione sua profissão', value: null }}
+            />
+          </View>
+        );
       case 15:
         return (
           <View style={styles.viewInput}>
@@ -362,11 +385,7 @@ export default function TelaCadastro() {
             <ErrorMessage error={error} />
             <RNPickerSelect
               onValueChange={setEstadoCivil}
-              items={[
-                { label: 'Solteiro', value: 'Solteiro' },
-                { label: 'Casado', value: 'Casado' },
-                { label: 'Divorciado', value: 'Divorciado' },
-              ]}
+              items={estadosCivis}
               value={estadoCivil}
               style={pickerSelectStyles}
               placeholder={{ label: 'Selecione seu estado civil', value: null }}
