@@ -7,10 +7,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgb(30,30,30)',
+        backgroundColor: 'black',
     },
     viewText: {
-        backgroundColor: 'rgb(30,30,30)',
+        backgroundColor: 'black',
         padding: '7%',
         width: '100%',
     },

@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgb(201,201,204)',
+        backgroundColor: 'black',
     },
     container2: {
         width: '80%',
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: '3%',
-        backgroundColor: 'rgb(30,30,30)',
+        backgroundColor: 'black',
         borderRadius: 13,
     },
     titulo: {
