@@ -15,6 +15,7 @@ import CadastrarVeiculo from "src/screens/CadastrarVeiculo/CadastrarVeiculo";
 import TelaHomeDefinitiva from "../screens/telaHomeDefinitiva/telaHomeDefinitiva";
 import HistoricoManutencao from "../screens/HistoricoManutencao/HistoricoManutencao";
 import HistoricoAlugados from "src/screens/HistoricoAlugados/HistoricoAlugados";
+import TelaAvaliacaocliente from "../screens/TelaAvaliacao/TelaAvaliacaoCliente"
 
 export type StackParamList = {
     Home: undefined;
@@ -52,6 +53,7 @@ export function StackRoutes() {
             <Stack.Screen name="telaHomeDefinitiva" component={TelaHomeDefinitiva} />
             <Stack.Screen name="HistoricoManutencao" component={HistoricoManutencao} />
             <Stack.Screen name="HistoricoAlugados" component={HistoricoAlugados} />
+            <Stack.Screen name="TelaAvaliacaocliente" component={TelaAvaliacaocliente}/>
         </Stack.Navigator>
     );
 }

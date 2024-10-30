@@ -27,11 +27,10 @@ const navigation = useNavigation();
     { title: "Histórico Veículos Aludados", iconName: "history", screen: "HistoricoAlugados" },
     { title: "Notificação", iconName: "message" },
     { title: "Calendário de Pagamentos", iconName: "calendar-today" },
-    { title: "Fodase 1", iconName: "favorite" },
+    { title: "Avaliação", iconName: "star", screen: "TelaAvaliacaocliente" },
     { title: "Fodase 2", iconName: "favorite" },
     { title: "Fodase 3", iconName: "favorite" },
     { title: "Fodase 4", iconName: "favorite" },
-    { title: "Fodase 5", iconName: "favorite" }
   ];
 
   const cardRows = [];
