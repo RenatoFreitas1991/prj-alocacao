@@ -15,6 +15,7 @@ import CadastrarVeiculo from "src/screens/CadastrarVeiculo/CadastrarVeiculo";
 import TelaHomeDefinitiva from "../screens/telaHomeDefinitiva/telaHomeDefinitiva";
 import HistoricoManutencao from "../screens/HistoricoManutencao/HistoricoManutencao";
 import HistoricoAlugados from "../screens/HistoricoAlugados/HistoricoAlugados";
+import TelaAvaliacaoCliente from "../screens/TelaAvaliacao/TelaAvaliacaoCliente";
 
 export type StackParamList = {
     Home: undefined;
@@ -30,6 +31,7 @@ export type StackParamList = {
     CadastrarVeiculo: undefined;
     telaHomeDefinitiva: undefined;
     HistoricoManutencao: undefined;
+    TelaAvaliacaoCliente: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -58,6 +60,7 @@ export function StackRoutes() {
             <Stack.Screen name="telaHomeDefinitiva" component={TelaHomeDefinitiva} options={{ title: 'Tela Principal' }} />
             <Stack.Screen name="HistoricoManutencao" component={HistoricoManutencao} options={{ title: 'Histórico de Manutenção' }} />
             <Stack.Screen name="HistoricoAlugados" component={HistoricoAlugados} options={{ title: 'Historico de veiculos Alugados' }} />
+            <Stack.Screen name="TelaAvaliacaoCliente" component={TelaAvaliacaoCliente} options={{ title: 'Avaliação' }} />
         </Stack.Navigator>
     );
 }

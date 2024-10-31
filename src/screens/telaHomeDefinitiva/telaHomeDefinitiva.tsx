@@ -21,16 +21,12 @@ const Card: React.FC<CardProps> = ({ title, iconName, onPress }) => {
 const HomeScreen = () => {
 const navigation = useNavigation();
   const cards = [
-    { title: "Não alugados", iconName: "directions-car", screen: "NaoAlugados" },
-    { title: "Alugados", iconName: "directions-car", screen: "Alugados"},
+    { title: "Veiculos", iconName: "directions-car", screen: "TelaHomeAdmin" },
     { title: "Black List", iconName: "list", screen: "TelaBlackList"},
     { title: "Histórico Veículos Aludados", iconName: "history", screen: "HistoricoAlugados" },
     { title: "Notificação", iconName: "message" },
     { title: "Calendário de Pagamentos", iconName: "calendar-today" },
-    { title: "Avaliação", iconName: "star", screen: "TelaAvaliacaocliente" },
-    { title: "Fodase 2", iconName: "favorite" },
-    { title: "Fodase 3", iconName: "favorite" },
-    { title: "Fodase 4", iconName: "favorite" },
+    { title: "Avaliação", iconName: "star", screen: "TelaAvaliacaoCliente" },
   ];
 
   const cardRows = [];

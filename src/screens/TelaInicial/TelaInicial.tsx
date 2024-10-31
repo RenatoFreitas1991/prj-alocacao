@@ -1,15 +1,62 @@
-import React from "react";
-import { Button, Text, View, TouchableOpacity, Image } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Text, View, TouchableOpacity, Animated, Dimensions, PanResponder } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { StackParamList } from "../../routes/stack.routes"; // Import the StackParamList
+import { StackParamList } from "../../routes/stack.routes";
 import styles from "./TelaInicialStyle";
 import { useNavigation } from "@react-navigation/native";
 
-// Define the navigation prop type
 type NavigationProp = NativeStackNavigationProp<StackParamList, 'Home'>;
+
+const IMAGES = [
+    require('../../../assets/moto-img.jpg'),
+    require('../../../assets/moto-img.jpg'),
+    require('../../../assets/moto-img.jpg')
+];
+
+const { width } = Dimensions.get("window");
 
 export default function TelaInicial() {
     const navigation = useNavigation<NavigationProp>();
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [nextIndex, setNextIndex] = useState(1);
+    const translateX = useRef(new Animated.Value(0)).current;
+
+    const goToNextImage = () => {
+        setNextIndex((currentIndex + 1) % IMAGES.length); // Define o índice da próxima imagem
+
+        Animated.timing(translateX, {
+            toValue: -width,
+            duration: 450,
+            useNativeDriver: true,
+        }).start(() => {
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % IMAGES.length); // Atualiza o índice atual
+            translateX.setValue(0); // Reseta a posição
+        });
+    };
+
+    useEffect(() => {
+        const interval = setInterval(goToNextImage, 3000);
+        return () => clearInterval(interval);
+    }, [currentIndex]);
+
+    const panResponder = PanResponder.create({
+        onMoveShouldSetPanResponder: (_, { dx }) => Math.abs(dx) > 20,
+        onPanResponderRelease: (_, { dx }) => {
+            if (dx < -50) {
+                goToNextImage();
+            } else if (dx > 50) {
+                setNextIndex((prevIndex) => (prevIndex - 1 + IMAGES.length) % IMAGES.length);
+                Animated.timing(translateX, {
+                    toValue: width,
+                    duration: 500,
+                    useNativeDriver: true,
+                }).start(() => {
+                    setCurrentIndex((prevIndex) => (prevIndex - 1 + IMAGES.length) % IMAGES.length);
+                    translateX.setValue(0);
+                });
+            }
+        }
+    });
 
     function abrirTelaLogin() {
         navigation.navigate('Login');
@@ -20,23 +67,31 @@ export default function TelaInicial() {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.viewText}>
+        <View style={styles.container} {...panResponder.panHandlers}>
+            <Animated.Image
+                source={IMAGES[currentIndex]}
+                style={[
+                    styles.backgroundImage,
+                    { transform: [{ translateX }] }
+                ]}
+            />
+            <Animated.Image
+                source={IMAGES[nextIndex]}
+                style={[
+                    styles.backgroundImage,
+                    { transform: [{ translateX: translateX.interpolate({
+                        inputRange: [-width, 0],
+                        outputRange: [0, width],
+                    })}]}
+                ]}
+            />
+            <View style={styles.overlay}>
                 <Text style={[styles.titulo, styles.bemVindo]}>Bem vindo(a)</Text>
-            </View>
-            <View style={styles.botoesContainer}>
-                <View>
-                    <TouchableOpacity 
-                        style={styles.button}
-                        onPress={abrirTelaLogin}>
+                <View style={styles.botoesContainer}>
+                    <TouchableOpacity style={styles.button} onPress={abrirTelaLogin}>
                         <Text style={styles.buttonText}>Entrar</Text>
                     </TouchableOpacity>
-                </View>
-
-                <View>
-                    <TouchableOpacity 
-                        style={styles.button}
-                        onPress={abrirTelaCadastro}>
+                    <TouchableOpacity style={styles.button} onPress={abrirTelaCadastro}>
                         <Text style={styles.buttonText}>Cadastrar</Text>
                     </TouchableOpacity>
                 </View>

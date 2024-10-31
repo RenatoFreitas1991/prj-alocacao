@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, FlatList } 
 import { FontAwesome } from '@expo/vector-icons';
 import styles from './TelaAvaliacaoStyle';
 
-const TelaAvaliacaocliente = () => {
+const TelaAvaliacaoCliente = () => {
   const [nomeUsuario, setNomeUsuario] = useState('');
   const [avaliacao, setAvaliacao] = useState(0);
   const [motivo, setMotivo] = useState('');
@@ -99,4 +99,4 @@ const TelaAvaliacaocliente = () => {
   );
 };
 
-export default TelaAvaliacaocliente;
+export default TelaAvaliacaoCliente;

@@ -8,6 +8,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'black',
+
+        
     },
     viewText: {
         backgroundColor: 'black',
@@ -59,6 +61,18 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         height: '5%',
         width: '100%',
+    },
+    backgroundImage: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Escurece as imagens para o texto aparecer melhor
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });
 
