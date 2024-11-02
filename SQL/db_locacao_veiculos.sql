@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30/10/2024 às 06:11
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Tempo de geração: 02/11/2024 às 15:43
+-- Versão do servidor: 10.6.15-MariaDB
+-- Versão do PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,7 +38,11 @@ CREATE TABLE `tbl_avaliacao` (
 --
 
 INSERT INTO `tbl_avaliacao` (`id`, `avaliacao`, `motivo`) VALUES
-(1, 0, 'Avaliação inicial');
+(1, 0, 'Avaliação inicial'),
+(2, 0, 'Avaliação inicial'),
+(3, 0, 'Avaliação inicial'),
+(4, 0, 'Avaliação inicial'),
+(5, 0, 'Avaliação inicial');
 
 -- --------------------------------------------------------
 
@@ -86,7 +90,11 @@ CREATE TABLE `tbl_contato` (
 --
 
 INSERT INTO `tbl_contato` (`id`, `email`, `telefone`) VALUES
-(1, 'jailson@gmail.com', '(98)9 9449-4764');
+(1, 'jailson@gmail.com', '(98)9 9449-4764'),
+(2, 'wilsonpedro@gmail.com', '(98)9 8168-5114'),
+(3, 'wilson@gmail.com', '(34)2 3423-4'),
+(4, 'wilson@gmail.com', '98312384512'),
+(5, 'wilson@gmail.com', '98312384512');
 
 -- --------------------------------------------------------
 
@@ -104,21 +112,21 @@ CREATE TABLE `tbl_cor` (
 --
 
 INSERT INTO `tbl_cor` (`id`, `cor`) VALUES
-(1, 'Amarelo'),
-(2, 'Azul'),
-(3, 'Bege'),
-(4, 'Branco'),
-(5, 'Bronze'),
-(6, 'Cinza'),
-(7, 'Dourado'),
-(8, 'Laranja'),
-(9, 'Marrom'),
-(10, 'Prata'),
-(11, 'Preto'),
-(12, 'Rosa'),
-(13, 'Roxo'),
-(14, 'Verde'),
-(15, 'Vermelho');
+(1, 'amarelo'),
+(2, 'azul'),
+(3, 'bege'),
+(4, 'branco'),
+(5, 'bronze'),
+(6, 'cinza'),
+(7, 'dourado'),
+(8, 'laranja'),
+(9, 'marrom'),
+(10, 'prata'),
+(11, 'preto'),
+(12, 'rosa'),
+(13, 'roxo'),
+(14, 'verde'),
+(15, 'vermelho');
 
 -- --------------------------------------------------------
 
@@ -140,7 +148,11 @@ CREATE TABLE `tbl_endereco` (
 --
 
 INSERT INTO `tbl_endereco` (`id`, `cidade`, `rua`, `bairro`, `cep`, `numero`) VALUES
-(1, 'São Luís', 'Avenida Um', 'Vinhais', '65071-010', '64');
+(1, 'São Luís', 'Avenida Um', 'Vinhais', '65071-010', '64'),
+(2, 'São Luís', 'Rua Alberto de Oliveira', 'Liberdade', '65035-010', '23'),
+(3, 'São Luís', 'Rua Alberto de Oliveira', 'Liberdade', '65035-010', '1'),
+(4, 'São Luís', 'Alberto de Oliveira', 'Liberdade', '65035-010', '1'),
+(5, 'São Luís', 'Alberto de Oliveira', 'Liberdade', '65035-010', '1');
 
 -- --------------------------------------------------------
 
@@ -271,6 +283,13 @@ CREATE TABLE `tbl_modelo` (
   `id` int(10) NOT NULL,
   `modelo` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_modelo`
+--
+
+INSERT INTO `tbl_modelo` (`id`, `modelo`) VALUES
+(1, 'hilux');
 
 -- --------------------------------------------------------
 
@@ -1453,7 +1472,8 @@ CREATE TABLE `tbl_usuario` (
 --
 
 INSERT INTO `tbl_usuario` (`id`, `nome`, `cpf`, `cnh`, `nascimento`, `senha`, `rg`, `orgao_expedidor`, `blacklist`, `id_profissao`, `id_contato`, `id_endereco`, `id_locador`, `id_estado_civil`, `id_avaliacao`) VALUES
-(1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 0, 4, 1, 1, 0, 1, 1);
+(1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 0, 4, 1, 1, 0, 1, 1),
+(5, 'wilson', '607.338.403-37', '321312c3', '20/10/2000', '$2b$10$Li4BvKVQpnxdon602SeDwOUgIaiMVbCbZq15hvnxQXJ1rNxngPdRy', 23124424, 'ssp', 0, 3, 5, 5, 0, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -1478,6 +1498,14 @@ CREATE TABLE `tbl_veiculo` (
   `data_de_devolucao` date NOT NULL,
   `quilometragem` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_veiculo`
+--
+
+INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_motorista`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
+(4, 1, 1, 1, 10, 14, 1, 1, 'DTFR-423F', 'QV22CX', 'Motor', '2000', '0000-00-00', '0000-00-00', 0),
+(7, 2, 1, 1, 10, 14, 1, 1, 'DFGDFH-324', 'CSUF6653R83QX', 'Motor', '2021', '0000-00-00', '0000-00-00', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -1582,7 +1610,7 @@ ALTER TABLE `tbl_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_avaliacao`
 --
 ALTER TABLE `tbl_avaliacao`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_combustivel`
@@ -1594,7 +1622,7 @@ ALTER TABLE `tbl_combustivel`
 -- AUTO_INCREMENT de tabela `tbl_contato`
 --
 ALTER TABLE `tbl_contato`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_cor`
@@ -1606,7 +1634,7 @@ ALTER TABLE `tbl_cor`
 -- AUTO_INCREMENT de tabela `tbl_endereco`
 --
 ALTER TABLE `tbl_endereco`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_estado_civil`
@@ -1630,7 +1658,7 @@ ALTER TABLE `tbl_marca`
 -- AUTO_INCREMENT de tabela `tbl_modelo`
 --
 ALTER TABLE `tbl_modelo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_profissao`
@@ -1648,13 +1676,13 @@ ALTER TABLE `tbl_tipo_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_usuario`
 --
 ALTER TABLE `tbl_usuario`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_veiculo`
 --
 ALTER TABLE `tbl_veiculo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restrições para tabelas despejadas
