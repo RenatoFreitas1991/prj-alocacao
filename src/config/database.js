@@ -4,7 +4,8 @@ const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('db_locacao_veiculos', 'root', '', {
   host: 'localhost',
-  dialect: 'mariadb'
+  dialect: 'mariadb',
+  logging: console.log,
 });
 
 module.exports = sequelize;

@@ -1,5 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+<<<<<<< HEAD
 
 import TelaInicial from "../screens/TelaInicial/TelaInicial";
 import TelaLogin from "../screens/TelaLogin/TelaLogin";
@@ -34,33 +35,58 @@ export type StackParamList = {
     HistoricoAlugados: undefined;
     TelaAvaliacaoCliente: undefined;
 };
+=======
+import { StackParamList } from "./types";
+import {
+    TelaInicial,
+    TelaLoginAdmin,
+    TelaLoginUser,
+    TelaCadastro,
+    TelaSenha,
+    TelaHomeAdmin,
+    TelaHomeUser,
+    Alugados,
+    NaoAlugados,
+    TelaEditarVeiculo,
+    TelaBlackList,
+    CadastrarVeiculo,
+    TelaHomeDefinitiva,
+    HistoricoManutencao,
+    HistoricoAlugados,
+    TelaAvaliacaoCliente,
+} from "../screens"; 
+>>>>>>> caebe3260f861393c9960b9698a4635d17b7a281
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
+const screenOptions = {
+    headerStyle: { backgroundColor: '#000' },
+    headerTintColor: '#fff',
+    headerTitleStyle: { fontWeight: 'bold' as 'bold' },
+};
+
 export function StackRoutes() {
     return (
-        <Stack.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-                headerStyle: { backgroundColor: '#000' }, // Define o fundo do cabeçalho como preto
-                headerTintColor: '#fff',                  // Define o texto do cabeçalho como branco
-                headerTitleStyle: { fontWeight: 'bold' }, // Define o texto em negrito
-            }}
-        >
+        <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
             <Stack.Screen name="Home" component={TelaInicial} options={{ title: 'Página Inicial' }} />
-            <Stack.Screen name="Login" component={TelaLogin} options={{ title: 'Login' }} />
+            <Stack.Screen name="LoginAdmin" component={TelaLoginAdmin} options={{ title: 'Login Admin' }} />
+            <Stack.Screen name="LoginUser" component={TelaLoginUser} options={{ title: 'Login Cliente' }} />
             <Stack.Screen name="Cadastro" component={TelaCadastro} options={{ title: 'Cadastro' }} />
             <Stack.Screen name="TelaSenha" component={TelaSenha} options={{ title: 'Recuperar Senha' }} />
             <Stack.Screen name="TelaHomeAdmin" component={TelaHomeAdmin} options={{ title: 'Admin' }} />
             <Stack.Screen name="Tela_Home_User" component={TelaHomeUser} options={{ title: 'Usuário' }} />
             <Stack.Screen name="Alugados" component={Alugados} options={{ title: 'Veículos Alugados' }} />
             <Stack.Screen name="NaoAlugados" component={NaoAlugados} options={{ title: 'Veículos Não Alugados' }} />
-            <Stack.Screen name="TelaEditarVeiculo" component={TelaEditarVeiculo} options={{ title: 'Editar Veículo' }} />
+            <Stack.Screen
+                name="TelaEditarVeiculo"
+                component={TelaEditarVeiculo}
+                options={{ title: 'Editar Veículo' }}
+            />
             <Stack.Screen name="TelaBlackList" component={TelaBlackList} options={{ title: 'Lista Negra' }} />
             <Stack.Screen name="CadastrarVeiculo" component={CadastrarVeiculo} options={{ title: 'Cadastrar Veículo' }} />
             <Stack.Screen name="telaHomeDefinitiva" component={TelaHomeDefinitiva} options={{ title: 'Tela Principal' }} />
             <Stack.Screen name="HistoricoManutencao" component={HistoricoManutencao} options={{ title: 'Histórico de Manutenção' }} />
-            <Stack.Screen name="HistoricoAlugados" component={HistoricoAlugados} options={{ title: 'Historico de veiculos Alugados' }} />
+            <Stack.Screen name="HistoricoAlugados" component={HistoricoAlugados} options={{ title: 'Histórico de Veículos Alugados' }} />
             <Stack.Screen name="TelaAvaliacaoCliente" component={TelaAvaliacaoCliente} options={{ title: 'Avaliação' }} />
         </Stack.Navigator>
     );

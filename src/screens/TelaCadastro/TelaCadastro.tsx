@@ -18,13 +18,10 @@ import useStep from "../../hooks/useStep";
 import fetchAddress from '../../hooks/cepRequest';
 import { fetchProfissoes, fetchEstadosCivis } from './fetchs';
 import { API_URL } from '@env';
-import { StackParamList } from '../../routes/stack.routes';
-type TelaCadastroNavigationProp = NativeStackNavigationProp<StackParamList, 'Cadastro'>;
-console.log('API_URL:', API_URL);
+import { StackParamList } from '../../routes/types';
+import { formatCPF, isValidCPF } from "../../utils/cpfUtils";
 
-if (!API_URL) {
-  console.error('API_URL is not defined in @env');
-}
+type TelaCadastroNavigationProp = NativeStackNavigationProp<StackParamList, 'Cadastro'>;
 
 const ErrorMessage = ({ error }: { error: string }) =>
   error ? <Text style={styles.errorMessage}>{error}</Text> : null;
@@ -50,27 +47,27 @@ const InputField = React.forwardRef(
       <ErrorMessage error={error} />
       {mask ? (
         <TextInputMask
-          type={mask}
-          options={maskOptions}
-          style={styles.input}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-          refInput={ref} // Passa a ref
-          keyboardType={keyboardType}
-          returnKeyType={returnKeyType} // Define o tipo do botão no teclado
-          onSubmitEditing={onSubmitEditing} // Ação ao pressionar "Next"
+            type={mask}
+            options={maskOptions}
+            style={styles.input}
+            placeholder={placeholder}
+            value={value}
+            onChangeText={onChangeText}
+            refInput={ref}
+            keyboardType={keyboardType}
+            returnKeyType={returnKeyType}
+            onSubmitEditing={onSubmitEditing}
         />
       ) : (
         <TextInput
-          style={styles.input}
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-          ref={ref} // Passa a ref
-          keyboardType={keyboardType}
-          returnKeyType={returnKeyType} // Define o tipo do botão no teclado
-          onSubmitEditing={onSubmitEditing} // Ação ao pressionar "Next"
+            style={styles.input}
+            placeholder={placeholder}
+            value={value}
+            onChangeText={onChangeText}
+            ref={ref}
+            keyboardType={keyboardType}
+            returnKeyType={returnKeyType}
+            onSubmitEditing={onSubmitEditing}
         />
       )}
     </View>
@@ -114,6 +111,7 @@ export default function TelaCadastro() {
     setEstadoCivil,
     error,
   } = useStep();
+
   const nomeRef = useRef<TextInput>(null);
   const dataNascimentoRef = useRef<TextInput>(null);
   const cpfRef = useRef<TextInput>(null);
@@ -130,11 +128,16 @@ export default function TelaCadastro() {
   const [estadosCivis, setEstadosCivis] = useState<Array<{ label: string; value: string }>>([]);
   const [profissoes, setProfissoes] = useState<Array<{ label: string; value: string }>>([]);
   const navigation = useNavigation<TelaCadastroNavigationProp>();
+
   const handleNextStep = () => {
+    if (step === 3 && !isValidCPF(cpf)) { // Validação do CPF
+      alert("CPF inválido");
+      return;
+    }
+
     if (step < 15) {
       nextStep();
     } else {
-      // Coleta todos os dados
       const userData = {
         nome,
         dataNascimento,
@@ -163,14 +166,14 @@ export default function TelaCadastro() {
       try {
         const profissaoItems = await fetchProfissoes();
         setProfissoes(profissaoItems);
-  
+
         const estadosCivisItems = await fetchEstadosCivis();
         setEstadosCivis(estadosCivisItems);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
       }
     };
-  
+
     loadData();
   }, []);
 
@@ -186,8 +189,7 @@ export default function TelaCadastro() {
             onChangeText={setNome}
             error={error}
             returnKeyType="next"
-            autoFocus={true} // Foca automaticamente no primeiro campo
-            onSubmitEditing={() => dataNascimentoRef.current?.focus()} // Avança para o próximo campo
+            onSubmitEditing={() => dataNascimentoRef.current?.focus()}
           />
         );
       case 2:
@@ -212,7 +214,7 @@ export default function TelaCadastro() {
             label="CPF"
             value={cpf}
             placeholder="Digite seu CPF"
-            onChangeText={setCpf}
+            onChangeText={(text: string) => setCpf(formatCPF(text))} // Formatação de CPF
             error={error}
             mask="custom"
             maskOptions={{ mask: '999.999.999-99' }}
