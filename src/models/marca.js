@@ -7,11 +7,6 @@ const Marca = sequelize.define('Marca', {
         primaryKey: true,
         autoIncrement: true
     },
-    id_tipo_veiculo: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
-    },
     marca: {
         type: DataTypes.STRING(20),
         allowNull: false

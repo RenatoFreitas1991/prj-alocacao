@@ -40,7 +40,7 @@ Usuario.belongsTo(Avaliacao, {
 // Associações do Veículo
 Veiculo.belongsTo(TipoVeiculo, {
   foreignKey: 'id_tipo_veiculo',
-  as: 'tipoVeiculo'
+  as: 'tipo_veiculo'
 });
 
 Veiculo.belongsTo(Modelo, {
@@ -61,6 +61,11 @@ Veiculo.belongsTo(Cor, {
 Veiculo.belongsTo(Combustivel, {
   foreignKey: 'id_combustivel',
   as: 'combustivel'
+});
+
+Marca.belongsTo(TipoVeiculo, {
+  foreignKey: 'id_tipo_veiculo',
+  as: 'tipo_veiculo'
 });
 
 // Exportando os modelos

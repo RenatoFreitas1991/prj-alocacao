@@ -8,33 +8,7 @@ const Veiculo = sequelize.define('Veiculo', {
     autoIncrement: true
   },
 
-  id_tipo_veiculo: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
-
   id_motorista: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true
-  },
-
-  id_modelo: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
-
-  id_marca: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
-
-  id_cor: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
-
-  id_combustivel: {
     type: DataTypes.INTEGER,
     allowNull: false
   },

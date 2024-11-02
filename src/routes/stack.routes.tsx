@@ -31,6 +31,7 @@ export type StackParamList = {
     CadastrarVeiculo: undefined;
     telaHomeDefinitiva: undefined;
     HistoricoManutencao: undefined;
+    HistoricoAlugados: undefined;
     TelaAvaliacaoCliente: undefined;
 };
 

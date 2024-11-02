@@ -2,11 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { Veiculo, TipoVeiculo, Modelo, Marca, Cor, Combustivel } = require('../../models');
 const sequelize = require('../../config/database');
-const bcrypt = require('bcrypt');
 
-router.post('/vehicles/', async (req, res) => {
+router.post('/register/vehicles/', async (req, res) => {
     const {
-        tipoVeiculo,
+        tipo_veiculo,
         modelo,
         marca,
         cor,
@@ -23,9 +22,10 @@ router.post('/vehicles/', async (req, res) => {
 
     try {
         const result = await sequelize.transaction(async (t) => {
+            cor.toLowerCase();
 
             const tipoVeiculoRecord = await TipoVeiculo.findOne({
-                where: { tipoVeiculo }
+                where: { tipo_veiculo }
             }, { transaction: t });
 
             if (!tipoVeiculoRecord) {
@@ -64,30 +64,33 @@ router.post('/vehicles/', async (req, res) => {
                 throw new Error('Combustível não encontrado')
             }
 
+            const dataPadrao = '00/00/000';
+
             const veiculo = await Veiculo.create({
-                id_tipo_veiculo: tipoVeiculoRecord.id,
                 id_motorista: 1,
-                id_modelo: modeloRecord.id,
-                id_marca: marcaRecord.id,
-                id_cor: corRecord.id,
-                id_combustivel: combustivel.id,
                 disponibilidade,
                 placa,
                 chassi,
                 motor,
                 ano,
-                data_de_entrega,
-                data_de_devolucao,
+                data_de_entrega: dataPadrao,
+                data_de_devolucao: dataPadrao,
                 quilometragem,
+                id_tipo_veiculo: tipoVeiculoRecord.id,
+                id_modelo: modeloRecord.id,
+                id_marca: marcaRecord.id,
+                id_cor: corRecord.id,
+                id_combustivel: combustivelRecord.id,
             }, { transaction: t });
             return veiculo;
         });
+
+        res.status(201).json({ message: 'Veículo registrado com sucesso', veiculo: result });
+
     } catch (error) {
         console.error('Erro ao registrar Veículo:', error);
         res.status(500).json({ error: error.message });
     }
-
 });
-
 
 module.exports = router;

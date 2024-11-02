@@ -14,19 +14,20 @@ import { RouteProp } from '@react-navigation/native';
 import { StackParamList } from "../../routes/stack.routes";
 
 import { Picker } from '@react-native-picker/picker';
+import { API_URL } from '@env';
+
 import BR from '../../components/BR/BR';
 import styles from "./CadastrarVeiculoStyles";
 import axios from 'axios';
-import { API_URL } from '@env';
 
 type NavigationProp = NativeStackNavigationProp<StackParamList, 'TelaSenha'>;
 type TelaSenhaRouteProp = RouteProp<StackParamList, 'TelaSenha'>;
 
 export default function CadastrarVeiculo() {
     const navigation = useNavigation<NavigationProp>();
-    const route = useRoute<TelaSenhaRouteProp>();
+    // const route = useRoute<TelaSenhaRouteProp>();
 
-    const [tipo, setTipo] = useState('Motocicleta'); // tipo de veículo: carro ou moto
+    const [tipo_veiculo, setTipo] = useState('Motocicleta'); // tipo de veículo: carro ou moto
     const [marca, setMarca] = useState('Chevrolet'); // marca do veículo
     const [modelo, setModelo] = useState(''); // modelo do veículo
     const [cor, setCor] = useState(''); // cor do veículo
@@ -36,9 +37,12 @@ export default function CadastrarVeiculo() {
     const [motor, setMotor] = useState(''); // motor do veículo
     const [ano, setAno] = useState(''); // ano de fabricação do veículo
     const [quilometragem, setquilometragem] = useState(''); // quilometragem do veículo
+    const [disponibilidade, setDisponibilidade] = useState(1); // quilometragem do veículo
+    const [dataEntrega, setDataEntrega] = useState(''); // quilometragem do veículo
+    const [dataDevolucao, setDataDevolucao] = useState(''); // quilometragem do veículo
 
     function mostrarVeiculoCadastrado() {
-        console.log(`Tipo: ${tipo}\n` +
+        console.log(`Tipo: ${tipo_veiculo}\n` +
             `Marca: ${marca}\n` +
             `Modelo: ${modelo}\n` +
             `Cor: ${cor}\n` +
@@ -53,27 +57,35 @@ export default function CadastrarVeiculo() {
 
     const cadastrarVeiculo = async () => {
 
+        setDataEntrega('00/00/0000');
+        setDataDevolucao('00/00/0000');
+
         const vehicleData = {
-            tipo,
-            marca,
+            tipo_veiculo,
             modelo,
+            marca,
             cor,
             combustivel,
+            disponibilidade,
             placa,
             chassi,
             motor,
             ano,
-            quilometragem
+            dataEntrega,
+            dataDevolucao,
+            quilometragem,
         }
 
         try {
-            const response = await axios.post(`${API_URL}/api/vehicles/`, vehicleData);
+            const response = await axios.post(`${API_URL}/api/register/vehicles`, vehicleData);
+            console.log('chegou aqui no cadastrarVeiculo3');
             Alert.alert('Sucesso', 'Cadastro finalizado com sucesso!');
             navigation.navigate('NaoAlugados'); // Navegue para a tela desejada
         } catch (error) {
-            console.error('Erro ao registrar usuário:', error);
-            Alert.alert('Erro', 'Não foi possível registrar o usuário.');
+            console.error('Erro ao registrar veículo:', error);
+            Alert.alert('Erro', 'Não foi possível registrar o veículo.');
         }
+
     }
 
     return(
@@ -82,7 +94,7 @@ export default function CadastrarVeiculo() {
                 <Text style={styles.titulo}>Cadastrar novo veículo</Text>
                 <Text style={styles.label}>Tipo de veículo:</Text>
                 <Picker
-                    selectedValue={tipo}
+                    selectedValue={tipo_veiculo}
                     onValueChange={(itemValue) => setTipo(itemValue)}
                     style={styles.input}
                 >
@@ -173,3 +185,4 @@ export default function CadastrarVeiculo() {
         </ScrollView>
     )
 }
+
