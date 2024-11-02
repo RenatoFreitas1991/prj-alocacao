@@ -1,0 +1,16 @@
+export { default as TelaInicial } from './TelaInicial/TelaInicial';
+export { default as TelaLoginAdmin } from './TelaLoginAdmin/TelaLogin';
+export { default as TelaLoginUser } from './TelaLoginUser/TelaLoginUser';
+export { default as TelaCadastro } from './TelaCadastro/TelaCadastro';
+export { default as TelaSenha } from './TelaSenha/TelaSenha';
+export { default as TelaHomeAdmin } from './TelaHomeAdmin/TelaHomeAdmin';
+export { default as TelaHomeUser } from './TelaHomeUser/TelaHomeUser';
+export { default as Alugados } from './VeiculosAlugados/VeiculosAlugados';
+export { default as NaoAlugados } from './VeiculosNaoAlugados/VeiculosNaoAlugados';
+export { default as TelaEditarVeiculo } from './TelaEditarVeiculo/TelaEditarVeiculo';
+export { default as TelaBlackList } from './TelaBlackList/TelaBlackList';
+export { default as CadastrarVeiculo } from './CadastrarVeiculo/CadastrarVeiculo';
+export { default as TelaHomeDefinitiva } from './telaHomeDefinitiva/telaHomeDefinitiva';
+export { default as HistoricoManutencao } from './HistoricoManutencao/HistoricoManutencao';
+export { default as HistoricoAlugados } from './HistoricoAlugados/HistoricoAlugados';
+export { default as TelaAvaliacaoCliente } from './TelaAvaliacao/TelaAvaliacaoCliente';

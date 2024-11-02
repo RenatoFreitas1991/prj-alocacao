@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Text, View, TouchableOpacity, Animated, Dimensions, PanResponder } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { StackParamList } from "../../routes/stack.routes";
+import { StackParamList } from "../../routes/types";
 import styles from "./TelaInicialStyle";
 import { useNavigation } from "@react-navigation/native";
 
@@ -58,12 +58,16 @@ export default function TelaInicial() {
         }
     });
 
-    function abrirTelaLogin() {
-        navigation.navigate('Login');
+    function abrirTelaLoginAdmin() {
+        navigation.navigate('LoginAdmin');
     }
 
     function abrirTelaCadastro() {
         navigation.navigate('Cadastro');
+    }
+
+    function abrirTelaUser() {
+        navigation.navigate('LoginUser');
     }
 
     return (
@@ -88,8 +92,11 @@ export default function TelaInicial() {
             <View style={styles.overlay}>
                 <Text style={[styles.titulo, styles.bemVindo]}>Bem vindo(a)</Text>
                 <View style={styles.botoesContainer}>
-                    <TouchableOpacity style={styles.button} onPress={abrirTelaLogin}>
-                        <Text style={styles.buttonText}>Entrar</Text>
+                    <TouchableOpacity style={styles.button} onPress={abrirTelaLoginAdmin}>
+                        <Text style={styles.buttonText}>Acesso do administrador</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={abrirTelaUser}>
+                        <Text style={styles.buttonText}>Já sou cliente</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={abrirTelaCadastro}>
                         <Text style={styles.buttonText}>Cadastrar</Text>
