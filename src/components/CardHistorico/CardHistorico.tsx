@@ -25,12 +25,14 @@ export default function CardHistorico({nomeCliente, dataEntrega, dataDevolucao, 
 
     let clienteProp = nomeCliente;
     let marcaProp = marca;
-    let placaProp = modelo;
+    let modeloProp = modelo;
+    let placaProp = placa;
 
     function abrirAbrirHistoricoManutencao() {
         navigation.navigate('HistoricoManutencao', {
             clienteProp,
             marcaProp,
+            modeloProp,
             placaProp,
         });
     }
@@ -53,7 +55,7 @@ export default function CardHistorico({nomeCliente, dataEntrega, dataDevolucao, 
             <View style={styles.textContainer}>
 
                 <View  style={styles.viewText}>
-                    <Text style={styles.label}>Nome do cliente: </Text>
+                    <Text style={styles.label}>Cliente: </Text>
                     <Text style={styles.text}>{nomeCliente}</Text>
                 </View>
 
@@ -67,7 +69,7 @@ export default function CardHistorico({nomeCliente, dataEntrega, dataDevolucao, 
                     <Text style={styles.text}>{dataDevolucao}</Text>
                 </View>
 
-                <View  style={styles.viewText}>
+                {/* <View  style={styles.viewText}>
                     <Text style={styles.label}>Modelo: </Text>
                     <Text style={styles.text}>{modelo}</Text>
                 </View>
@@ -80,7 +82,7 @@ export default function CardHistorico({nomeCliente, dataEntrega, dataDevolucao, 
                 <View style={styles.viewText}>
                     <Text style={styles.label}>Placa: </Text>
                     <Text style={styles.text}>{placa}</Text>
-                </View>
+                </View> */}
 
             </View>
             <View style={styles.viewButton}>
