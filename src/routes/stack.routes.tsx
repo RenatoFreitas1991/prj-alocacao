@@ -1,6 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StackParamList } from "./types";
+import TelaCalendario from "src/screens/TelaCalendario/TelaCalendario";
 import {
     TelaInicial,
     TelaLoginAdmin,
@@ -51,6 +52,7 @@ export function StackRoutes() {
             <Stack.Screen name="HistoricoManutencao" component={HistoricoManutencao} options={{ title: 'Histórico de Manutenção' }} />
             <Stack.Screen name="HistoricoAlugados" component={HistoricoAlugados} options={{ title: 'Histórico de Veículos Alugados' }} />
             <Stack.Screen name="TelaAvaliacaoCliente" component={TelaAvaliacaoCliente} options={{ title: 'Avaliação' }} />
+            <Stack.Screen name="TelaCalendario" component={TelaCalendario} options={{ title: 'Calendário' }} />
         </Stack.Navigator>
     );
 }

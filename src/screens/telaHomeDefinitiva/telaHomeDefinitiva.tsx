@@ -25,7 +25,7 @@ const navigation = useNavigation();
     { title: "Black List", iconName: "list", screen: "TelaBlackList"},
     { title: "Histórico Veículos Aludados", iconName: "history", screen: "HistoricoAlugados" },
     { title: "Notificação", iconName: "message" },
-    { title: "Calendário de Pagamentos", iconName: "calendar-today" },
+    { title: "Calendário de Pagamentos", iconName: "calendar-today", screen:"TelaCalendario" },
     { title: "Avaliação", iconName: "star", screen: "TelaAvaliacaoCliente" },
   ];
 
