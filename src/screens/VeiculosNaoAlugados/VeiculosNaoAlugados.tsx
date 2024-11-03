@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, FlatList, ListRenderItem, Text } from "react-native";
+import { View, ScrollView, FlatList, ListRenderItem } from "react-native";
 import styles from '../styles/TelaHomeStyle';
 import ButtonMore from '../../components/ButtonMore/ButtonMore'
 import { API_URL } from '@env';
@@ -17,7 +17,7 @@ export default function VeiculosNaoAlugados() {
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
-  const [disponibilidade, setDisponibilidade] = useState(1);
+  const [disponibilidade, setDisponibilidade] = useState(0);
 
   const fetchData = async () => {
     try {

@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    scrollView: {
+        backgroundColor: '#333',
+    },
     container:{
         minHeight: '100%',
         width: '100%',
@@ -14,7 +17,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontSize: 20,
-        color: 'black',
+        color: 'white',
         textAlign: 'auto',
         fontWeight: 'bold',
         marginTop: 20,
@@ -31,6 +34,7 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
     textLabel: {
+        color: 'white',
         marginLeft: '10%',
         textAlign: "left",
         fontWeight: "bold",
@@ -44,7 +48,25 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 5,
     },
-
+    button: {
+        margin: 'auto',
+        backgroundColor: 'rgb(39, 6, 229)',
+        width: '80%',
+        marginTop: '5%',
+        padding: '3%',
+        borderRadius: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    buttonText: {
+        fontSize: 18,
+        textAlign: 'center',
+        color: 'white',
+        fontWeight: 'bold',
+    },
 })
 
 export default styles;

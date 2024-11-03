@@ -17,7 +17,7 @@ export default function VeiculosAlugados() {
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
-  const [disponibilidade, setDisponibilidade] = useState(0);
+  const [disponibilidade, setDisponibilidade] = useState(1);
 
   const fetchData = async () => {
     try {

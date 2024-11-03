@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, ScrollView } from 'react-native';
-import styles from './TeleEditarVeiculoStyle';
+import { View, Text, TextInput, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { useRoute } from '@react-navigation/native';
+
+import styles from './TeleEditarVeiculoStyle';
+import BR from '../../components/BR/BR';
 
 type RouteParams = {
     modeloProp:string;
@@ -28,7 +30,7 @@ export default function TelaEditarVeiculo() {
     const [tipoDevolucao, setTipoDevolucao] = useState("");
 
     return(
-        <ScrollView>
+        <ScrollView style={styles.scrollView}>
 
             <View style={styles.viewTitulo}>
                 <Text style={styles.titulo}>Editar veículo</Text>
@@ -42,7 +44,7 @@ export default function TelaEditarVeiculo() {
                     <TextInput
                         style={styles.input}
                         onChangeText={setModelo}
-                        value={modeloProp}
+                        value={modeloProp || modelo}
                         placeholder='Modelo'
                         keyboardType='default'
                     />
@@ -52,7 +54,7 @@ export default function TelaEditarVeiculo() {
                     <TextInput
                         style={styles.input}
                         onChangeText={setMarca}
-                        value={marcaProp}
+                        value={marcaProp|| marca}
                         placeholder='Marca'
                     />
                 </View>
@@ -70,7 +72,7 @@ export default function TelaEditarVeiculo() {
                     <TextInput
                         style={styles.input}
                         onChangeText={setPlaca}
-                        value={placaProp}
+                        value={placaProp || placa}
                         placeholder='Placa'
                     />
                 </View>
@@ -145,6 +147,12 @@ export default function TelaEditarVeiculo() {
                         onChangeText={setTipoDevolucao}
                         placeholder='Tipo do Veículo'
                     />
+                </View>
+                <View style={styles.viewInput}>
+                    <TouchableOpacity
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Atualizar</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={styles.viewInput}>
 
