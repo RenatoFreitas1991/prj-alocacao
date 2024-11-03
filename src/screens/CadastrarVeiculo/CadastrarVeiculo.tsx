@@ -78,7 +78,6 @@ export default function CadastrarVeiculo() {
 
         try {
             const response = await axios.post(`${API_URL}/api/register/vehicles`, vehicleData);
-            console.log('chegou aqui no cadastrarVeiculo3');
             Alert.alert('Sucesso', 'Cadastro finalizado com sucesso!');
             navigation.navigate('NaoAlugados'); // Navegue para a tela desejada
         } catch (error) {

@@ -4,7 +4,7 @@ import styles from './CardVehicleStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { StackParamList } from "../../routes/stack.routes";
+import { StackParamList } from "../../routes/types";
 
 interface CardVehicleProps {
     modelo:string;

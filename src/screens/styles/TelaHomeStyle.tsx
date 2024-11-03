@@ -14,6 +14,10 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: "#333",
     },
+    listContainer: {
+        width: '100%',
+        height: '100%',
+    },
     cardsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
