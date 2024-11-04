@@ -2,9 +2,9 @@ import React, { useState, useCallback, useRef } from "react";
 import { Text, View, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback, ScrollView, Alert } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { StackParamList } from "../../routes/types";
+import { StackParamList } from "../../../routes/types";
 import styles from "./TelaLoginUserStyle";
-import { formatCPF, isValidCPF } from "../../utils/cpfUtils";
+import { formatCPF, isValidCPF } from "../../../utils/cpfUtils";
 import axios from "axios";
 import { API_URL } from "@env";
 

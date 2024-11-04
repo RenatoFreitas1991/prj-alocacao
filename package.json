@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
   "scripts": {
-    "start": "concurrently --kill-others-on-fail \"npm run start:backend\" \"npx expo start\"",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "start:backend": "node app.js",
-    "start:expo": "expo start"
+    "start": "ts-node app.js",                     
+    "dev": "concurrently --kill-others-on-fail \"npm run start\" \"npx expo start\"",  
+    "start:expo": "npx expo start",                  
+    "android": "expo start --android",              
+    "ios": "expo start --ios",                       
+    "web": "expo start --web"                        
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
@@ -60,6 +60,7 @@
     "babel-plugin-inline-dotenv": "^1.7.0",
     "concurrently": "^7.6.0",
     "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2",
     "typescript": "~5.3.3"
   },
   "private": true

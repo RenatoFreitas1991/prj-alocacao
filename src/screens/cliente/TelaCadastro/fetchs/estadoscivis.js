@@ -3,7 +3,7 @@ import { API_URL } from '@env';
 
 export const fetchEstadosCivis = async () => {
   try {
-    const response = await axios.get(`${API_URL}/api/estadosCivis`);
+    const response = await axios.get(`${API_URL}/api/backend/estadosCivis`);
     return response.data.map((estadoCivil) => ({
       label: estadoCivil.estado_civil,
       value: estadoCivil.estado_civil,

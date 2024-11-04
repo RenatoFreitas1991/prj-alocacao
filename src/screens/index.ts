@@ -1,16 +1,22 @@
+// Admin screens
+export { default as TelaLoginAdmin } from './admin/TelaLoginAdmin/TelaLogin';
+export { default as TelaHomeAdmin } from './admin/TelaHomeAdmin/TelaHomeAdmin';
+export { default as Alugados } from './admin/VeiculosAlugadosAdmin/VeiculosAlugados';
+export { default as TelaEditarVeiculo } from './admin/TelaEditarVeiculo/TelaEditarVeiculo';
+export { default as TelaBlackList } from './admin/TelaBlackList/TelaBlackList';
+export { default as CadastrarVeiculo } from './admin/CadastrarVeiculo/CadastrarVeiculo';
+export { default as TelaHomeDefinitiva } from './admin/telaHomeDefinitiva/telaHomeDefinitiva';
+export { default as HistoricoManutencao } from './admin/HistoricoManutencao/HistoricoManutencao';
+export { default as HistoricoAlugados } from './admin/HistoricoAlugados/HistoricoAlugados';
+export { default as TelaAvaliacaoCliente } from './admin/TelaAvaliacao/TelaAvaliacaoCliente';
+export { default as TelaCalendario } from './admin/TelaCalendario/TelaCalendario';
+export { default as VeiculosNaoAlugadosAdmin } from './admin/VeiculosNaoAlugadosAdmin/VeiculosNaoAlugados';
+export { default as VeiculosAlugadosAdmin } from './admin/VeiculosAlugadosAdmin/VeiculosAlugados';
+
+// Cliente screens
 export { default as TelaInicial } from './TelaInicial/TelaInicial';
-export { default as TelaLoginAdmin } from './TelaLoginAdmin/TelaLogin';
-export { default as TelaLoginUser } from './TelaLoginUser/TelaLoginUser';
-export { default as TelaCadastro } from './TelaCadastro/TelaCadastro';
-export { default as TelaSenha } from './TelaSenha/TelaSenha';
-export { default as TelaHomeAdmin } from './TelaHomeAdmin/TelaHomeAdmin';
-export { default as TelaHomeUser } from './TelaHomeUser/TelaHomeUser';
-export { default as Alugados } from './VeiculosAlugados/VeiculosAlugados';
-export { default as NaoAlugados } from './VeiculosNaoAlugados/VeiculosNaoAlugados';
-export { default as TelaEditarVeiculo } from './TelaEditarVeiculo/TelaEditarVeiculo';
-export { default as TelaBlackList } from './TelaBlackList/TelaBlackList';
-export { default as CadastrarVeiculo } from './CadastrarVeiculo/CadastrarVeiculo';
-export { default as TelaHomeDefinitiva } from './telaHomeDefinitiva/telaHomeDefinitiva';
-export { default as HistoricoManutencao } from './HistoricoManutencao/HistoricoManutencao';
-export { default as HistoricoAlugados } from './HistoricoAlugados/HistoricoAlugados';
-export { default as TelaAvaliacaoCliente } from './TelaAvaliacao/TelaAvaliacaoCliente';
+export { default as TelaLoginUser } from './cliente/TelaLoginUser/TelaLoginUser';
+export { default as TelaCadastro } from './cliente/TelaCadastro/TelaCadastro';
+export { default as TelaSenha } from './cliente/TelaSenha/TelaSenha';
+export { default as TelaHomeUser } from './cliente/TelaHomeUser/TelaHomeUser';
+export { default as NaoAlugados } from './cliente/VeiculosNaoAlugados/VeiculosNaoAlugados';

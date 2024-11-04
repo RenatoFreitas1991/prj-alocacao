@@ -40,6 +40,10 @@ const Usuario = sequelize.define('Usuario', {
     type: DataTypes.INTEGER(2),
     defaultValue: 0
   },
+  motivo_blacklist: {
+    type: DataTypes.STRING(255),
+    allowNull: true
+  },
   id_avaliacao: {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false

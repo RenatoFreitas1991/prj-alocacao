@@ -3,7 +3,7 @@ import { View, Text, TextInput, Image, ScrollView, TouchableOpacity } from 'reac
 import { useRoute } from '@react-navigation/native';
 
 import styles from './TeleEditarVeiculoStyle';
-import BR from '../../components/BR/BR';
+import BR from '../../../components/BR/BR';
 
 type RouteParams = {
     modeloProp:string;

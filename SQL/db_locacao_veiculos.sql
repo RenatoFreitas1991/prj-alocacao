@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02/11/2024 às 15:43
--- Versão do servidor: 10.6.15-MariaDB
--- Versão do PHP: 8.2.0
+-- Tempo de geração: 04/11/2024 às 07:11
+-- Versão do servidor: 10.4.32-MariaDB
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,7 +42,8 @@ INSERT INTO `tbl_avaliacao` (`id`, `avaliacao`, `motivo`) VALUES
 (2, 0, 'Avaliação inicial'),
 (3, 0, 'Avaliação inicial'),
 (4, 0, 'Avaliação inicial'),
-(5, 0, 'Avaliação inicial');
+(5, 0, 'Avaliação inicial'),
+(6, 0, 'Avaliação inicial');
 
 -- --------------------------------------------------------
 
@@ -94,7 +95,8 @@ INSERT INTO `tbl_contato` (`id`, `email`, `telefone`) VALUES
 (2, 'wilsonpedro@gmail.com', '(98)9 8168-5114'),
 (3, 'wilson@gmail.com', '(34)2 3423-4'),
 (4, 'wilson@gmail.com', '98312384512'),
-(5, 'wilson@gmail.com', '98312384512');
+(5, 'wilson@gmail.com', '98312384512'),
+(6, 'gab@gmail.com', '(98)9 8889-4647');
 
 -- --------------------------------------------------------
 
@@ -152,7 +154,8 @@ INSERT INTO `tbl_endereco` (`id`, `cidade`, `rua`, `bairro`, `cep`, `numero`) VA
 (2, 'São Luís', 'Rua Alberto de Oliveira', 'Liberdade', '65035-010', '23'),
 (3, 'São Luís', 'Rua Alberto de Oliveira', 'Liberdade', '65035-010', '1'),
 (4, 'São Luís', 'Alberto de Oliveira', 'Liberdade', '65035-010', '1'),
-(5, 'São Luís', 'Alberto de Oliveira', 'Liberdade', '65035-010', '1');
+(5, 'São Luís', 'Alberto de Oliveira', 'Liberdade', '65035-010', '1'),
+(6, 'São Luís', 'Travessa do Arame', 'Vila Menino Jesus de Praga', '65071-299', '34');
 
 -- --------------------------------------------------------
 
@@ -1459,6 +1462,7 @@ CREATE TABLE `tbl_usuario` (
   `rg` int(15) NOT NULL,
   `orgao_expedidor` varchar(20) NOT NULL,
   `blacklist` int(2) NOT NULL,
+  `motivo_blacklist` varchar(255) NOT NULL,
   `id_profissao` int(10) NOT NULL,
   `id_contato` int(10) NOT NULL,
   `id_endereco` int(10) NOT NULL,
@@ -1471,9 +1475,10 @@ CREATE TABLE `tbl_usuario` (
 -- Despejando dados para a tabela `tbl_usuario`
 --
 
-INSERT INTO `tbl_usuario` (`id`, `nome`, `cpf`, `cnh`, `nascimento`, `senha`, `rg`, `orgao_expedidor`, `blacklist`, `id_profissao`, `id_contato`, `id_endereco`, `id_locador`, `id_estado_civil`, `id_avaliacao`) VALUES
-(1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 0, 4, 1, 1, 0, 1, 1),
-(5, 'wilson', '607.338.403-37', '321312c3', '20/10/2000', '$2b$10$Li4BvKVQpnxdon602SeDwOUgIaiMVbCbZq15hvnxQXJ1rNxngPdRy', 23124424, 'ssp', 0, 3, 5, 5, 0, 1, 5);
+INSERT INTO `tbl_usuario` (`id`, `nome`, `cpf`, `cnh`, `nascimento`, `senha`, `rg`, `orgao_expedidor`, `blacklist`, `motivo_blacklist`, `id_profissao`, `id_contato`, `id_endereco`, `id_locador`, `id_estado_civil`, `id_avaliacao`) VALUES
+(1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 0, '', 4, 1, 1, 0, 1, 1),
+(5, 'wilson', '607.338.403-37', '321312c3', '20/10/2000', '$2b$10$Li4BvKVQpnxdon602SeDwOUgIaiMVbCbZq15hvnxQXJ1rNxngPdRy', 23124424, 'ssp', 0, '', 3, 5, 5, 0, 1, 5),
+(6, 'Gabriel', '849.154.620-05', '650283', '01/05/1998', '$2b$10$xyvSj.2gbug8RzvWqGHtn.vT8Gwl0a1LigktPf8FjaCT0LVLcyWZ.', 717273, 'SSP', 0, '', 2, 6, 6, 0, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -1504,8 +1509,8 @@ CREATE TABLE `tbl_veiculo` (
 --
 
 INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_motorista`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
-(4, 1, 1, 1, 10, 14, 1, 1, 'DTFR-423F', 'QV22CX', 'Motor', '2000', '0000-00-00', '0000-00-00', 0),
-(7, 2, 1, 1, 10, 14, 1, 1, 'DFGDFH-324', 'CSUF6653R83QX', 'Motor', '2021', '0000-00-00', '0000-00-00', 0);
+(4, 1, 1, 1, 47, 14, 1, 1, 'DTFR-423F', 'QV22CX', 'Motor', '2000', '0000-00-00', '0000-00-00', 0),
+(7, 2, 1, 1, 47, 14, 1, 0, 'DFGDFH-324', 'CSUF6653R83QX', 'Motor', '2021', '0000-00-00', '0000-00-00', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -1610,7 +1615,7 @@ ALTER TABLE `tbl_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_avaliacao`
 --
 ALTER TABLE `tbl_avaliacao`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_combustivel`
@@ -1622,7 +1627,7 @@ ALTER TABLE `tbl_combustivel`
 -- AUTO_INCREMENT de tabela `tbl_contato`
 --
 ALTER TABLE `tbl_contato`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_cor`
@@ -1634,7 +1639,7 @@ ALTER TABLE `tbl_cor`
 -- AUTO_INCREMENT de tabela `tbl_endereco`
 --
 ALTER TABLE `tbl_endereco`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_estado_civil`
@@ -1676,7 +1681,7 @@ ALTER TABLE `tbl_tipo_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_usuario`
 --
 ALTER TABLE `tbl_usuario`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_veiculo`

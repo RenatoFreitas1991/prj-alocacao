@@ -13,13 +13,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { TextInputMask } from "react-native-masked-text";
 import RNPickerSelect from "react-native-picker-select";
 import styles from "./TelaCadastroStyle";
-import pickerSelectStyles from "../styles/selectStyles";
-import useStep from "../../hooks/useStep";
-import fetchAddress from '../../hooks/cepRequest';
+import pickerSelectStyles from "../../styles/selectStyles";
+import useStep from "../../../hooks/useStep";
+import fetchAddress from '../../../hooks/cepRequest';
 import { fetchProfissoes, fetchEstadosCivis } from './fetchs';
 import { API_URL } from '@env';
-import { StackParamList } from '../../routes/types';
-import { formatCPF, isValidCPF } from "../../utils/cpfUtils";
+import { StackParamList } from '../../../routes/types';
+import { formatCPF, isValidCPF } from "../../../utils/cpfUtils";
 
 type TelaCadastroNavigationProp = NativeStackNavigationProp<StackParamList, 'Cadastro'>;
 

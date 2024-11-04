@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Vibration }
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from '@react-navigation/native';
-import { StackParamList } from "../../routes/types";
+import { StackParamList } from "../../../routes/types";
 import styles from "../TelaCadastro/TelaCadastroStyle";
 import axios from 'axios';
 import { API_URL } from '@env';
@@ -64,7 +64,7 @@ export default function TelaSenha() {
             };
 
             try {
-                const response = await axios.post(`${API_URL}/api/register`, registrationData);
+                const response = await axios.post(`${API_URL}/api/backend/user/register`, registrationData);
                 Alert.alert('Sucesso', 'Cadastro finalizado com sucesso!');
                 navigation.navigate('Home');
             } catch (error) {

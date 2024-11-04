@@ -33,4 +33,9 @@ export type StackParamList = {
     HistoricoManutencao: undefined;
     HistoricoAlugados: undefined;
     TelaAvaliacaoCliente: undefined;
+    TelaCalendario: undefined;
+    VeiculosAlugadosAdmin: undefined;
+    VeiculosNaoAlugadosAdmin: undefined;
+    TelaNotificacao: undefined;
+
 };

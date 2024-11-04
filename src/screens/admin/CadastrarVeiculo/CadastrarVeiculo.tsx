@@ -11,12 +11,12 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RouteProp } from '@react-navigation/native';
-import { StackParamList } from "../../routes/stack.routes";
+import { StackParamList } from "../../../routes/types";
 
 import { Picker } from '@react-native-picker/picker';
 import { API_URL } from '@env';
 
-import BR from '../../components/BR/BR';
+import BR from '../../../components/BR/BR';
 import styles from "./CadastrarVeiculoStyles";
 import axios from 'axios';
 
