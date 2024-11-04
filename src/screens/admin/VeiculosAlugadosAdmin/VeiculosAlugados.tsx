@@ -14,6 +14,7 @@ export default function VeiculosAlugados() {
     modelo: string;
     marca: string;
     placa: string;
+    imagePath?: string; 
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
@@ -21,11 +22,32 @@ export default function VeiculosAlugados() {
 
   const fetchData = async () => {
     try {
-      console.log(`Fetching: ${API_URL}/api/vehicles/disponibilidade/${disponibilidade}`);
-      const response = await fetch(`${API_URL}/api/vehicles/disponibilidade/${disponibilidade}`);
-      const result: MinVeiculo[] = await response.json();
-      console.log('Fetched vehicles:', result);
-      setVehicles(result);
+      console.log(`Fetching: ${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`);
+      const response = await fetch(`${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`);
+      const result = await response.json();
+
+      const vehiclesData = result.map((vehicle: any) => {
+        let imagePath = null;
+
+        if (vehicle.imagePath) {
+          try {
+            const imagePathArray = JSON.parse(vehicle.imagePath);
+            if (Array.isArray(imagePathArray) && imagePathArray.length > 0) {
+              imagePath = `${API_URL}${imagePathArray[0]}`;
+            }
+          } catch (parseError) {
+            console.error('Erro ao parsear imagePath:', parseError);
+          }
+        }
+
+        return {
+          ...vehicle,
+          imagePath,
+        };
+      });
+
+      console.log('Fetched vehicles with images:', vehiclesData);
+      setVehicles(vehiclesData);
     } catch (error) {
       console.error('Erro ao buscar os dados dos veículos ->', error);
     }
@@ -40,8 +62,9 @@ export default function VeiculosAlugados() {
       modelo={item.modelo}
       marca={item.marca}
       placa={item.placa}
+      imagePath={item.imagePath}
       nameButton="editar"
-      iconButton="eye"
+      iconButton="edit"
     />
   );
 

@@ -14,59 +14,43 @@ const Veiculo = require('./veiculo');
 // Associações do Usuário
 Usuario.belongsTo(Profissao, {
   foreignKey: 'id_profissao',
-  as: 'profissao'
+  as: 'profissao',
 });
 
-Usuario.belongsTo(Contato, {
-  foreignKey: 'id_contato',
-  as: 'contato'
-});
-
-Usuario.belongsTo(Endereco, {
-  foreignKey: 'id_endereco',
-  as: 'endereco'
-});
-
-Usuario.belongsTo(EstadoCivil, {
-  foreignKey: 'id_estado_civil',
-  as: 'estadoCivil'
-});
-
-Usuario.belongsTo(Avaliacao, {
-  foreignKey: 'id_avaliacao',
-  as: 'avaliacao'
-});
+// Other user associations...
 
 // Associações do Veículo
-Veiculo.belongsTo(TipoVeiculo, {
-  foreignKey: 'id_tipo_veiculo',
-  as: 'tipo_veiculo'
-});
-
-Veiculo.belongsTo(Modelo, {
-  foreignKey: 'id_modelo',
-  as: 'modelo'
-});
-
 Veiculo.belongsTo(Marca, {
   foreignKey: 'id_marca',
-  as: 'marca'
+  as: 'Marca',
 });
 
 Veiculo.belongsTo(Cor, {
   foreignKey: 'id_cor',
-  as: 'cor'
+  as: 'Cor',
 });
 
 Veiculo.belongsTo(Combustivel, {
   foreignKey: 'id_combustivel',
-  as: 'combustivel'
+  as: 'Combustivel',
 });
 
-Marca.belongsTo(TipoVeiculo, {
+Veiculo.belongsTo(TipoVeiculo, {
   foreignKey: 'id_tipo_veiculo',
-  as: 'tipo_veiculo'
+  as: 'TipoVeiculo',
 });
+
+Veiculo.belongsTo(Modelo, {
+  foreignKey: 'id_modelo',
+  as: 'Modelo',
+});
+
+// Reverse associations
+Marca.hasMany(Veiculo, { foreignKey: 'id_marca', as: 'Veiculos' });
+Cor.hasMany(Veiculo, { foreignKey: 'id_cor', as: 'Veiculos' });
+Combustivel.hasMany(Veiculo, { foreignKey: 'id_combustivel', as: 'Veiculos' });
+TipoVeiculo.hasMany(Veiculo, { foreignKey: 'id_tipo_veiculo', as: 'Veiculos' });
+Modelo.hasMany(Veiculo, { foreignKey: 'id_modelo', as: 'Veiculos' });
 
 // Exportando os modelos
 module.exports = {

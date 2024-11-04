@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontWeight: 'bold',
-        color: 'red',
+        color: 'blue',
         marginLeft: '2%',
     },
     viewButton: {

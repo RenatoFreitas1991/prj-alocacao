@@ -49,7 +49,7 @@ export default function TelaLogin() {
             try {
                 const numericCpf = cpf.replace(/\D/g, "");
     
-                const response = await axios.post(`${API_URL}/api/auth/login`, {
+                const response = await axios.post(`${API_URL}/api/backend/auth/login`, {
                     cpf: numericCpf, 
                     senha: passwordRef.current,
                 });

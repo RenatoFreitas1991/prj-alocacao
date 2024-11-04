@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Veiculo, TipoVeiculo, Modelo, Marca, Cor, Combustivel } = require('../../models');
+const { Veiculo, Marca, Cor, Combustivel, TipoVeiculo, Modelo } = require('../../models');
 const sequelize = require('../../config/database');
 
 router.post('/register/vehicles/', async (req, res) => {
@@ -18,12 +18,11 @@ router.post('/register/vehicles/', async (req, res) => {
         data_de_entrega,
         data_de_devolucao,
         quilometragem,
+        imagens
     } = req.body;
 
     try {
         const result = await sequelize.transaction(async (t) => {
-            cor.toLowerCase();
-
             const tipoVeiculoRecord = await TipoVeiculo.findOne({
                 where: { tipo_veiculo }
             }, { transaction: t });
@@ -32,37 +31,29 @@ router.post('/register/vehicles/', async (req, res) => {
                 throw new Error('Tipo Veículo não encontrado');
             }
 
-            const modeloRecord = await Modelo.findOne({
-                where: { modelo }
-            }, { transaction: t });
+            const [modeloRecord] = await Modelo.findOrCreate({
+                where: { modelo },
+                defaults: { modelo },
+                transaction: t,
+            });
 
-            if(!modeloRecord) {
-                throw new Error('Modelo não encontrado')
-            }
+            const [marcaRecord] = await Marca.findOrCreate({
+                where: { marca },
+                defaults: { marca },
+                transaction: t,
+            });
 
-            const marcaRecord = await Marca.findOne({
-                where: { marca }
-            }, { transaction: t });
+            const [corRecord] = await Cor.findOrCreate({
+                where: { cor },
+                defaults: { cor },
+                transaction: t,
+            });
 
-            if(!marcaRecord) {
-                throw new Error('Marca não encontrada')
-            }
-
-            const corRecord = await Cor.findOne({
-                where: { cor }
-            }, { transaction: t });
-
-            if(!corRecord) {
-                throw new Error('Cor não encontrada')
-            }
-
-            const combustivelRecord = await Combustivel.findOne({
-                where: { combustivel }
-            }, { transaction: t });
-
-            if(!corRecord) {
-                throw new Error('Combustível não encontrado')
-            }
+            const [combustivelRecord] = await Combustivel.findOrCreate({
+                where: { combustivel },
+                defaults: { combustivel },
+                transaction: t,
+            });
 
             const dataPadrao = '00/00/000';
 
@@ -81,6 +72,7 @@ router.post('/register/vehicles/', async (req, res) => {
                 id_marca: marcaRecord.id,
                 id_cor: corRecord.id,
                 id_combustivel: combustivelRecord.id,
+                imagePath: JSON.stringify(imagens)
             }, { transaction: t });
             return veiculo;
         });
@@ -93,4 +85,29 @@ router.post('/register/vehicles/', async (req, res) => {
     }
 });
 
-module.exports = router;
+// Rota para atualizar um veículo específico
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const veiculo = await Veiculo.findOne({
+        where: { id },
+        include: [
+          { model: Marca, as: 'Marca', attributes: ['marca'] },
+          { model: Cor, as: 'Cor', attributes: ['cor'] },
+          { model: Combustivel, as: 'Combustivel', attributes: ['combustivel'] },
+          { model: TipoVeiculo, as: 'TipoVeiculo', attributes: ['tipo_veiculo'] },
+          { model: Modelo, as: 'Modelo', attributes: ['modelo'] }
+        ]
+      });
+  
+      if (!veiculo) {
+        return res.status(404).json({ error: 'Veículo não encontrado' });
+      }
+      res.status(200).json(veiculo);
+    } catch (error) {
+      console.error('Erro ao obter dados do veículo:', error);
+      res.status(500).json({ error: 'Erro ao obter dados do veículo' });
+    }
+  });
+  
+  module.exports = router;
