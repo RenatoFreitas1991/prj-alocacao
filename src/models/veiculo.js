@@ -51,6 +51,10 @@ const Veiculo = sequelize.define('Veiculo', {
   quilometragem: {
     type: DataTypes.INTEGER,
     allowNull: false
+  },
+  imagePath: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
 }, {
   tableName: 'tbl_veiculo',

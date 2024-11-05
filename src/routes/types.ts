@@ -26,7 +26,7 @@ export type StackParamList = {
     Tela_Home_User: undefined;
     Alugados: undefined;
     NaoAlugados: undefined;
-    TelaEditarVeiculo: { modeloProp?: string; marcaProp?: string; placaProp?: string };
+    TelaEditarVeiculo: { id: number }; // Atualizado para aceitar o id
     TelaBlackList: undefined;
     CadastrarVeiculo: undefined;
     telaHomeDefinitiva: undefined;

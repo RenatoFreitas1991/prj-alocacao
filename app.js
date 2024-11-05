@@ -1,18 +1,18 @@
+// app.js
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const sequelize = require('./src/config/database');
 const routes = require('./src/routes/backend');
+const models = require('./src/models');
 const app = express();
-
 const PORT = process.env.PORT || 8080;
 
 app.use(cors({ origin: '*' }));
 app.use(express.json());
-
-// Usando o prefixo '/api/backend' para todas as rotas do backend
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/api/backend', routes);
 
-// Função para conectar com o banco de dados
 const connectToDatabase = async (retries = 5) => {
   while (retries) {
     try {
@@ -43,3 +43,5 @@ app.use((err, req, res, next) => {
 });
 
 startServer();
+
+module.exports = app;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 04/11/2024 às 07:11
+-- Tempo de geração: 04/11/2024 às 22:57
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -286,13 +286,6 @@ CREATE TABLE `tbl_modelo` (
   `id` int(10) NOT NULL,
   `modelo` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_modelo`
---
-
-INSERT INTO `tbl_modelo` (`id`, `modelo`) VALUES
-(1, 'hilux');
 
 -- --------------------------------------------------------
 
@@ -1494,6 +1487,7 @@ CREATE TABLE `tbl_veiculo` (
   `id_marca` int(10) NOT NULL,
   `id_cor` int(10) NOT NULL,
   `id_combustivel` int(10) NOT NULL,
+  `imagePath` varchar(255) NOT NULL,
   `disponibilidade` tinyint(1) NOT NULL,
   `placa` varchar(10) NOT NULL,
   `chassi` varchar(20) NOT NULL,
@@ -1503,14 +1497,6 @@ CREATE TABLE `tbl_veiculo` (
   `data_de_devolucao` date NOT NULL,
   `quilometragem` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `tbl_veiculo`
---
-
-INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_motorista`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
-(4, 1, 1, 1, 47, 14, 1, 1, 'DTFR-423F', 'QV22CX', 'Motor', '2000', '0000-00-00', '0000-00-00', 0),
-(7, 2, 1, 1, 47, 14, 1, 0, 'DFGDFH-324', 'CSUF6653R83QX', 'Motor', '2021', '0000-00-00', '0000-00-00', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -1663,7 +1649,7 @@ ALTER TABLE `tbl_marca`
 -- AUTO_INCREMENT de tabela `tbl_modelo`
 --
 ALTER TABLE `tbl_modelo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_profissao`
@@ -1687,7 +1673,7 @@ ALTER TABLE `tbl_usuario`
 -- AUTO_INCREMENT de tabela `tbl_veiculo`
 --
 ALTER TABLE `tbl_veiculo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para tabelas despejadas
