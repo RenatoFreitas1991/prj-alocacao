@@ -1,4 +1,4 @@
-export const formatCPF = (value: string): string => {
+const formatCPF = (value: string): string => {
     return value
         .replace(/\D/g, "")
         .replace(/(\d{3})(\d)/, "$1.$2")
@@ -6,7 +6,7 @@ export const formatCPF = (value: string): string => {
         .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 };
 
-export const isValidCPF = (cpf: string): boolean => {
+const isValidCPF = (cpf: string): boolean => {
     cpf = cpf.replace(/\D/g, "");
     if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
 
@@ -21,3 +21,6 @@ export const isValidCPF = (cpf: string): boolean => {
 
     return checkDigit1 === parseInt(cpf[9]) && checkDigit2 === parseInt(cpf[10]);
 };
+
+
+module.exports = { formatCPF, isValidCPF };

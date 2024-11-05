@@ -178,20 +178,24 @@ export default function CadastrarVeiculo() {
                 </View>
 
                 <Text style={styles.label}>Tipo de veículo:</Text>
-                <RNPickerSelect
-                    onValueChange={(value) => setTipo(value)}
-                    items={tiposVeiculoOptions}
-                    value={tipo_veiculo}
-                    style={pickerSelectStyles}
-                />
+                <View style={styles.input}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setTipo(value)}
+                        items={tiposVeiculoOptions}
+                        value={tipo_veiculo}
+                        style={pickerSelectStyles}
+                    />
+                </View>
 
                 <Text style={styles.label}>Marca:</Text>
-                <RNPickerSelect
-                    onValueChange={(value) => setMarca(value)}
-                    items={marcasOptions}
-                    value={marca}
-                    style={pickerSelectStyles}
-                />
+                <View style={styles.input}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setMarca(value)}
+                        items={marcasOptions}
+                        value={marca}
+                        style={pickerSelectStyles}
+                    />
+                </View>
 
                 <Text style={styles.label}>Modelo:</Text>
                 <TextInput
@@ -202,20 +206,24 @@ export default function CadastrarVeiculo() {
                 />
 
                 <Text style={styles.label}>Cor:</Text>
-                <RNPickerSelect
-                    onValueChange={(value) => setCor(value)}
-                    items={coresOptions}
-                    value={cor}
-                    style={pickerSelectStyles}
-                />
+                <View style={styles.input}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setCor(value)}
+                        items={coresOptions}
+                        value={cor}
+                        style={pickerSelectStyles}
+                    />
+                </View>
 
                 <Text style={styles.label}>Combustível:</Text>
-                <RNPickerSelect
-                    onValueChange={(value) => setCombustivel(value)}
-                    items={combustiveisOptions}
-                    value={combustivel}
-                    style={pickerSelectStyles}
-                />
+                <View style={styles.input}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setCombustivel(value)}
+                        items={combustiveisOptions}
+                        value={combustivel}
+                        style={pickerSelectStyles}
+                    />
+                </View>
 
                 <Text style={styles.label}>Placa:</Text>
                 <TextInput

@@ -118,22 +118,26 @@ export default function TelaEditarVeiculo() {
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Marca</Text>
-                <RNPickerSelect
-                    onValueChange={(value) => setMarca(value)}
-                    items={marcasOptions}
-                    value={marca}
-                    style={pickerSelectStyles}
-                />
+                <View style={styles.input}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setMarca(value)}
+                        items={marcasOptions}
+                        value={marca}
+                        style={pickerSelectStyles}
+                    />
+                </View>
             </View>
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Cor</Text>
-                <RNPickerSelect
-                    onValueChange={(value) => setCor(value)}
-                    items={coresOptions}
-                    value={cor}
-                    style={pickerSelectStyles}
-                />
+                <View style={styles.input}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setCor(value)}
+                        items={coresOptions}
+                        value={cor}
+                        style={pickerSelectStyles}
+                    />
+                </View>
             </View>
 
             <View style={styles.viewInput}>
@@ -143,22 +147,26 @@ export default function TelaEditarVeiculo() {
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Combustível</Text>
-                <RNPickerSelect
-                    onValueChange={(value) => setCombustivel(value)}
-                    items={combustiveisOptions}
-                    value={combustivel}
-                    style={pickerSelectStyles}
-                />
+                <View style={styles.input}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setCombustivel(value)}
+                        items={combustiveisOptions}
+                        value={combustivel}
+                        style={pickerSelectStyles}
+                    />
+                </View>
             </View>
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Tipo de Veículo</Text>
-                <RNPickerSelect
-                    onValueChange={(value) => setTipoVeiculo(value)}
-                    items={tiposVeiculoOptions}
-                    value={tipoVeiculo}
-                    style={pickerSelectStyles}
-                />
+                <View style={styles.input}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setTipoVeiculo(value)}
+                        items={tiposVeiculoOptions}
+                        value={tipoVeiculo}
+                        style={pickerSelectStyles}
+                    />
+                </View>
             </View>
 
             <TouchableOpacity style={styles.button} onPress={handleUpdateVehicle}>
