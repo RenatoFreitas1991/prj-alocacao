@@ -44,9 +44,9 @@ export default function TelaLogin() {
                     </View>
                     <View>
                         <TouchableOpacity
-                            style={styles.button}
+                            style={styles.buttonVoltar}
                             onPress={abrirTelaInicial}>
-                            <Text style={styles.buttonText}>Voltar</Text>
+                            <Text style={styles.buttonTextVoltar}>Voltar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

@@ -3,6 +3,7 @@ import { API_URL } from '@env';
 
 export const fetchProfissoes = async () => {
   try {
+    console.log("chegou aqui");
     const response = await axios.get(`${API_URL}/api/backend/profissoes`);
     return response.data.map((profissao) => ({
       label: profissao.profissao,

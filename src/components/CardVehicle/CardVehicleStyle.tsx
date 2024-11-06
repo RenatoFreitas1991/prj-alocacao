@@ -11,55 +11,47 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         margin: 10,
-        width: '44%',
-        padding: '2%',
+        width: '90%',
+        alignSelf: 'center',
     },
     img: {
         width: '100%',
-        height: 100,
+        height: 150,
     },
-    textContainer: {
-        width: '75%',
-        textAlign: 'left',
-    },
-    viewText: {
-        width: '100%',
-        marginTop: '2%',
+    infoContainer: {
         flexDirection: 'row',
-        padding: '3%',
+        justifyContent: 'space-around',
+        padding: 10,
     },
-    label: {
+    infoText: {
+        fontSize: 14,
         fontWeight: 'bold',
     },
-    text: {
-        fontWeight: 'bold',
-        color: 'blue',
-        marginLeft: '2%',
-    },
-    viewButton: {
-        flexDirection: 'row',
-        //justifyContent: 'space-between',
+    modalBackground: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '3%',
-        padding: .5,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
-    button: {
-        borderColor: 'black',
-        padding: '4%',
-        borderRadius: 5,
+    modalContent: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        width: '70%', // Tamanho menor
+        alignItems: 'center',
     },
-    buttonUpdate: {
-        backgroundColor: 'rgb(49, 49, 203)',
+    modalButton: {
+        width: '100%', // Ocupa toda a largura
+        paddingVertical: 15,
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: 'black',
     },
-    buttonDelete: {
-        backgroundColor: 'rgb(228, 90, 90)',
-    },
-    textButton: {
+    modalButtonText: {
         fontWeight: 'bold',
-        color: 'white',
-        fontSize: 14,
-    }
+        color: 'black',
+        fontSize: 16,
+    },
 });
 
 export default styles;

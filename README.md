@@ -14,9 +14,9 @@
 ![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
 
 <p align="center">
-  <a href="#started">About</a> • 
-  <a href="#started">Getting Started</a> • 
-  <a href="#colab">Collaborators</a> •
+  <a href="#started">Sobre</a> • 
+  <a href="#started">Começando</a> • 
+  <a href="#colab">Colaboradores</a> •
 </p>
 
 
@@ -24,19 +24,15 @@
     <img src="https://github.com/RenatoFreitas1991/prj-alocacao/blob/main/assets/moto-img.jpg" alt="Image Example" width="400px">
 </p>
 
-<h2 id="started">📌 About</h2>
+<h2 id="started">📌 Sobre</h2>
 
-Vehicle Rental is an application designed for simple, fast and secure vehicle rental. Its goal is to facilitate the rental process for users looking for a practical solution, with transparent information and flexible vehicle options. The app connects drivers to a variety of rental vehicles, all with an intuitive interface and complete features.
+Aluguel de Veículos é um aplicativo desenvolvido para aluguel de veículos de forma simples, rápida e segura. Seu objetivo é facilitar o processo de aluguel para usuários que buscam uma solução prática, com informações transparentes e opções flexíveis de veículos. O aplicativo conecta motoristas a uma variedade de veículos para aluguel, todos com uma interface intuitiva e recursos completos.
 
 [![project][PROJECT__BADGE]][PROJECT__URL]
 
-<h2 id="started">🚀 Getting started</h2>
+<h2 id="started">🚀 Começando</h2>
 
-Here you describe how to run your project locally
-
-<h3>Prerequisites</h3>
-
-Here you list all prerequisites necessary for running your project. For example:
+<h3>Pré-requisitos</h3>
 
 - [NodeJS](https://github.com/)
 - [Git 2](https://github.com)
@@ -44,20 +40,17 @@ Here you list all prerequisites necessary for running your project. For example:
 - [Expo CLI](https://docs.expo.dev/more/expo-cli/)
 - [React Native](https://reactnative.dev/)
 
-<h3>Cloning</h3>
+<h3>Clonando</h3>
 
-How to clone your project
 
 ```bash
 git clone git@github.com:RenatoFreitas1991/prj-alocacao.git
 ```
 
-<h3>Data Base</h3>
-Import the database located in the SQL folder
+<h3>Banco de Dados</h3>
+Importe o banco de dados localizado na pasta SQL
 
-<h3>Starting</h3>
-
-How to start your project
+<h3>Começando</h3>
 
 ```bash
 cd prj-alocacao
@@ -69,14 +62,14 @@ app .\app.js
 npx expo start
 ```
 
-<h2 id="colab">🤝 Collaborators</h2>
+<h2 id="colab">🤝 Colaboradores</h2>
 
-Special thank you for all people that contributed for this project.
+Um agradecimento especial a todas as pessoas que contribuíram para este projeto.
 
 <table>
   <tr>
     <td align="center">
-      <a href="https://github.com/RenatoFreitas1991">
+      <a href="https://github.com/RenatoFreitas1991" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/149016045?v=4" width="100px;" alt="Foto do RenatoFreitas1991"/><br>
         <sub>
           <b>RenatoFreitas1991</b>
@@ -84,7 +77,7 @@ Special thank you for all people that contributed for this project.
       </a>
     </td>
     <td align="center">
-      <a href="">
+      <a href="https://github.com/Wilson-Pedro" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/96023861?v=4" width="100px;" alt="Foto do WilsonoPedro"/><br>
         <sub>
           <b>Wilson-Pedro</b>
@@ -92,7 +85,7 @@ Special thank you for all people that contributed for this project.
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/NeewJax">
+      <a href="https://github.com/NeewJax" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/103374260?v=4" width="100px;" alt="Foto do NeewJax"/><br>
         <sub>
           <b>NeewJax</b>
@@ -100,7 +93,7 @@ Special thank you for all people that contributed for this project.
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/Victor-br-santo">
+      <a href="https://github.com/Victor-br-santo" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/133459359?v=4" width="100px;" alt="Foto do Victor Bruno"/><br>
         <sub>
           <b>Victor Bruno</b>
@@ -108,7 +101,7 @@ Special thank you for all people that contributed for this project.
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/A-L-L-A-M">
+      <a href="https://github.com/A-L-L-A-M" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/185409978?v=4" width="100px;" alt="Foto do A-L-L-A-M"/><br>
         <sub>
           <b>A-L-L-A-M</b>

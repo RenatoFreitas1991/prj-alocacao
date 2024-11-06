@@ -95,12 +95,14 @@ export default function TelaInicial() {
                     <TouchableOpacity style={styles.button} onPress={abrirTelaLoginAdmin}>
                         <Text style={styles.buttonText}>Acesso do administrador</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={abrirTelaUser}>
-                        <Text style={styles.buttonText}>Já sou cliente</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={abrirTelaCadastro}>
                         <Text style={styles.buttonText}>Cadastrar</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity style={[styles.button, { backgroundColor: 'gray' }]} onPress={abrirTelaUser}>
+                        <Text style={styles.buttonText}>Já sou cliente</Text>
+                     </TouchableOpacity>
+
+                    
                 </View>
             </View>
         </View>
