@@ -65,13 +65,11 @@ router.post('/register', async (req, res) => {
       // Hash da senha
       const hashedPassword = await bcrypt.hash(senha, 10);
 
-      // **Inserindo em Avaliacao**
       const avaliacao = await Avaliacao.create({
-        id_avaliacao: 0,
+        avaliacao: 0, 
         motivo: 'Avaliação inicial'
       }, { transaction: t });
 
-      // Inserindo em Usuario
       const usuario = await Usuario.create({
         nome,
         cpf,

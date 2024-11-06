@@ -42,9 +42,12 @@ export default function VeiculosAlugados() {
 
             console.log('Image path para veículo:', vehicle.modelo, imagePath);
             return {
-                ...vehicle,
-                imagePath,
-            };
+              id: vehicle.id,
+              modelo: vehicle.modelo,
+              marca: vehicle.marca,
+              placa: vehicle.placa,
+              imagePath,
+          };
         });
 
         console.log('Fetched vehicles:', vehiclesData);
@@ -60,14 +63,15 @@ export default function VeiculosAlugados() {
 
   const renderCardVehicle: ListRenderItem<MinVeiculo> = ({ item }) => (
     <CardVeiculo
-      modelo={item.modelo}
-      marca={item.marca}
-      placa={item.placa}
-      imagePath={item.imagePath}
-      nameButton="Visualizar"
-      iconButton="eye"
+        id={item.id}               
+        modelo={item.modelo}
+        marca={item.marca}
+        placa={item.placa}
+        imagePath={item.imagePath}
+        nameButton="Visualizar"
+        iconButton="eye"
     />
-  );
+);
 
   return (
     <View style={styles.container1}>

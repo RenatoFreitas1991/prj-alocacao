@@ -14,10 +14,28 @@ const Veiculo = require('./veiculo');
 // Associações do Usuário
 Usuario.belongsTo(Profissao, {
   foreignKey: 'id_profissao',
-  as: 'profissao',
+  as: 'profissao'
 });
 
-// Other user associations...
+Usuario.belongsTo(Contato, {
+  foreignKey: 'id_contato',
+  as: 'contato'
+});
+
+Usuario.belongsTo(Endereco, {
+  foreignKey: 'id_endereco',
+  as: 'endereco'
+});
+
+Usuario.belongsTo(EstadoCivil, {
+  foreignKey: 'id_estado_civil',
+  as: 'estadoCivil'
+});
+
+Usuario.belongsTo(Avaliacao, {
+  foreignKey: 'id_avaliacao',
+  as: 'avaliacao'
+});
 
 // Associações do Veículo
 Veiculo.belongsTo(Marca, {

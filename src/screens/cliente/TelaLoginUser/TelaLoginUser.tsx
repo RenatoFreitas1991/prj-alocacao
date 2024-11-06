@@ -1,12 +1,23 @@
 import React, { useState, useCallback, useRef } from "react";
-import { Text, View, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback, ScrollView, Alert } from "react-native";
+import {
+    Text,
+    View,
+    TextInput,
+    TouchableOpacity,
+    Keyboard,
+    ScrollView,
+    Alert,
+    KeyboardAvoidingView,
+    Platform
+} from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../../routes/types";
 import styles from "./TelaLoginUserStyle";
-import { formatCPF, isValidCPF } from "../../../utils/cpfUtils";
+import { isValidCPF } from "../../../utils/cpfUtils";
 import axios from "axios";
 import { API_URL } from "@env";
+import { TextInputMask } from "react-native-masked-text";
 
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'LoginUser'>;
 
@@ -18,16 +29,13 @@ export default function TelaLogin() {
     const passwordRef = useRef<string>("");
 
     const handleCpfChange = useCallback((text: string) => {
-        const numericText = text.replace(/\D/g, "");
-        if (numericText.length <= 11) {
-            setCpf(formatCPF(numericText));
-            setCpfError(null);
-        }
+        setCpf(text);
+        setCpfError(null);
     }, []);
 
     const validateInputs = useCallback(() => {
         let valid = true;
-        if (cpf.length !== 14 || !isValidCPF(cpf)) {
+        if (!isValidCPF(cpf.replace(/\D/g, ""))) {
             setCpfError("CPF inválido. Por favor, verifique.");
             valid = false;
         } else {
@@ -48,12 +56,11 @@ export default function TelaLogin() {
         if (validateInputs()) {
             try {
                 const numericCpf = cpf.replace(/\D/g, "");
-    
                 const response = await axios.post(`${API_URL}/api/backend/auth/login`, {
-                    cpf: numericCpf, 
+                    cpf: numericCpf,
                     senha: passwordRef.current,
                 });
-    
+
                 if (response.status === 200) {
                     Keyboard.dismiss();
                     navigation.navigate("Tela_Home_User");
@@ -80,30 +87,36 @@ export default function TelaLogin() {
     }, [navigation]);
 
     return (
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
+        >
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="always">
                 <View style={styles.container}>
                     <View style={styles.container2}>
                         <Text style={styles.titulo}>Bem-vindo de volta!</Text>
                         <Text style={styles.subtitulo}>Faça login para continuar</Text>
 
                         <View style={styles.viewInput}>
-                            <TextInput
+                            <TextInputMask
+                                type={'cpf'}
                                 style={[styles.input, cpfError ? { borderColor: 'red', borderWidth: 1 } : null]}
                                 placeholder="CPF"
                                 placeholderTextColor="#aaa"
-                                keyboardType="numeric"
+                                keyboardType="number-pad"
                                 value={cpf}
                                 onChangeText={handleCpfChange}
                                 accessibilityLabel="CPF input"
                             />
                             {cpfError && <Text style={styles.errorMessage}>{cpfError}</Text>}
-                            
+
                             <TextInput
                                 style={[styles.input, passwordError ? { borderColor: 'red', borderWidth: 1 } : null]}
                                 placeholder="Senha"
                                 secureTextEntry
                                 placeholderTextColor="#aaa"
+                                keyboardType="default"
                                 onChangeText={(text) => {
                                     passwordRef.current = text;
                                     setPasswordError(null);
@@ -134,6 +147,6 @@ export default function TelaLogin() {
                     </View>
                 </View>
             </ScrollView>
-        </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }

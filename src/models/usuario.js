@@ -1,3 +1,5 @@
+// src/models/usuario.js
+
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
@@ -29,7 +31,7 @@ const Usuario = sequelize.define('Usuario', {
     allowNull: false
   },
   rg: {
-    type: DataTypes.STRING(15),
+    type: DataTypes.INTEGER,
     allowNull: false
   },
   orgao_expedidor: {
@@ -43,6 +45,22 @@ const Usuario = sequelize.define('Usuario', {
   motivo_blacklist: {
     type: DataTypes.STRING(255),
     allowNull: true
+  },
+  id_profissao: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  id_contato: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  id_endereco: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  id_estado_civil: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
   id_avaliacao: {
     type: DataTypes.INTEGER.UNSIGNED,
