@@ -20,7 +20,8 @@
         HistoricoAlugados,
         TelaAvaliacaoCliente,
         VeiculosAlugadosAdmin,
-        VeiculosNaoAlugadosAdmin
+        VeiculosNaoAlugadosAdmin,
+        Notificacoes
     } from "../screens"; 
 
     const Stack = createNativeStackNavigator<StackParamList>();
@@ -57,6 +58,7 @@
                 <Stack.Screen name="TelaCalendario" component={TelaCalendario} options={{ title: 'Calendário' }} />
                 <Stack.Screen name="VeiculosAlugadosAdmin" component={VeiculosAlugadosAdmin} options={{ title: 'Veículos Alugados ADMIN' }} />
                 <Stack.Screen name="VeiculosNaoAlugadosAdmin" component={VeiculosNaoAlugadosAdmin} options={{ title: 'Veículos Não Alugados ADMIN' }} />
+                <Stack.Screen name="Notificacoes" component={Notificacoes} options={{ title: 'Notificações' }} />
             </Stack.Navigator>
         );
     }

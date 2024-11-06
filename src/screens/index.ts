@@ -12,6 +12,7 @@ export { default as TelaAvaliacaoCliente } from './admin/TelaAvaliacao/TelaAvali
 export { default as TelaCalendario } from './admin/TelaCalendario/TelaCalendario';
 export { default as VeiculosNaoAlugadosAdmin } from './admin/VeiculosNaoAlugadosAdmin/VeiculosNaoAlugados';
 export { default as VeiculosAlugadosAdmin } from './admin/VeiculosAlugadosAdmin/VeiculosAlugados';
+export { default as Notificacoes } from './admin/Notificacoes/Notificacoes';
 
 // Cliente screens
 export { default as TelaInicial } from './TelaInicial/TelaInicial';

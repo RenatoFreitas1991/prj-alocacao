@@ -36,6 +36,5 @@ export type StackParamList = {
     TelaCalendario: undefined;
     VeiculosAlugadosAdmin: undefined;
     VeiculosNaoAlugadosAdmin: undefined;
-    TelaNotificacao: undefined;
-
+    Notificacoes: undefined;
 };
