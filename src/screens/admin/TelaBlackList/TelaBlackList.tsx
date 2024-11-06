@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, ScrollView, TouchableOpacity, Share, Alert } from 'react-native';
+import { View, Text, TextInput, Button, ScrollView, TouchableOpacity } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { motivos } from '../TelaBlackList/motivosBlackList';
 import styles from '../TelaBlackList/BlakListStyle';
@@ -107,13 +107,6 @@ const TelaBlackList = () => {
     }
   };
 
-  const onShare = async (nome:string, cpf:String, reason:string) => {
-    const result = await Share.share({
-      message:
-        `O usuário de nome ${nome} de portador do cpf: ${cpf}. Está na black list pelo devido motivo: ${reason}`,
-    });
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -169,9 +162,6 @@ const TelaBlackList = () => {
               <Text style={styles.userReason}>
                 Motivo: {user.reason}
               </Text>
-              <TouchableOpacity onPress={() => onShare(user.nome, user.cpf, user.reason)} style={styles.shareButton}>
-                <Icon name="share" size={22} color="white" />
-              </TouchableOpacity>
               <TouchableOpacity onPress={() => handleRemoveUser(user.cpf, index)} style={styles.removeButton}>
                 <Icon name="close" size={24} color="white" />
               </TouchableOpacity>

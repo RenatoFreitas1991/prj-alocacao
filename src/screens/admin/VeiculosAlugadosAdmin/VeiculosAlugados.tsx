@@ -75,7 +75,7 @@ export default function VeiculosAlugados() {
         data={vehicles}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCardVehicle}
-        numColumns={1}
+        numColumns={2}
         ListFooterComponent={
           <>
             <ButtonMore />
