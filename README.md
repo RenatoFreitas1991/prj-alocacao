@@ -69,7 +69,7 @@ Um agradecimento especial a todas as pessoas que contribuíram para este projeto
 <table>
   <tr>
     <td align="center">
-      <a href="https://github.com/RenatoFreitas1991">
+      <a href="https://github.com/RenatoFreitas1991" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/149016045?v=4" width="100px;" alt="Foto do RenatoFreitas1991"/><br>
         <sub>
           <b>RenatoFreitas1991</b>
@@ -77,7 +77,7 @@ Um agradecimento especial a todas as pessoas que contribuíram para este projeto
       </a>
     </td>
     <td align="center">
-      <a href="">
+      <a href="https://github.com/Wilson-Pedro" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/96023861?v=4" width="100px;" alt="Foto do WilsonoPedro"/><br>
         <sub>
           <b>Wilson-Pedro</b>
@@ -85,7 +85,7 @@ Um agradecimento especial a todas as pessoas que contribuíram para este projeto
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/NeewJax">
+      <a href="https://github.com/NeewJax" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/103374260?v=4" width="100px;" alt="Foto do NeewJax"/><br>
         <sub>
           <b>NeewJax</b>
@@ -93,7 +93,7 @@ Um agradecimento especial a todas as pessoas que contribuíram para este projeto
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/Victor-br-santo">
+      <a href="https://github.com/Victor-br-santo" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/133459359?v=4" width="100px;" alt="Foto do Victor Bruno"/><br>
         <sub>
           <b>Victor Bruno</b>
@@ -101,7 +101,7 @@ Um agradecimento especial a todas as pessoas que contribuíram para este projeto
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/A-L-L-A-M">
+      <a href="https://github.com/A-L-L-A-M" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/185409978?v=4" width="100px;" alt="Foto do A-L-L-A-M"/><br>
         <sub>
           <b>A-L-L-A-M</b>
