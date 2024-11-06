@@ -64,6 +64,7 @@ export default function TelaSenha() {
             };
 
             try {
+                console.log("chegou");
                 const response = await axios.post(`${API_URL}/api/backend/user/register`, registrationData);
                 Alert.alert('Sucesso', 'Cadastro finalizado com sucesso!');
                 navigation.navigate('Home');
