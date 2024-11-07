@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     scrollView: {
-        backgroundColor: '#333',
+        backgroundColor: '#2B3A67',
     },
     container:{
         minHeight: '100%',

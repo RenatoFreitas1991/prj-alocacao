@@ -7,7 +7,7 @@ import { API_URL } from '@env';
 import CardVeiculo from '../../../components/CardVehicle/CardVehicle'; // Corrigido para `CardVeiculo`
 import BR from '../../../components/BR/BR';
 
-export default function VeiculosAlugados() {
+export default function VeiculosNaoAlugados() {
 
   interface MinVeiculo {
     id: number;
@@ -79,7 +79,7 @@ export default function VeiculosAlugados() {
         data={vehicles}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCardVehicle}
-        numColumns={1}
+        numColumns={2}
         ListFooterComponent={
           <>
             <ButtonMore />

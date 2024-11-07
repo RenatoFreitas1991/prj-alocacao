@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Text, TextInput, View, TouchableOpacity } from "react-native";
+import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../../routes/types"; // Import StackParamList type
@@ -27,28 +27,26 @@ export default function TelaLogin() {
                     <TextInput
                         style={styles.input}
                         placeholder="E-mail"
+                        placeholderTextColor="#7A89A6"
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Senha"
                         secureTextEntry
+                        placeholderTextColor="#7A89A6"
                     />
                 </View>
                 <View style={styles.botoesContainer}>
-                    <View>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={abrirTelaHomeUsuario}>
-                            <Text style={styles.buttonText}>Entrar</Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={abrirTelaInicial}>
-                            <Text style={styles.buttonText}>Voltar</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={abrirTelaHomeUsuario}>
+                        <Text style={styles.buttonText}>Entrar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.buttonSecondary}
+                        onPress={abrirTelaInicial}>
+                        <Text style={styles.buttonTextSecondary}>Voltar</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>

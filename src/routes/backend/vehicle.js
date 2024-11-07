@@ -170,12 +170,8 @@ router.put('/:id', async (req, res) => {
             const id_marca = marcaRecord.id;
             const id_cor = corRecord.id;
             const id_combustivel = combustivelRecord.id;
-            const disponibilidadeInt = 0;
+            const disponibilidade = 1;
 
-            if(disponibilidade == 'disponivel') {
-                disponibilidadeInt = 1;
-            }
-            
             const [result] = await sequelize.query(
                 `UPDATE tbl_veiculo 
                  SET id_tipo_veiculo = :id_tipo_veiculo,
@@ -189,7 +185,7 @@ router.put('/:id', async (req, res) => {
                      motor = :motor,
                      ano = :ano,
                      quilometragem = :quilometragem,
-                     disponibilidade = :disponibilidadeInt
+                     disponibilidade = :disponibilidade
                 WHERE id = :id`,
                 {
                     replacements: {
@@ -204,7 +200,7 @@ router.put('/:id', async (req, res) => {
                         motor,
                         ano,
                         quilometragem,
-                        disponibilidadeInt,
+                        disponibilidade,
                         id
                     },
                     transaction: t

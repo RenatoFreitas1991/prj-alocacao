@@ -13,12 +13,12 @@ export default function TelaHomeAdmin() {
         swipeEnabled: false,
         lazy: true,
         tabBarScrollEnabled: false,
-        tabBarStyle: { backgroundColor: 'black' }, // Fundo preto para a barra de tabs
+        tabBarStyle: { backgroundColor: '#2B3A67' }, // Fundo preto para a barra de tabs
         tabBarActiveTintColor: 'white', // Texto branco na aba ativa
         tabBarInactiveTintColor: 'grey', // Texto cinza na aba inativa
         tabBarLabel: ({ focused }) => (
           <Text style={{
-            color: focused ? 'white' : 'grey', // Branco para aba ativa, cinza para inativa
+            color: focused ? 'white' : 'gray', // Branco para aba ativa, cinza para inativa
             fontSize: 18,
             fontWeight: 'bold',
           }}>
@@ -26,7 +26,7 @@ export default function TelaHomeAdmin() {
           </Text>
         ),
         tabBarIndicatorStyle: {
-          backgroundColor: 'blue', // Linha azul sob a aba ativa
+          backgroundColor: '#1C1C1C', // Linha sob a aba ativa
           height: 4, // Ajuste a altura para deixar a linha mais visível
         },
       })}

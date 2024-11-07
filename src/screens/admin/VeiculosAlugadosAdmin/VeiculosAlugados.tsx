@@ -4,7 +4,7 @@ import styles from '../../styles/TelaHomeStyle';
 import ButtonMore from '../../../components/ButtonMore/ButtonMore';
 import { API_URL } from '@env';
 
-import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
+import CardVeiculo from '../../../components/CardVehicle/CardVehicle'; // Corrigido para `CardVeiculo`
 import BR from '../../../components/BR/BR';
 
 export default function VeiculosAlugados() {
@@ -14,7 +14,7 @@ export default function VeiculosAlugados() {
     modelo: string;
     marca: string;
     placa: string;
-    imagePath?: string; 
+    imagePath?: string;
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
@@ -22,34 +22,37 @@ export default function VeiculosAlugados() {
 
   const fetchData = async () => {
     try {
-      console.log(`Fetching: ${API_URL}/api/backend/vehicle/disponibilidade/${disponibilidade}`);
-      const response = await fetch(`${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`);
-      const result = await response.json();
+        const url = `${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`;
+        console.log(`Fetching: ${url}`);
+        const response = await fetch(url);
+        const result = await response.json();
 
-      const vehiclesData = result.map((vehicle: any) => {
-        let imagePath = null;
+        const vehiclesData = result.map((vehicle: any) => {
+            let imagePath = null;
 
-        if (vehicle.imagePath) {
-          try {
-            const imagePathArray = JSON.parse(vehicle.imagePath);
-            if (Array.isArray(imagePathArray) && imagePathArray.length > 0) {
-              imagePath = `${API_URL}${imagePathArray[0]}`;
+            if (vehicle.imagePath) {
+                try {
+                    const imagePathArray = JSON.parse(vehicle.imagePath);
+                    if (Array.isArray(imagePathArray) && imagePathArray.length > 0) {
+                        imagePath = `${API_URL}${imagePathArray[0]}`;
+                    }
+                } catch (parseError) {
+                    console.error('Erro ao parsear imagePath:', parseError);
+                }
             }
-          } catch (parseError) {
-            console.error('Erro ao parsear imagePath:', parseError);
-          }
-        }
+            console.log('Renderizando imagem com imagePath:', imagePath);
 
-        return {
-          ...vehicle,
-          imagePath,
-        };
-      });
+            console.log('Image path para veículo:', vehicle.modelo, imagePath);
+            return {
+                ...vehicle,
+                imagePath,
+            };
+        });
 
-      console.log('Fetched vehicles with images:', vehiclesData);
-      setVehicles(vehiclesData);
+        console.log('Fetched vehicles:', vehiclesData);
+        setVehicles(vehiclesData);
     } catch (error) {
-      console.error('Erro ao buscar os dados dos veículos ->', error);
+        console.error('Erro ao buscar os dados dos veículos ->', error);
     }
   };
 
@@ -59,6 +62,7 @@ export default function VeiculosAlugados() {
 
   const renderCardVehicle: ListRenderItem<MinVeiculo> = ({ item }) => (
     <CardVeiculo
+      id={item.id} // Adicionado
       modelo={item.modelo}
       marca={item.marca}
       placa={item.placa}
@@ -75,7 +79,7 @@ export default function VeiculosAlugados() {
         data={vehicles}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCardVehicle}
-        numColumns={1}
+        numColumns={2}
         ListFooterComponent={
           <>
             <ButtonMore />

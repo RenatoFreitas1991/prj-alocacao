@@ -1,67 +1,42 @@
+// telaHomeDefinitivaStyle.js
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 20,
-    backgroundColor: 'black',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
-    marginBottom: 20,
-  },
-  card: {
-    width: '48%',
-    backgroundColor: 'gray',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-  },
-  cardText: {
-    fontSize: 18,
-    color: '#333',
-    marginTop: 10,
-    textAlign: 'center',
-  },
-  container1: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: "#333",
-  },
-  container2: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: "#333",
-  },
-  listContainer: {
-    width: '100%',
-    height: '100%',
-  },
-  cardsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-  },
-  br: {
-    height: '1%',
-    marginTop: '5%',
-  },
+    container: {
+        flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#2B3A67', // Fundo em azul escuro
+        paddingVertical: 20,
+    },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '100%',
+        marginVertical: 10,
+    },
+    card: {
+        width: '45%',
+        aspectRatio: 1.2,
+        backgroundColor: '#354A84', // Azul escuro sólido para destacar
+        borderRadius: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.4,
+        shadowRadius: 8,
+        elevation: 12,
+        borderWidth: 1,
+        borderColor: '#1A294E', // Contorno sutil
+    },
+    cardText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: 10,
+        textAlign: 'center',
+    },
 });
 
 export default styles;

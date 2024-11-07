@@ -1,3 +1,4 @@
+// HomeScreen.js
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -31,11 +32,11 @@ const HomeScreen = () => {
   const navigation = useNavigation<StackNavigationProp<StackParamList>>();
 
   const cards: CardData[] = [
-    { title: "Veiculos", iconName: "directions-car", screen: "TelaHomeAdmin" },
+    { title: "Veículos", iconName: "directions-car", screen: "TelaHomeAdmin" },
     { title: "Black List", iconName: "list", screen: "TelaBlackList" },
     { title: "Histórico Veículos Alugados", iconName: "history", screen: "HistoricoAlugados" },
     { title: "Notificação", iconName: "message", screen: "Notificacoes" },
-    { title: "Calendário de Pagamentos", iconName: "calendar-today", screen: "TelaCalendario" },
+    { title: "Pagamentos", iconName: "calendar-today", screen: "TelaCalendario" },
     { title: "Avaliação", iconName: "star", screen: "TelaAvaliacaoCliente" },
   ];
 

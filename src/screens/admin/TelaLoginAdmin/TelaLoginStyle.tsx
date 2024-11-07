@@ -2,64 +2,66 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        height: '100%',
-        display: 'flex',
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'black',
+        backgroundColor: '#1A243E', // Fundo do app em tom mais escuro para contraste
     },
     container2: {
-        width: '80%',
-        height: '80%',
-        display: 'flex',
-        justifyContent: 'center',
+        width: '85%',
+        padding: 20,
+        backgroundColor: '#2B3A67', // Cor principal de fundo do card de login
+        borderRadius: 15,
         alignItems: 'center',
-        padding: '3%',
-        backgroundColor: 'black',
-        borderRadius: 13,
     },
     titulo: {
         fontSize: 32,
-        color: 'white',
-        textAlign: 'center',
+        color: '#F1F5FF', // Cor clara para contraste com o fundo escuro
         fontWeight: 'bold',
+        marginBottom: 30,
     },
-    viewInput:{
+    viewInput: {
         width: '100%',
-        marginTop: '20%',
+        marginBottom: 25,
     },
     input: {
-        width: "80%",
-        margin: 'auto',
-        padding: 10,
-        marginBottom: 10,
+        width: '100%',
+        padding: 12,
+        marginBottom: 15,
         borderWidth: 1,
-        borderRadius: 10,
-        borderColor: "#ccc",
-        backgroundColor: "white",
+        borderRadius: 8,
+        borderColor: "#4A587A",
+        backgroundColor: "#F1F5FF",
+        color: "#2B3A67", // Cor do texto de entrada
     },
     botoesContainer: {
-        width: '80%',
-        marginTop: '10%',
+        width: '100%',
     },
     button: {
-        backgroundColor: 'rgb(39, 6, 229)',
-        marginTop: '5%',
-        padding: '3%',
-        borderRadius: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        elevation: 5,
+        backgroundColor: '#1A76D2', // Azul mais vibrante para destacar o botão de ação
+        padding: 15,
+        borderRadius: 8,
+        marginTop: 10,
+        alignItems: 'center',
+    },
+    buttonSecondary: {
+        backgroundColor: 'transparent',
+        padding: 15,
+        borderRadius: 8,
+        marginTop: 10,
+        borderColor: '#F1F5FF',
+        borderWidth: 1,
+        alignItems: 'center',
     },
     buttonText: {
+        color: '#F1F5FF', // Cor clara para o texto do botão principal
         fontSize: 18,
-        textAlign: 'center',
-        color: 'white',
         fontWeight: 'bold',
     },
+    buttonTextSecondary: {
+        color: '#F1F5FF', // Mesma cor clara para o botão secundário para manter o tema
+        fontSize: 18,
+    }
 });
 
 export default styles;

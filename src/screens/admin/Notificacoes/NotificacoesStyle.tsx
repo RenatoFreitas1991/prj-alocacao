@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   },
   infoCliente: {
     fontSize: 18,
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
     textAlign: 'left',
     marginVertical: 15,
@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderColor: '#fafafa',
+    borderColor: 'white',
   },
   tableHeader: {
     fontWeight: 'bold',
     color: 'white',
-    backgroundColor: '#353535',
+    backgroundColor: '#2B3A67',
   },
   tableCell: {
     color: 'white',

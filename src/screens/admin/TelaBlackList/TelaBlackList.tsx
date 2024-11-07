@@ -86,26 +86,45 @@ const TelaBlackList = () => {
     }
   };
 
-  const handleRemoveUser = async (cpf: string, index: number) => {
-    try {
-      const response = await fetch(`${API_URL}/api/backend/user/blacklist`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
+  const handleRemoveUser = (cpf: string, index: number) => {
+    Alert.alert(
+      'Confirmação de Exclusão',
+      'Você quer excluir isso mesmo?',
+      [
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Exclusão cancelada'),
+          style: 'cancel',
         },
-        body: JSON.stringify({ cpf })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erro na resposta do servidor: ${response.status}`);
-      }
-
-      await fetchBlacklistUsers();
-    } catch (error) {
-      console.error('Erro ao remover usuário da blacklist ->', error);
-      setErrorMessage("Erro ao remover usuário da blacklist ou erro de conexão com o servidor.");
-    }
+        {
+          text: 'Excluir',
+          onPress: async () => {
+            try {
+              const response = await fetch(`${API_URL}/api/backend/user/blacklist`, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ cpf })
+              });
+  
+              if (!response.ok) {
+                throw new Error(`Erro na resposta do servidor: ${response.status}`);
+              }
+  
+              await fetchBlacklistUsers();
+            } catch (error) {
+              console.error('Erro ao remover usuário da blacklist ->', error);
+              setErrorMessage("Erro ao remover usuário da blacklist ou erro de conexão com o servidor.");
+            }
+          },
+          style: 'destructive',
+        },
+      ],
+      { cancelable: false }
+    );
   };
+  
 
   const onShare = async (nome:string, cpf:String, reason:string) => {
     const result = await Share.share({

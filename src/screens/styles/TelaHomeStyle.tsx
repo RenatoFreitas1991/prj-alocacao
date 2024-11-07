@@ -7,12 +7,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        backgroundColor: "#333",
+        backgroundColor: "#FFFAFA",
     },
     container2: {
         width: '100%',
         height: '100%',
-        backgroundColor: "#333",
+        backgroundColor: "#06543",
     },
     listContainer: {
         width: '100%',
