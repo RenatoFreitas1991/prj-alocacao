@@ -108,6 +108,121 @@ router.get('/:id', async (req, res) => {
       console.error('Erro ao obter dados do veículo:', error);
       res.status(500).json({ error: 'Erro ao obter dados do veículo' });
     }
-  });
+});
+
+router.put('/:id', async (req, res) => {
+    console.log("Chegou aqui");
+    const id = Number(req.params.id);
+
+    const {
+        modelo,
+        marca,
+        cor,
+        placa,
+        combustivel,
+        chassi,
+        motor,
+        ano,
+        quilometragem,
+        tipo_veiculo,
+        disponibilidade,
+    } = req.body;
+
+    try {
+        await sequelize.transaction(async (t) => {
+            // Atualizando TipoVeiculo
+            const tipoVeiculoRecord = await TipoVeiculo.findOne({ 
+                where: { tipo_veiculo },
+                transaction: t 
+            });
+
+            if (!tipoVeiculoRecord) {
+                throw new Error('Tipo Veículo não encontrado');
+            }
+
+            const [modeloRecord] = await Modelo.findOrCreate({
+                where: { modelo },
+                defaults: { modelo },
+                transaction: t,
+            });
+
+            const [marcaRecord] = await Marca.findOrCreate({
+                where: { marca },
+                defaults: { marca },
+                transaction: t,
+            });
+
+            const [corRecord] = await Cor.findOrCreate({
+                where: { cor },
+                defaults: { cor },
+                transaction: t,
+            });
+
+            const [combustivelRecord] = await Combustivel.findOrCreate({
+                where: { combustivel },
+                defaults: { combustivel },
+                transaction: t,
+            });
+
+            const id_tipo_veiculo = tipoVeiculoRecord.id;
+            const id_motorista = 1;
+            const id_modelo = modeloRecord.id;
+            const id_marca = marcaRecord.id;
+            const id_cor = corRecord.id;
+            const id_combustivel = combustivelRecord.id;
+            const disponibilidadeInt = 0;
+
+            if(disponibilidade == 'disponivel') {
+                disponibilidadeInt = 1;
+            }
+            
+            const [result] = await sequelize.query(
+                `UPDATE tbl_veiculo 
+                 SET id_tipo_veiculo = :id_tipo_veiculo,
+                     id_motorista = :id_motorista,
+                     id_modelo = :id_modelo,
+                     id_marca = :id_marca,
+                     id_cor = :id_cor,
+                     id_combustivel = :id_combustivel,
+                     placa = :placa,
+                     chassi = :chassi,
+                     motor = :motor,
+                     ano = :ano,
+                     quilometragem = :quilometragem,
+                     disponibilidade = :disponibilidadeInt
+                WHERE id = :id`,
+                {
+                    replacements: {
+                        id_tipo_veiculo,
+                        id_motorista,
+                        id_modelo,
+                        id_marca,
+                        id_cor,
+                        id_combustivel,
+                        placa,
+                        chassi,
+                        motor,
+                        ano,
+                        quilometragem,
+                        disponibilidadeInt,
+                        id
+                    },
+                    transaction: t
+                }
+            );
+
+            if (result === 0) {
+                throw new Error('Veículo não encontrado ou nenhuma alteração feita');
+            }
+        });
+
+        res.status(200).json({ message: 'Veículo atualizado com sucesso' });
+
+    } catch (error) {
+        console.error('Erro ao atualizar Veículo:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
   
-  module.exports = router;
+module.exports = router;

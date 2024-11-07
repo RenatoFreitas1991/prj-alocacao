@@ -33,6 +33,7 @@ export default function TelaEditarVeiculo() {
     const [coresOptions, setCoresOptions] = useState([]);
     const [combustiveisOptions, setCombustiveisOptions] = useState([]);
     const [tiposVeiculoOptions, setTiposVeiculoOptions] = useState([]);
+    const [disponibilidade, setDisponibilidade] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -94,6 +95,7 @@ export default function TelaEditarVeiculo() {
             ano,
             quilometragem,
             tipo_veiculo: tipoVeiculo,
+            disponibilidade,
         };
 
         try {
@@ -192,6 +194,22 @@ export default function TelaEditarVeiculo() {
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Quilometragem</Text>
                 <TextInput style={styles.input} onChangeText={setQuilometragem} value={quilometragem} placeholder="Quilometragem" keyboardType="numeric" />
+            </View>
+
+            <View style={styles.viewInput}>
+                <Text style={styles.textLabel}>Disponibilidade</Text>
+                <View style={styles.input}>
+                    <RNPickerSelect
+                        onValueChange={(value) => setDisponibilidade(value)}
+                        items={[
+                            { label: 'Disponível', value: 'disponivel' },
+                            { label: 'Indisponível', value: 'indisponivel' },
+                        ]}
+                        value={disponibilidade}
+                        style={pickerSelectStyles}
+                        placeholder={{ label: 'Selecione a disponibilidade', value: null }}
+                    />
+                </View>
             </View>
 
             <TouchableOpacity style={styles.button} onPress={handleUpdateVehicle}>
