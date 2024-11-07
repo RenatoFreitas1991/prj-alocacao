@@ -23,7 +23,7 @@ export default function VeiculosAlugados() {
   const fetchData = async () => {
     try {
       console.log(`Fetching: ${API_URL}/api/backend/vehicle/disponibilidade/${disponibilidade}`);
-      const response = await fetch(`${API_URL}/api/backend/vehicle/disponibilidade/${disponibilidade}`);
+      const response = await fetch(`${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`);
       const result = await response.json();
 
       const vehiclesData = result.map((vehicle: any) => {
@@ -75,7 +75,7 @@ export default function VeiculosAlugados() {
         data={vehicles}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCardVehicle}
-        numColumns={2}
+        numColumns={1}
         ListFooterComponent={
           <>
             <ButtonMore />

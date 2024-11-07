@@ -93,6 +93,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',       
     justifyContent: 'center',    
   },
+  shareButton: {
+    backgroundColor: 'blue',
+    borderRadius: 15,
+    width: 30,
+    height: 30,
+    alignItems: 'center',       
+    justifyContent: 'center',
+    marginLeft: '15%',
+  },
   errorMessage: {
     fontSize: 14,
     color: '#FF453A',
