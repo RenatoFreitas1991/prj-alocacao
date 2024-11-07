@@ -14,7 +14,7 @@ export default function TelaHome() {
         tabBarLabelStyle: styles.label,
       }}
     >
-      <Tab.Screen name="Não Alugados" component={VeiculosNaoAlugados} />
+      <Tab.Screen name="Veiculos" component={VeiculosNaoAlugados} />
     </Tab.Navigator>
   );
 }
