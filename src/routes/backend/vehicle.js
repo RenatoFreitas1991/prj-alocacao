@@ -125,7 +125,6 @@ router.put('/:id', async (req, res) => {
         ano,
         quilometragem,
         tipo_veiculo,
-        disponibilidade,
     } = req.body;
 
     try {
@@ -170,7 +169,6 @@ router.put('/:id', async (req, res) => {
             const id_marca = marcaRecord.id;
             const id_cor = corRecord.id;
             const id_combustivel = combustivelRecord.id;
-            const disponibilidade = 1;
 
             const [result] = await sequelize.query(
                 `UPDATE tbl_veiculo 
@@ -184,8 +182,7 @@ router.put('/:id', async (req, res) => {
                      chassi = :chassi,
                      motor = :motor,
                      ano = :ano,
-                     quilometragem = :quilometragem,
-                     disponibilidade = :disponibilidade
+                     quilometragem = :quilometragem
                 WHERE id = :id`,
                 {
                     replacements: {
@@ -200,7 +197,6 @@ router.put('/:id', async (req, res) => {
                         motor,
                         ano,
                         quilometragem,
-                        disponibilidade,
                         id
                     },
                     transaction: t

@@ -89,7 +89,7 @@ const TelaBlackList = () => {
   const handleRemoveUser = (cpf: string, index: number) => {
     Alert.alert(
       'Confirmação de Exclusão',
-      'Você quer excluir isso mesmo?',
+      'Você tem certeza que quer excluir?',
       [
         {
           text: 'Cancelar',
@@ -124,6 +124,7 @@ const TelaBlackList = () => {
       { cancelable: false }
     );
   };
+  
   
 
   const onShare = async (nome:string, cpf:String, reason:string) => {
