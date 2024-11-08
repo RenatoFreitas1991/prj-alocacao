@@ -1,30 +1,40 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import { StackParamList } from '../../../routes/types';
 
 interface VehicleInfoProps {
     route: any; // Recebe as informações passadas pela navegação
 }
 
-const TelaVerInfo = ({ route }: VehicleInfoProps) => {
+type NavigationProp = NativeStackNavigationProp<StackParamList, 'VerInfo'>;
+
+const VerInfo = ({ route }: VehicleInfoProps) => {
+    const navigation = useNavigation<NavigationProp>();
+
     // Extraindo os dados do veículo
-    const { modelo, marca, placa, imagePath } = route.params;
+    const { id, modelo, marca, placa, imagePath } = route.params;
+
+    // Função para redirecionar à tela de edição
+    function handleEditar() {
+        navigation.navigate('TelaEditarVeiculo', { id: id });
+    }
 
     return (
-        <ScrollView style={styles.container}>
-            {/* Imagem do veículo */}
+        <View style={styles.container}>
+            {/* Imagem do veículo ocupando o topo, com fundo preto para verificar transparência */}
             <View style={styles.imageContainer}>
-                {imagePath ? (
-                    <Image source={{ uri: imagePath }} style={styles.vehicleImage} />
-                ) : (
-                    <Image
-                        source={require('../../../../assets/carro-tela-inicial.png')}
-                        style={styles.vehicleImage}
-                    />
-                )}
+                <Image 
+                    source={imagePath ? { uri: imagePath } : require('../../../../assets/carro-tela-inicial.png')}
+                    style={styles.vehicleImage}
+                    resizeMode="cover"
+                />
             </View>
 
-            {/* Informações do veículo */}
-            <View style={styles.infoContainer}>
+            {/* Informações do veículo em um card */}
+            <ScrollView contentContainerStyle={styles.infoContainer}>
                 <Text style={styles.title}>Informações do Veículo</Text>
                 <View style={styles.infoRow}>
                     <Text style={styles.label}>Modelo:</Text>
@@ -38,25 +48,29 @@ const TelaVerInfo = ({ route }: VehicleInfoProps) => {
                     <Text style={styles.label}>Placa:</Text>
                     <Text style={styles.value}>{placa}</Text>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+
+            {/* Botão de editar no canto inferior direito */}
+            <TouchableOpacity style={styles.editButton} onPress={handleEditar}>
+                <Icon name="edit" size={24} color="white" />
+            </TouchableOpacity>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: '#FFFAF0',
+        backgroundColor: 'white',
     },
     imageContainer: {
-        alignItems: 'center',
-        marginBottom: 20,
+        width: '100%',
+        height: 250,
+        backgroundColor: 'black', // Fundo preto para verificar transparência
     },
     vehicleImage: {
         width: '100%',
-        height: 250,
-        borderRadius: 10,
+        height: '100%',
     },
     infoContainer: {
         backgroundColor: '#fff',
@@ -67,12 +81,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 5,
         elevation: 5,
+        marginHorizontal: 20,
+        marginTop: -20, // Sobrepõe a parte de baixo da imagem
+        paddingBottom: 40, // Espaço para o botão flutuante
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 15,
-        textAlign: 'center',
+        textAlign: 'left',
     },
     infoRow: {
         flexDirection: 'row',
@@ -87,6 +104,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#333',
     },
+    editButton: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        backgroundColor: '#333',
+        padding: 15,
+        borderRadius: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
 
-export default TelaVerInfo;
+export default VerInfo;

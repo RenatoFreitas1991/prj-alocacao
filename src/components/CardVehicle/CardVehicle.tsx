@@ -36,7 +36,7 @@ export default function CardVehicle({
     function handleVerInfo() {
         setModalVisible(false);
         // Navegação para a tela de "Ver Info", passando as informações do veículo
-        navigation.navigate('VerInfo', { id, modelo, marca, placa, imagePath });
+        navigation.navigate('VerInfo', { id, modelo, marca, placa, imagePath});
     }
     
 
