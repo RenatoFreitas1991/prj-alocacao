@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     br: {
         height: '1%',
         marginTop:'5%',
-    }
+    },
 });
 
 export default styles;
