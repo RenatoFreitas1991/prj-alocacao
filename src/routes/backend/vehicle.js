@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Veiculo, Marca, Cor, Combustivel, TipoVeiculo, Modelo } = require('../../models');
 const sequelize = require('../../config/database');
+const { QueryTypes } = require('sequelize');
 
 router.post('/register/vehicles/', async (req, res) => {
     const {
@@ -216,5 +217,35 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+router.get('/info/:id', async (req, res) => {
+    const id = Number(req.params.id);
+
+    if(isNaN(id)) {
+        return res.status(400).json({ error: 'Id inválido' });
+    }
+
+    try {
+        const sql = `SELECT v.id, m.modelo, ma.marca, cor.cor, v.placa, com.combustivel, v.chassi, v.motor, v.ano, v.quilometragem, v.data_de_entrega, v.data_de_devolucao, tipo.tipo_veiculo
+                    FROM tbl_veiculo v 
+                    INNER JOIN tbl_modelo m ON m.id = v.id_modelo 
+                    INNER JOIN tbl_marca ma ON ma.id = v.id_marca 
+                    INNER JOIN tbl_cor cor ON cor.id = v.id_cor
+                    INNER JOIN tbl_combustivel com ON com.id = v.id_combustivel
+                    INNER JOIN tbl_tipo_veiculo tipo ON tipo.id = v.id_tipo_veiculo
+                    WHERE v.id = :id`;
+
+        const result = await sequelize.query(sql, {
+            replacements: { id },
+            type: QueryTypes.SELECT,
+        });
+
+        console.log(result);
+        res.status(200).json(result);
+
+    } catch (error) {
+      console.error('Erro ao obter dados do veículo:', error);
+      res.status(500).json({ error: 'Erro ao obter dados do veículo' });
+    }
+});
   
 module.exports = router;

@@ -1,9 +1,11 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Animated } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Animated, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { StackParamList } from '../../../routes/types';
+import { API_URL } from '@env';
+import axios from 'axios';
 
 interface VehicleInfoProps {
     route: any;
@@ -12,11 +14,17 @@ interface VehicleInfoProps {
 type NavigationProp = NativeStackNavigationProp<StackParamList, 'VerInfo'>;
 
 const VerInfo = ({ route }: VehicleInfoProps) => {
+
+    const [cor, setCor] = useState();
+    const [ano, setAno] = useState();
+    const [combustivel, setCombustivel] = useState();
+    const [quilometragem, setQuilometragem] = useState();
     const navigation = useNavigation<NavigationProp>();
     const scaleAnim = new Animated.Value(1);
 
     // Extraindo os dados do veículo passados pela navegação
-    const { id, modelo, marca, placa, cor, combustivel, ano, quilometragem, imagePath } = route.params;
+    //const { id, modelo, marca, placa, cor, combustivel, ano, quilometragem, imagePath } = route.params;
+    const { id, modelo, placa, marca, imagePath } = route.params;
 
     // Função para redirecionar à tela de edição
     function handleEditar() {
@@ -43,6 +51,31 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
             }),
         ]).start();
     };
+
+    const fetchVehicleData = async () => {
+        try {
+            
+            const url = `${API_URL}/api/backend/vehicle/info/${id}`;
+            console.log(`Fetching: ${url}`);
+            const response = await fetch(url);
+            const result = await response.json();
+
+            const vehiclesData = result.map((vehicle: any) => {
+                setCor(vehicle.cor);
+                setAno(vehicle.ano);
+                setCombustivel(vehicle.combustivel);
+                setQuilometragem(vehicle.quilometragem);
+            });
+            
+        } catch (error) {
+            console.error("Erro ao buscar dados:", error);
+            Alert.alert("Erro", "Não foi possível carregar as opções ou os dados do veículo.");
+        }
+    };
+
+    useEffect(() => {
+        fetchVehicleData();
+    }, [id]);
 
     return (
         <View style={styles.container}>
@@ -94,7 +127,7 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
                         </View>
                         <View style={styles.infoColumn}>
                             <Text style={styles.label}>Quilometragem:</Text>
-                            <Text style={styles.value}>{quilometragem || 'N/A'}</Text>
+                            <Text style={styles.value}>{quilometragem || quilometragem}</Text>
                         </View>
                     </View>
                 </View>
@@ -147,6 +180,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#FFFAFA',
+    },
+    infoContainer: {
+
     },
     imageContainer: {
         width: '100%',

@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     height: 30,
     alignItems: 'center',       
     justifyContent: 'center',
-    marginLeft: '15%',
   },
   errorMessage: {
     fontSize: 14,
