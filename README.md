@@ -6,7 +6,7 @@
 [PROJECT__BADGE]: https://img.shields.io/badge/📱Visit_this_project-000?style=for-the-badge&logo=project
 [PROJECT__URL]: https://github.com/RenatoFreitas1991/prj-alocacao
 
-<h1 align="center" style="font-weight: bold;">Locação de veículos 💻</h1>
+<h1 align="center" style="font-weight: bold;">MotoDrive 💻</h1>
 
 ![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![typescript][TYPESCRIPT__BADGE]
@@ -27,7 +27,7 @@
 
 <h2 id="started">📌 Sobre</h2>
 
-Aluguel de Veículos é um aplicativo desenvolvido para aluguel de veículos de forma simples, rápida e segura. Seu objetivo é facilitar o processo de aluguel para usuários que buscam uma solução prática, com informações transparentes e opções flexíveis de veículos. O aplicativo conecta motoristas a uma variedade de veículos para aluguel, todos com uma interface intuitiva e recursos completos.
+MotoDrive é um aplicativo desenvolvido para aluguel de veículos de forma simples, rápida e segura. Seu objetivo é facilitar o processo de aluguel para usuários que buscam uma solução prática, com informações transparentes e opções flexíveis de veículos. O aplicativo conecta motoristas a uma variedade de veículos para aluguel, todos com uma interface intuitiva e recursos completos.
 
 [![project][PROJECT__BADGE]][PROJECT__URL]
 
