@@ -91,7 +91,7 @@ export default function TelaEditarVeiculo() {
             Alert.alert('Sucesso', 'Veículo atualizado com sucesso!', [
                 {
                     text: 'OK',
-                    onPress: () => navigation.navigate('telaHomeDefinitiva')
+                    onPress: () => navigation.navigate('TelaHomeAdmin')
                 }
             ]);
         } catch (error) {

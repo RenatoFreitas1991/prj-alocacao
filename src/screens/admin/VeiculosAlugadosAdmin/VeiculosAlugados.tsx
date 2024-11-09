@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, ListRenderItem } from "react-native";
-import styles from '../../styles/TelaHomeStyle';
+import { View, FlatList, ListRenderItem, TextInput, StyleSheet } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import style from '../../styles/TelaHomeStyle';
 import ButtonMore from '../../../components/ButtonMore/ButtonMore';
 import { API_URL } from '@env';
-
-import CardVeiculo from '../../../components/CardVehicle/CardVehicle'; // Corrigido para `CardVeiculo`
-import BR from '../../../components/BR/BR';
+import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
 
 export default function VeiculosAlugados() {
 
@@ -19,40 +18,39 @@ export default function VeiculosAlugados() {
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
   const [disponibilidade, setDisponibilidade] = useState(0);
+  const [searchText, setSearchText] = useState('');
+  const [filteredVehicles, setFilteredVehicles] = useState<MinVeiculo[]>([]);
 
   const fetchData = async () => {
     try {
-        const url = `${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`;
-        console.log(`Fetching: ${url}`);
-        const response = await fetch(url);
-        const result = await response.json();
+      const url = `${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`;
+      const response = await fetch(url);
+      const result = await response.json();
 
-        const vehiclesData = result.map((vehicle: any) => {
-            let imagePath = null;
+      const vehiclesData = result.map((vehicle: any) => {
+        let imagePath = null;
 
-            if (vehicle.imagePath) {
-                try {
-                    const imagePathArray = JSON.parse(vehicle.imagePath);
-                    if (Array.isArray(imagePathArray) && imagePathArray.length > 0) {
-                        imagePath = `${API_URL}${imagePathArray[0]}`;
-                    }
-                } catch (parseError) {
-                    console.error('Erro ao parsear imagePath:', parseError);
-                }
+        if (vehicle.imagePath) {
+          try {
+            const imagePathArray = JSON.parse(vehicle.imagePath);
+            if (Array.isArray(imagePathArray) && imagePathArray.length > 0) {
+              imagePath = `${API_URL}${imagePathArray[0]}`;
             }
-            console.log('Renderizando imagem com imagePath:', imagePath);
+          } catch (parseError) {
+            console.error('Erro ao parsear imagePath:', parseError);
+          }
+        }
 
-            console.log('Image path para veículo:', vehicle.modelo, imagePath);
-            return {
-                ...vehicle,
-                imagePath,
-            };
-        });
+        return {
+          ...vehicle,
+          imagePath,
+        };
+      });
 
-        console.log('Fetched vehicles:', vehiclesData);
-        setVehicles(vehiclesData);
+      setVehicles(vehiclesData);
+      setFilteredVehicles(vehiclesData);
     } catch (error) {
-        console.error('Erro ao buscar os dados dos veículos ->', error);
+      console.error('Erro ao buscar os dados dos veículos ->', error);
     }
   };
 
@@ -60,33 +58,97 @@ export default function VeiculosAlugados() {
     fetchData();
   }, [disponibilidade]);
 
+  useEffect(() => {
+    const filtered = vehicles.filter(vehicle =>
+      vehicle.modelo.toLowerCase().includes(searchText.toLowerCase()) ||
+      vehicle.marca.toLowerCase().includes(searchText.toLowerCase()) ||
+      vehicle.placa.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setFilteredVehicles(filtered);
+  }, [searchText, vehicles]);
+
   const renderCardVehicle: ListRenderItem<MinVeiculo> = ({ item }) => (
     <CardVeiculo
-      id={item.id} // Adicionado
+      id={item.id}
       modelo={item.modelo}
       marca={item.marca}
       placa={item.placa}
       imagePath={item.imagePath}
-      nameButton="editar"
-      iconButton="edit"
     />
   );
 
   return (
     <View style={styles.container1}>
+      <View style={searchStyles.searchContainer}>
+        <Icon name="search" size={20} color="#888" style={searchStyles.searchIcon} />
+        <TextInput
+          style={searchStyles.searchBar}
+          placeholder="Buscar veículos..."
+          placeholderTextColor="#888"
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+      </View>
       <FlatList
         style={styles.listContainer}
-        data={vehicles}
+        data={filteredVehicles}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCardVehicle}
         numColumns={2}
-        ListFooterComponent={
-          <>
-            <ButtonMore />
-            <BR />
-          </>
-        }
+        contentContainerStyle={{ paddingBottom: 80 }} // Adicionando espaço para o botão fixo
       />
+      {/* Botão fixo centralizado na parte inferior */}
+      <View style={styles.fixedButtonContainer}>
+        <ButtonMore />
+      </View>
     </View>
   );
 }
+
+const searchStyles = StyleSheet.create({
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F0F0F0",
+    borderRadius: 30,
+    paddingHorizontal: 10,
+    marginVertical: 10,
+    marginHorizontal: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 4,
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchBar: {
+    flex: 1,
+    height: 50,
+    color: "#333",
+    fontSize: 16,
+  },
+});
+
+// Estilo para o botão fixo
+const styles = StyleSheet.create({
+  container1: {
+    flex: 1,
+    justifyContent: "flex-start",
+    backgroundColor: "#fff",
+  },
+  listContainer: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
+  fixedButtonContainer: {
+    position: 'absolute',
+    bottom: 20, // Ajuste conforme necessário
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1,
+  },
+});
