@@ -1,59 +1,144 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { StackParamList } from '../../../routes/types';
 
 interface VehicleInfoProps {
-    route: any; // Recebe as informações passadas pela navegação
+    route: any;
 }
 
 type NavigationProp = NativeStackNavigationProp<StackParamList, 'VerInfo'>;
 
 const VerInfo = ({ route }: VehicleInfoProps) => {
     const navigation = useNavigation<NavigationProp>();
+    const scaleAnim = new Animated.Value(1);
 
-    // Extraindo os dados do veículo
-    const { id, modelo, marca, placa, imagePath } = route.params;
+    // Extraindo os dados do veículo passados pela navegação
+    const { id, modelo, marca, placa, cor, combustivel, ano, quilometragem, imagePath } = route.params;
 
     // Função para redirecionar à tela de edição
     function handleEditar() {
         navigation.navigate('TelaEditarVeiculo', { id: id });
     }
 
+    // Função para voltar à tela anterior
+    function handleBack() {
+        navigation.goBack();
+    }
+
+    // Função para animar os botões
+    const animateButton = () => {
+        Animated.sequence([
+            Animated.timing(scaleAnim, {
+                toValue: 1.2,
+                duration: 150,
+                useNativeDriver: true,
+            }),
+            Animated.timing(scaleAnim, {
+                toValue: 1,
+                duration: 150,
+                useNativeDriver: true,
+            }),
+        ]).start();
+    };
+
     return (
         <View style={styles.container}>
-            {/* Imagem do veículo ocupando o topo, com fundo preto para verificar transparência */}
+            {/* Imagem do veículo com o botão de voltar sobreposto */}
             <View style={styles.imageContainer}>
                 <Image 
-                    source={imagePath ? { uri: imagePath } : require('../../../../assets/carro-tela-inicial.png')}
+                    source={imagePath ? { uri: imagePath } : require('../../../../assets/photo.jpeg')}
                     style={styles.vehicleImage}
                     resizeMode="cover"
                 />
+                {/* Botão de voltar com transparência */}
+                <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+                    <Icon name="arrow-left" size={24} color="white" />
+                </TouchableOpacity>
             </View>
 
             {/* Informações do veículo em um card */}
             <ScrollView contentContainerStyle={styles.infoContainer}>
-                <Text style={styles.title}>Informações do Veículo</Text>
-                <View style={styles.infoRow}>
-                    <Text style={styles.label}>Modelo:</Text>
-                    <Text style={styles.value}>{modelo}</Text>
-                </View>
-                <View style={styles.infoRow}>
-                    <Text style={styles.label}>Marca:</Text>
-                    <Text style={styles.value}>{marca}</Text>
-                </View>
-                <View style={styles.infoRow}>
-                    <Text style={styles.label}>Placa:</Text>
-                    <Text style={styles.value}>{placa}</Text>
+                <Text style={styles.modelo}>{modelo}</Text>
+                <View style={styles.specificationsContainer}>
+                    <Text style={styles.specificationsTitle}>Especificações do Veículo</Text>
+
+                    <View style={styles.row}>
+                        <View style={styles.infoColumn}>
+                            <Text style={styles.label}>Placa:</Text>
+                            <Text style={styles.value}>{placa || 'N/A'}</Text>
+                        </View>
+                        <View style={styles.infoColumn}>
+                            <Text style={styles.label}>Marca:</Text>
+                            <Text style={styles.value}>{marca || 'N/A'}</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.row}>
+                        <View style={styles.infoColumn}>
+                            <Text style={styles.label}>Cor:</Text>
+                            <Text style={styles.value}>{cor || 'N/A'}</Text>
+                        </View>
+                        <View style={styles.infoColumn}>
+                            <Text style={styles.label}>Combustível:</Text>
+                            <Text style={styles.value}>{combustivel || 'N/A'}</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.row}>
+                        <View style={styles.infoColumn}>
+                            <Text style={styles.label}>Ano:</Text>
+                            <Text style={styles.value}>{ano || 'N/A'}</Text>
+                        </View>
+                        <View style={styles.infoColumn}>
+                            <Text style={styles.label}>Quilometragem:</Text>
+                            <Text style={styles.value}>{quilometragem || 'N/A'}</Text>
+                        </View>
+                    </View>
                 </View>
             </ScrollView>
+            
 
-            {/* Botão de editar no canto inferior direito */}
-            <TouchableOpacity style={styles.editButton} onPress={handleEditar}>
-                <Icon name="edit" size={24} color="white" />
-            </TouchableOpacity>
+            {/* Barra de navegação fixa com três botões */}
+            <View style={styles.tabBar}>
+                {/* Botão Home */}
+                <TouchableOpacity 
+                    style={styles.tabButton} 
+                    onPress={() => { 
+                        navigation.navigate('Home'); // Redireciona para a tela Home
+                        animateButton(); 
+                    }}
+                >
+                    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+                        <Icon name="home" size={24} color="white" />
+                    </Animated.View>
+                </TouchableOpacity>
+                
+                {/* Botão Editar */}
+                <TouchableOpacity 
+                    style={styles.editButton} 
+                    onPress={() => { 
+                        handleEditar(); 
+                        animateButton(); 
+                    }}
+                >
+                    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+                        <Icon name="edit" size={24} color="white" />
+                    </Animated.View>
+                </TouchableOpacity>
+
+                {/* Botão Info */}
+                <TouchableOpacity 
+                    style={styles.tabButton} 
+                    onPress={animateButton}
+                >
+                    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+                        <Icon name="info" size={24} color="white" />
+                    </Animated.View>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
@@ -61,58 +146,83 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: '#FFFAFA',
     },
     imageContainer: {
         width: '100%',
         height: 250,
-        backgroundColor: 'black', // Fundo preto para verificar transparência
+        position: 'relative',
     },
     vehicleImage: {
         width: '100%',
         height: '100%',
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
     },
-    infoContainer: {
-        backgroundColor: '#fff',
-        padding: 15,
-        borderRadius: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 5,
-        marginHorizontal: 20,
-        marginTop: -20, // Sobrepõe a parte de baixo da imagem
-        paddingBottom: 40, // Espaço para o botão flutuante
+    backButton: {
+        position: 'absolute',
+        top: 20,
+        left: 20,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        padding: 10,
+        borderRadius: 20,
     },
-    title: {
-        fontSize: 24,
+    modelo: {
+        fontSize: 25,
         fontWeight: 'bold',
-        marginBottom: 15,
-        textAlign: 'left',
+        marginTop: 25,
+        marginLeft: 20,
+        color: 'black',
     },
-    infoRow: {
-        flexDirection: 'row',
+    specificationsContainer: {
+        backgroundColor: '#efefef',
+        padding: 15,
+        borderRadius: 30,
+        marginTop: 25,
+        marginHorizontal: 20,
+    },
+    specificationsTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
         marginBottom: 10,
     },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+    },
+    infoColumn: {
+        width: '48%',
+    },
     label: {
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: 'bold',
-        width: 80,
+        color: 'gray',
     },
     value: {
         fontSize: 16,
-        color: '#333',
+        fontWeight: 'bold',
+        color: 'black',
+    },
+    tabBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        backgroundColor: '#354A84', // Transparência na tabBar
+        paddingVertical: 5,
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+    },
+    tabButton: {
+        padding: 10,
+        backgroundColor: '#354A84',
+        borderRadius: 50, // Botões arredondados
     },
     editButton: {
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
-        backgroundColor: '#333',
         padding: 15,
-        borderRadius: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor: '#354A84',
+        borderRadius: 50, // Botão de editar arredondado
     },
 });
 

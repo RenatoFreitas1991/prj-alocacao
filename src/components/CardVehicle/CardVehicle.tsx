@@ -52,7 +52,7 @@ export default function CardVehicle({
                     />
                 ) : (
                     <Image 
-                        source={require('../../../assets/carro-tela-inicial.png')}
+                        source={require('../../../assets/photo.jpeg')}
                         style={styles.img}
                     />
                 )}

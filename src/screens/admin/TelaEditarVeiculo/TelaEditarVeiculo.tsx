@@ -37,51 +37,40 @@ export default function TelaEditarVeiculo() {
 
     useEffect(() => {
         const fetchData = async () => {
-          await fetchOptions();
-          await fetchVehicleDetails();
+            try {
+                const [marcas, cores, combustiveis, tipos] = await Promise.all([
+                    axios.get(`${API_URL}/api/backend/opcoes/marcas`),
+                    axios.get(`${API_URL}/api/backend/opcoes/cores`),
+                    axios.get(`${API_URL}/api/backend/opcoes/combustiveis`),
+                    axios.get(`${API_URL}/api/backend/opcoes/tipos-veiculo`)
+                ]);
+                
+                setMarcasOptions(marcas.data.map((item: any) => ({ label: item.marca, value: item.marca })));
+                setCoresOptions(cores.data.map((item: any) => ({ label: item.cor, value: item.cor })));
+                setCombustiveisOptions(combustiveis.data.map((item: any) => ({ label: item.combustivel, value: item.combustivel })));
+                setTiposVeiculoOptions(tipos.data.map((item: any) => ({ label: item.tipo_veiculo, value: item.tipo_veiculo })));
+                
+                const response = await axios.get(`${API_URL}/api/backend/vehicle/${id}`);
+                const vehicle = response.data;
+
+                setModelo(vehicle.Modelo?.modelo || '');
+                setMarca(vehicle.Marca?.marca || '');
+                setCor(vehicle.Cor?.cor || '');
+                setPlaca(vehicle.placa);
+                setCombustivel(vehicle.Combustivel?.combustivel || '');
+                setChassi(vehicle.chassi);
+                setMotor(vehicle.motor);
+                setAno(vehicle.ano);
+                setQuilometragem(vehicle.quilometragem.toString());
+                setTipoVeiculo(vehicle.TipoVeiculo?.tipo_veiculo || '');
+            } catch (error) {
+                console.error("Erro ao buscar dados:", error);
+                Alert.alert("Erro", "Não foi possível carregar as opções ou os dados do veículo.");
+            }
         };
+
         fetchData();
-    }, []);
-
-    const fetchOptions = async () => {
-        try {
-            const [marcas, cores, combustiveis, tipos] = await Promise.all([
-                axios.get(`${API_URL}/api/backend/opcoes/marcas`),
-                axios.get(`${API_URL}/api/backend/opcoes/cores`),
-                axios.get(`${API_URL}/api/backend/opcoes/combustiveis`),
-                axios.get(`${API_URL}/api/backend/opcoes/tipos-veiculo`)
-            ]);
-
-            setMarcasOptions(marcas.data.map((item: any) => ({ label: item.marca, value: item.marca })));
-            setCoresOptions(cores.data.map((item: any) => ({ label: item.cor, value: item.cor })));
-            setCombustiveisOptions(combustiveis.data.map((item: any) => ({ label: item.combustivel, value: item.combustivel })));
-            setTiposVeiculoOptions(tipos.data.map((item: any) => ({ label: item.tipo_veiculo, value: item.tipo_veiculo })));
-        } catch (error) {
-            console.error("Erro ao buscar opções:", error);
-            Alert.alert("Erro", "Não foi possível carregar as opções.");
-        }
-    };
-
-    const fetchVehicleDetails = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/backend/vehicle/${id}`);
-            const vehicle = response.data;
-
-            setModelo(vehicle.Modelo?.modelo || '');
-            setMarca(vehicle.Marca?.marca || '');
-            setCor(vehicle.Cor?.cor || '');
-            setPlaca(vehicle.placa);
-            setCombustivel(vehicle.Combustivel?.combustivel || '');
-            setChassi(vehicle.chassi);
-            setMotor(vehicle.motor);
-            setAno(vehicle.ano);
-            setQuilometragem(vehicle.quilometragem.toString());
-            setTipoVeiculo(vehicle.TipoVeiculo?.tipo_veiculo || '');
-        } catch (error) {
-            console.error('Erro ao carregar dados do veículo:', error);
-            Alert.alert("Erro", "Não foi possível carregar os dados do veículo.");
-        }
-    };
+    }, [id]);
 
     const handleUpdateVehicle = async () => {
         const updatedVehicleData = {
@@ -110,9 +99,9 @@ export default function TelaEditarVeiculo() {
             Alert.alert('Erro', 'Não foi possível atualizar o veículo.');
         }
     };
-    
+
     return (
-        <ScrollView style={styles.scrollView}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <View style={styles.viewTitulo}>
                 <Text style={styles.titulo}>Editar veículo</Text>
             </View>
