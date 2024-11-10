@@ -39,6 +39,7 @@ const HomeScreen = () => {
     { title: "Pagamentos", iconName: "calendar-today", screen: "TelaCalendario" },
     { title: "Avaliação", iconName: "star", screen: "TelaAvaliacaoCliente" },
     { title: "Manutenção", iconName: "settings", screen: "TelaAvaliacaoCliente" },
+    { title: "Locação", iconName: "motorcycle", screen: "TelaLocacaoVeiculo" },
   ];
 
   const cardRows = [];

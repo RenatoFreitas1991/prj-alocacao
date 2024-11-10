@@ -8,10 +8,14 @@ const styles = StyleSheet.create({
         flexGrow: 1, // Permite que o ScrollView expanda verticalmente
         justifyContent: 'center', // Alinha o conteúdo verticalmente
         alignItems: 'center', // Alinha o conteúdo horizontalmente
-        padding: 20,
+        
     },
-    viewTitulo: {
-
+    container: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     titulo: {
         fontSize: 24,
@@ -20,7 +24,16 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginVertical: 20,
     },
+    viewImg: {
+        // width: '90%',
+        // height: '20%',
+        // padding: 20,
+        // borderWidth: 2,
+        // borderColor: 'black',
+        // borderRadius: 10,
+    },
     viewInput: {
+        margin: 'auto',
         width: '90%',
         marginVertical: 10,
         backgroundColor: '#FFFFFF',
@@ -34,7 +47,7 @@ const styles = StyleSheet.create({
     },
     textLabel: {
         fontSize: 14,
-        fontWeight: '600',
+        fontWeight: 'bold',
         color: '#333',
         marginBottom: 8,
     },

@@ -3,6 +3,7 @@
     import { StackParamList } from "./types";
     import TelaCalendario from "../screens/admin/TelaCalendario/TelaCalendario";
     import VerInfo from "../screens/admin/VerInfo/VerInfo";
+    import TelaLocacaoVeiculo from '../screens/admin/TelaLocacaoVeiculo/TelaLocacaoVeiculo';
     import {
         TelaInicial,
         TelaLoginAdmin,
@@ -22,7 +23,7 @@
         TelaAvaliacaoCliente,
         VeiculosAlugadosAdmin,
         VeiculosNaoAlugadosAdmin,
-        Notificacoes
+        Notificacoes,
     } from "../screens"; 
 
     const Stack = createNativeStackNavigator<StackParamList>();
@@ -57,6 +58,7 @@
                 <Stack.Screen name="VeiculosNaoAlugadosAdmin" component={VeiculosNaoAlugadosAdmin} options={{ title: 'Veículos Não Alugados ADMIN' }} />
                 <Stack.Screen name="Notificacoes" component={Notificacoes} options={{ title: 'Notificações' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
                 <Stack.Screen name="VerInfo" component={VerInfo} options={{  headerShown: false}} />
+                <Stack.Screen name="TelaLocacaoVeiculo" component={TelaLocacaoVeiculo} options={{ title: 'Locação de Veículos' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
             </Stack.Navigator>
         );
     }

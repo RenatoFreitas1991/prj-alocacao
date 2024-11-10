@@ -38,4 +38,5 @@ export type StackParamList = {
     VeiculosNaoAlugadosAdmin: undefined;
     Notificacoes: undefined;
     VerInfo:{id: number, modelo:string, marca:string, placa:string, imagePath?:string};
+    TelaLocacaoVeiculo: undefined;
 };
