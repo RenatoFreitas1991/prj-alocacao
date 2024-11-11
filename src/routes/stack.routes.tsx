@@ -4,6 +4,7 @@
     import TelaCalendario from "../screens/admin/TelaCalendario/TelaCalendario";
     import VerInfo from "../screens/admin/VerInfo/VerInfo";
     import TelaLocacaoVeiculo from '../screens/admin/TelaLocacaoVeiculo/TelaLocacaoVeiculo';
+    import TelaManutencaoVeiculo from "src/screens/admin/TelaManutencaoVeiculo/TelaManutencaoVeiculo";
     import {
         TelaInicial,
         TelaLoginAdmin,
@@ -58,7 +59,8 @@
                 <Stack.Screen name="VeiculosNaoAlugadosAdmin" component={VeiculosNaoAlugadosAdmin} options={{ title: 'Veículos Não Alugados ADMIN' }} />
                 <Stack.Screen name="Notificacoes" component={Notificacoes} options={{ title: 'Notificações' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
                 <Stack.Screen name="VerInfo" component={VerInfo} options={{  headerShown: false}} />
-                <Stack.Screen name="TelaLocacaoVeiculo" component={TelaLocacaoVeiculo} options={{ title: 'Locação de Veículos' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
+                <Stack.Screen name="TelaLocacaoVeiculo" component={TelaLocacaoVeiculo} options={{ title: 'Locação' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
+                <Stack.Screen name="TelaManutencaoVeiculo" component={TelaManutencaoVeiculo} options={{ title: 'Manutenção' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
             </Stack.Navigator>
         );
     }

@@ -38,7 +38,7 @@ const HomeScreen = () => {
     { title: "Notificação", iconName: "message", screen: "Notificacoes" },
     { title: "Pagamentos", iconName: "calendar-today", screen: "TelaCalendario" },
     { title: "Avaliação", iconName: "star", screen: "TelaAvaliacaoCliente" },
-    { title: "Manutenção", iconName: "settings", screen: "TelaAvaliacaoCliente" },
+    { title: "Manutenção", iconName: "settings", screen: "TelaManutencaoVeiculo" },
     { title: "Locação", iconName: "motorcycle", screen: "TelaLocacaoVeiculo" },
   ];
 

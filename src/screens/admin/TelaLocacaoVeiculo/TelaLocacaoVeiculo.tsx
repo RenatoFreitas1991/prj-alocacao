@@ -34,7 +34,7 @@ export default function TelaLocacaoVeiculo() {
     return(
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <View>
-                <Text style={styles.titulo}>Locação de veículo</Text>
+                <Text style={styles.titulo}>Locação do Veículo</Text>
             </View>
 
             {/* <View style={styles.viewImg}>
