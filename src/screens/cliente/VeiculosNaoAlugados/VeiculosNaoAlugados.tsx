@@ -68,8 +68,6 @@ export default function VeiculosAlugados() {
         marca={item.marca}
         placa={item.placa}
         imagePath={item.imagePath}
-        nameButton="Visualizar"
-        iconButton="eye"
     />
 );
 
@@ -80,7 +78,7 @@ export default function VeiculosAlugados() {
         data={vehicles}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCardVehicle}
-        numColumns={2}
+        numColumns={1}
         ListFooterComponent={
           <>
             <BR />
