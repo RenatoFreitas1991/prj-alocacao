@@ -21,7 +21,7 @@ export default function UserTabNavigator() {
                     borderTopWidth: 0,
                     elevation: 0,
                     marginHorizontal: 5,  // Desgruda das laterais
-                    marginBottom: 10,  // Desgruda do fundo
+                    marginBottom: 5,  // Desgruda do fundo
                     borderRadius: 10, // Arredonda a barra
                 },
                 tabBarIcon: ({ color, size, focused }) => (

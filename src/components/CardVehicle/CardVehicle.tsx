@@ -1,100 +1,89 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, Modal } from 'react-native';
 import styles from './CardVehicleStyle';
+import userStyles from '../../screens/cliente/TelaHomeUser/CardVehicleUserStyle';  // Estilos da tela de usuário
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../routes/types";
 
 interface CardVehicleProps {
-    id: number;
-    modelo: string;
-    marca: string;
-    placa: string;
-    imagePath?: string;
+  id: number;
+  modelo: string;
+  marca: string;
+  placa: string;
+  imagePath?: string;
+  isUserScreen?: boolean;
 }
 
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'TelaHomeAdmin'>;
 
 export default function CardVehicle({
-    id,
-    modelo,
-    marca,
-    placa,
-    imagePath,
+  id,
+  modelo,
+  marca,
+  placa,
+  imagePath,
+  isUserScreen = false,  // Valor padrão como 'false'
 }: CardVehicleProps) {
-    const navigation = useNavigation<NavigationPropInicial>();
-    const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation<NavigationPropInicial>();
+  const [modalVisible, setModalVisible] = useState(false);
 
-    // Função para abrir a tela de edição e fechar o modal
-    function handleEditar() {
-        setModalVisible(false);
-        navigation.navigate('TelaEditarVeiculo', { id: id });
-    }
+  function handleEditar() {
+    setModalVisible(false);
+    navigation.navigate('TelaEditarVeiculo', { id: id });
+  }
 
-    // Função para a opção "Ver Info"
-    function handleVerInfo() {
-        setModalVisible(false);
-        // Navegação para a tela de "Ver Info", passando as informações do veículo
-        navigation.navigate('VerInfo', { id, modelo, marca, placa, imagePath});
-    }
-    
+  function handleVerInfo() {
+    setModalVisible(false);
+    navigation.navigate('VerInfo', { id, modelo, marca, placa, imagePath });
+  }
 
-    return (
-        <View style={styles.cardContainer}>
-            {/* Renderiza a imagem do veículo ou uma imagem padrão */}
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-                {imagePath ? (
-                    <Image 
-                        source={{ uri: imagePath }}
-                        style={styles.img}
-                        resizeMode="cover"
-                    />
-                ) : (
-                    <Image 
-                        source={require('../../../assets/photo.jpeg')}
-                        style={styles.img}
-                    />
-                )}
-            </TouchableOpacity>
+  return (
+    <View style={isUserScreen ? userStyles.cardContainer : styles.cardContainer}>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        {imagePath ? (
+          <Image source={{ uri: imagePath }} style={isUserScreen ? userStyles.img : styles.img} resizeMode="cover" />
+        ) : (
+          <Image source={require('../../../assets/photo.jpeg')} style={isUserScreen ? userStyles.img : styles.img} />
+        )}
+      </TouchableOpacity>
+      <View style={styles.textContainer}>
+         <Text style={isUserScreen ? userStyles.modeloText : styles.text}>{modelo}</Text>
+         <Text style={isUserScreen ? userStyles.marcaText : styles.text}>{marca}</Text>
+         <Text style={isUserScreen ? userStyles.placaText : styles.text}>{placa}</Text>
+      </View>
 
-            <View style={styles.textContainer}>
-                <View style={styles.viewText}>
-                    <Text style={styles.label}>Modelo:</Text>
-                    <Text style={styles.text}>{modelo}</Text>
-                </View>
-                <View style={styles.viewText}>
-                    <Text style={styles.label}>Marca:</Text>
-                    <Text style={styles.text}>{marca}</Text>
-                </View>
-                <View style={styles.viewText}>
-                    <Text style={styles.label}>Placa:</Text>
-                    <Text style={styles.text}>{placa}</Text>
-                </View>
-            </View>
 
-            {/* Modal para opções "Editar" e "Ver Info" */}
-            <Modal
-                transparent={true}
-                animationType="fade"
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <TouchableOpacity
-                    style={styles.modalOverlay}
-                    onPress={() => setModalVisible(false)}
-                    activeOpacity={1}
-                >
-                    <View style={styles.modalContainer}>
-                        <TouchableOpacity style={styles.modalButton} onPress={handleEditar}>
-                            <Text style={styles.modalButtonText}>Editar</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
-                            <Text style={styles.modalButtonText}>Ver Info</Text>
-                        </TouchableOpacity>
-                    </View>
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          onPress={() => setModalVisible(false)}
+          activeOpacity={1}
+        >
+          <View style={styles.modalContainer}>
+            {isUserScreen ? (
+              <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
+                <Text style={styles.modalButtonText}>Ver Info</Text>
+              </TouchableOpacity>
+            ) : (
+              <>
+                <TouchableOpacity style={styles.modalButton} onPress={handleEditar}>
+                  <Text style={styles.modalButtonText}>Editar</Text>
                 </TouchableOpacity>
-            </Modal>
-        </View>
-    );
+                <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
+                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </View>
+  );
 }

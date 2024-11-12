@@ -136,19 +136,6 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
 
             {/* Barra de navegação fixa com três botões */}
             <View style={styles.tabBar}>
-                {/* Botão Home */}
-                <TouchableOpacity 
-                    style={styles.tabButton} 
-                    onPress={() => { 
-                        navigation.navigate('Home'); // Redireciona para a tela Home
-                        animateButton(); 
-                    }}
-                >
-                    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-                        <Icon name="home" size={24} color="white" />
-                    </Animated.View>
-                </TouchableOpacity>
-                
                 {/* Botão Editar */}
                 <TouchableOpacity 
                     style={styles.editButton} 
@@ -159,16 +146,6 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
                 >
                     <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
                         <Icon name="edit" size={24} color="white" />
-                    </Animated.View>
-                </TouchableOpacity>
-
-                {/* Botão Info */}
-                <TouchableOpacity 
-                    style={styles.tabButton} 
-                    onPress={animateButton}
-                >
-                    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-                        <Icon name="info" size={24} color="white" />
                     </Animated.View>
                 </TouchableOpacity>
             </View>
@@ -244,7 +221,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#354A84', // Transparência na tabBar
+        backgroundColor: 'white', // Transparência na tabBar
         paddingVertical: 5,
         position: 'absolute',
         bottom: 0,

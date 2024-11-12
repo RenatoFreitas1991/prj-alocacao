@@ -1,20 +1,83 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, TextInput, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import styles from "./TelaHomeUserStyle";
-import VeiculosNaoAlugados from '../VeiculosNaoAlugados/VeiculosNaoAlugados'
+import { MaterialIcons } from 'react-native-vector-icons';  // Para o ícone de lupa
+import VeiculosNaoAlugados from '../VeiculosNaoAlugados/VeiculosNaoAlugados';
+import { useNavigation } from "@react-navigation/native";  // Para usar a navegação
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function TelaHome() {
+  const navigation = useNavigation();
+  const [searchText, setSearchText] = useState('');
+
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarIndicatorStyle: styles.indicator,
-        tabBarLabelStyle: styles.label,
-      }}
-    >
-      <Tab.Screen name="Veiculos Disponivéis" component={VeiculosNaoAlugados} />
-    </Tab.Navigator>
+    <View style={styles.container}>
+      {/* Botão de Voltar */}
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Text style={styles.backButtonText}>VOLTAR</Text>
+      </TouchableOpacity>
+
+      {/* Barra de Pesquisa */}
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Pesquisar..."
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+        <MaterialIcons name="search" size={24} color="#2B3A67" style={styles.searchIcon} />
+      </View>
+
+      
+      {/* Navegação com Tab */}
+      <Tab.Navigator
+        screenOptions={{
+          tabBarIndicatorStyle: { display: 'none' },  // Esconde a linha de indicação
+          tabBarLabelStyle: { display: 'none' },  // Esconde o nome da aba
+        }}
+      >
+        <Tab.Screen 
+          name="Veiculos Disponíveis" 
+          children={() => <VeiculosNaoAlugados isUserScreen={true} />} 
+        />
+      </Tab.Navigator>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  backButton: {
+    marginBottom: 10,
+    padding: 10,
+  },
+  backButtonText: {
+    marginTop: 18,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#2B3A67',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    backgroundColor: '#ffffff',
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    elevation: 3,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    borderRadius: 25,
+    paddingLeft: 10,
+    fontSize: 16,
+  },
+  searchIcon: {
+    marginLeft: 10,
+  },
+});
