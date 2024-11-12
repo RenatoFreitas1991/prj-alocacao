@@ -62,8 +62,8 @@ export default function TelaLocacaoVeiculo() {
             Alert.alert('Sucesso', 'Locação realizada com sucesso!');
             navigation.navigate('telaHomeDefinitiva');
         } catch (error) {
-            console.error('Erro ao registrar veículo:', error);
-            Alert.alert('Erro', 'Não foi possível registrar o veículo.');
+            console.error('Erro ao registrar locação:', error);
+            Alert.alert('Erro', 'Não foi possível registrar a locação.');
         }
 
     };

@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Button } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
 import styles from './TelaManutencaoVeiculoStyle';
 import BR from '../../../components/BR/BR';
 
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackParamList } from "../../../routes/types";
+
+import { API_URL } from '@env';
+import axios from 'axios';
+
+type NavigationProp = NativeStackNavigationProp<StackParamList, 'telaHomeDefinitiva'>;
+
 export default function TelaManutencaoVeiculo() {
+    const navigation = useNavigation<NavigationProp>();
 
     const [placa, setPlaca] = useState('');
     const [dataManutencao, setDataManutencao] = useState<string>('');
+    const [descricao, setDescricao] = useState('');
 
     useEffect(() => {
         const formDate = (date: Date) => {
@@ -18,6 +29,25 @@ export default function TelaManutencaoVeiculo() {
 
         setDataManutencao(formDate(new Date));
     }, []);
+
+    const cadastrarManutencao = async () => {
+
+        const manutencaoData = {
+            placa,
+            dataManutencao,
+            descricao,
+        }
+
+        try {
+            const response = await axios.post(`${API_URL}/api/backend/manutencao/register/`, manutencaoData);
+            Alert.alert('Sucesso', 'Manutenção cadastrada com sucesso!');
+            navigation.navigate('telaHomeDefinitiva');
+        } catch(error) {
+            console.error('Error ao registrar manutenção: ', error);
+            Alert.alert('Erro', 'Não foi possível registrar a manutenção.');
+        }
+
+    }
 
     return(
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -48,13 +78,14 @@ export default function TelaManutencaoVeiculo() {
                 <TextInput 
                     style={styles.input} 
                     placeholder="Descreva o que foi fetio na manutenção." 
+                    onChangeText={setDescricao} 
+                    value={descricao || ''}
                     multiline={true}
                     numberOfLines={5}
-                    onChangeText={setPlaca} 
-                    value={placa || ''} />
+                     />
             </View>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={cadastrarManutencao}>
                 <Text style={styles.buttonText}>Salvar</Text>
             </TouchableOpacity>
 

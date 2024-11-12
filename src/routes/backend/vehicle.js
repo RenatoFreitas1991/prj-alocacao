@@ -205,7 +205,7 @@ router.put('/:id', async (req, res) => {
             );
 
             if (result === 0) {
-                throw new Error('Veículo não encontrado ou nenhuma alteração feita');
+                throw new Error('Erro ao atualizar Veículo');
             }
         });
 

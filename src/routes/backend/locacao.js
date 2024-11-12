@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const { Veiculo, Marca, Cor, Combustivel, TipoVeiculo, Modelo } = require('../../models');
 const sequelize = require('../../config/database');
 const { QueryTypes } = require('sequelize');
 
@@ -77,13 +76,13 @@ router.post('/register/', async (req, res) => {
         );
     
         if (result === 0) {
-            throw new Error('Veículo não encontrado ou nenhuma alteração feita');
+            throw new Error('Error ao cadastrar Locação');
         }
 
-        res.status(200).json({ message: 'Veículo atualizado com sucesso' });
+        res.status(200).json({ message: 'Locação cadastrada com sucesso' });
 
     } catch (error) {
-        console.error('Erro ao atualizar Veículo:', error);
+        console.error('Erro ao cadastrar Locação:', error);
         res.status(500).json({ error: error.message });
     }
 
