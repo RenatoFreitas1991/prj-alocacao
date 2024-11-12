@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Button } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Button, Alert } from 'react-native';
+import { API_URL } from '@env';
 import styles from './TelaLocacaoVeiculoStyle';
 import BR from '../../../components/BR/BR';
 
-export default function TelaLocacaoVeiculo() {
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackParamList } from "../../../routes/types";
 
-    const [imageUri, setImageUri] = useState('');
+import axios from 'axios';
+
+type NavigationProp = NativeStackNavigationProp<StackParamList, 'telaHomeDefinitiva'>;
+
+export default function TelaLocacaoVeiculo() {
+    const navigation = useNavigation<NavigationProp>();
+
+    const [imagePath, setImageUri] = useState('');
     const [placa, setPlaca] = useState('');
-    const [quilometragem, setQuilometragem] = useState('');
+    const [quilometragem, setQuilometragem] = useState(0);
     const [cpfUsuario, setCPfUsuario] = useState('');
     const [nomeUsuario, setNomeUsuario] = useState('');
     const [dataEntrega, setDataEntrega] = useState<string>('');
     const [dataDevolucao, setDataDevolucao] = useState<string>('');
+
+    function formatCPF(cpf: string): string {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    }
 
     useEffect(() => {
         const addOneMonth = (date: Date) => {
@@ -30,6 +44,29 @@ export default function TelaLocacaoVeiculo() {
         setDataEntrega(formDate(new Date));
         setDataDevolucao(formDate(addOneMonth(new Date)));
     }, []);
+
+    const cadastrarLocacao = async () => {
+
+        const locacaoData = {
+            imagePath,
+            placa,
+            quilometragem,
+            cpfUsuario,
+            nomeUsuario,
+            dataEntrega,
+            dataDevolucao,
+        }
+
+        try {
+            const response = await axios.post(`${API_URL}/api/backend/locacao/register/`, locacaoData);
+            Alert.alert('Sucesso', 'Locação realizada com sucesso!');
+            navigation.navigate('telaHomeDefinitiva');
+        } catch (error) {
+            console.error('Erro ao registrar veículo:', error);
+            Alert.alert('Erro', 'Não foi possível registrar o veículo.');
+        }
+
+    };
 
     return(
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -57,7 +94,11 @@ export default function TelaLocacaoVeiculo() {
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>CPF do Usuário</Text>
-                <TextInput style={styles.input} placeholder="CPF do Usuário" onChangeText={setCPfUsuario} value={cpfUsuario || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="CPF do Usuário" 
+                    onChangeText={(text: string) => setCPfUsuario(formatCPF(text))} 
+                    value={cpfUsuario || ''} />
             </View>
 
             <View style={styles.viewInput}>
@@ -75,7 +116,7 @@ export default function TelaLocacaoVeiculo() {
                 <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataDevolucao} value={dataDevolucao || ''} />
             </View>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={cadastrarLocacao}>
                 <Text style={styles.buttonText}>Alocar</Text>
             </TouchableOpacity>
 

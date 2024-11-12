@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 04/11/2024 às 22:57
--- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Tempo de geração: 12/11/2024 às 02:36
+-- Versão do servidor: 10.6.15-MariaDB
+-- Versão do PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,7 +43,9 @@ INSERT INTO `tbl_avaliacao` (`id`, `avaliacao`, `motivo`) VALUES
 (3, 0, 'Avaliação inicial'),
 (4, 0, 'Avaliação inicial'),
 (5, 0, 'Avaliação inicial'),
-(6, 0, 'Avaliação inicial');
+(6, 0, 'Avaliação inicial'),
+(7, 0, 'Avaliação inicial'),
+(8, 0, 'Avaliação inicial');
 
 -- --------------------------------------------------------
 
@@ -96,7 +98,9 @@ INSERT INTO `tbl_contato` (`id`, `email`, `telefone`) VALUES
 (3, 'wilson@gmail.com', '(34)2 3423-4'),
 (4, 'wilson@gmail.com', '98312384512'),
 (5, 'wilson@gmail.com', '98312384512'),
-(6, 'gab@gmail.com', '(98)9 8889-4647');
+(6, 'gab@gmail.com', '(98)9 8889-4647'),
+(7, 'pedro@gmail.com', '(43)4 2342-3'),
+(8, 'ana@gmail.com', '(98)7 7651-2344');
 
 -- --------------------------------------------------------
 
@@ -155,7 +159,9 @@ INSERT INTO `tbl_endereco` (`id`, `cidade`, `rua`, `bairro`, `cep`, `numero`) VA
 (3, 'São Luís', 'Rua Alberto de Oliveira', 'Liberdade', '65035-010', '1'),
 (4, 'São Luís', 'Alberto de Oliveira', 'Liberdade', '65035-010', '1'),
 (5, 'São Luís', 'Alberto de Oliveira', 'Liberdade', '65035-010', '1'),
-(6, 'São Luís', 'Travessa do Arame', 'Vila Menino Jesus de Praga', '65071-299', '34');
+(6, 'São Luís', 'Travessa do Arame', 'Vila Menino Jesus de Praga', '65071-299', '34'),
+(7, 'Picos', 'Travessa Afonso Aureliano Ferreira', 'Boa Sorte', '64607-035', '6'),
+(8, 'Chiapetta', 'Rua Carvi', 'Centro', '98760-970', '11');
 
 -- --------------------------------------------------------
 
@@ -179,6 +185,30 @@ INSERT INTO `tbl_estado_civil` (`id`, `estado_civil`) VALUES
 (4, 'Viúvo(a)'),
 (5, 'Separado(a) judicial'),
 (6, 'União estável');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tbl_locacao_veiculo`
+--
+
+CREATE TABLE `tbl_locacao_veiculo` (
+  `id` int(10) NOT NULL,
+  `id_veiculo` int(10) NOT NULL,
+  `id_usuario` int(10) NOT NULL,
+  `quilometragem` int(50) NOT NULL,
+  `data_de_entrega` varchar(11) NOT NULL,
+  `data_de_devolucao` varchar(11) NOT NULL,
+  `imagePath` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_locacao_veiculo`
+--
+
+INSERT INTO `tbl_locacao_veiculo` (`id`, `id_veiculo`, `id_usuario`, `quilometragem`, `data_de_entrega`, `data_de_devolucao`, `imagePath`) VALUES
+(3, 5, 1, 1, '11/11/2024', '11/12/2024', ''),
+(4, 1, 6, 3, '11/11/2024', '11/12/2024', '');
 
 -- --------------------------------------------------------
 
@@ -286,6 +316,17 @@ CREATE TABLE `tbl_modelo` (
   `id` int(10) NOT NULL,
   `modelo` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_modelo`
+--
+
+INSERT INTO `tbl_modelo` (`id`, `modelo`) VALUES
+(1, 'hilux'),
+(2, ''),
+(3, 'Polo'),
+(4, 'hilux2'),
+(5, 'hilux3');
 
 -- --------------------------------------------------------
 
@@ -1469,9 +1510,10 @@ CREATE TABLE `tbl_usuario` (
 --
 
 INSERT INTO `tbl_usuario` (`id`, `nome`, `cpf`, `cnh`, `nascimento`, `senha`, `rg`, `orgao_expedidor`, `blacklist`, `motivo_blacklist`, `id_profissao`, `id_contato`, `id_endereco`, `id_locador`, `id_estado_civil`, `id_avaliacao`) VALUES
-(1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 0, '', 4, 1, 1, 0, 1, 1),
-(5, 'wilson', '607.338.403-37', '321312c3', '20/10/2000', '$2b$10$Li4BvKVQpnxdon602SeDwOUgIaiMVbCbZq15hvnxQXJ1rNxngPdRy', 23124424, 'ssp', 0, '', 3, 5, 5, 0, 1, 5),
-(6, 'Gabriel', '849.154.620-05', '650283', '01/05/1998', '$2b$10$xyvSj.2gbug8RzvWqGHtn.vT8Gwl0a1LigktPf8FjaCT0LVLcyWZ.', 717273, 'SSP', 0, '', 2, 6, 6, 0, 1, 6);
+(1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 1, 'Pagamento atrasado', 4, 1, 1, 0, 1, 1),
+(6, 'Gabriel', '849.154.620-05', '650283', '01/05/1998', '$2b$10$xyvSj.2gbug8RzvWqGHtn.vT8Gwl0a1LigktPf8FjaCT0LVLcyWZ.', 717273, 'SSP', 0, '', 2, 6, 6, 0, 1, 6),
+(7, 'Pedro', '026.415.300-66', '34234', '11/09/1998', '$2b$10$SINoJ6bsiLDukeSy0zhLU.7L/abciVXugRriyWEF6qmcGZqv9YBZe', 445435, 'ssp', 0, '', 2, 7, 7, 0, 1, 7),
+(8, 'Ana', '391.474.290-97', '233323', '11/11/1995', '$2b$10$BVDJPMBqKOTBNzfkCu8S9Ou.xmGJ.WwjsoP2B2kxUqDp.n.u6uaQm', 234234, 'ssp', 0, '', 865, 8, 8, 0, 1, 8);
 
 -- --------------------------------------------------------
 
@@ -1497,6 +1539,17 @@ CREATE TABLE `tbl_veiculo` (
   `data_de_devolucao` date NOT NULL,
   `quilometragem` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_veiculo`
+--
+
+INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_motorista`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `imagePath`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
+(1, 1, 1, 3, 4, 5, 1, '[]', 1, 'FHFF-4FFD', 'SGGTWGAG55', 'Motor', '2020', '0000-00-00', '0000-00-00', 0),
+(2, 1, 1, 3, 5, 1, 2, '[]', 1, 'FGFH-45FG', 'GAGSYST5AY', 'Motor', '2020', '0000-00-00', '0000-00-00', 0),
+(3, 1, 1, 3, 1, 1, 1, '[]', 0, 'Gsgs', 'Gsgay', 'Motor', '2020', '0000-00-00', '0000-00-00', 0),
+(4, 2, 1, 3, 1, 1, 1, '[]', 1, 'DAGA-F55G', 'RR4A5YAGAGAF', 'Motor', '2020', '0000-00-00', '0000-00-00', 0),
+(5, 1, 1, 3, 1, 2, 1, '[]', 1, 'FAGA-3TR4', 'GAYA55AGA', 'Motor', '2000', '0000-00-00', '0000-00-00', 0);
 
 --
 -- Índices para tabelas despejadas
@@ -1537,6 +1590,14 @@ ALTER TABLE `tbl_endereco`
 --
 ALTER TABLE `tbl_estado_civil`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `tbl_locacao_veiculo`
+--
+ALTER TABLE `tbl_locacao_veiculo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_locacao_veiculo` (`id_veiculo`),
+  ADD KEY `fk_locacao_usuario` (`id_usuario`);
 
 --
 -- Índices de tabela `tbl_manutencao`
@@ -1601,7 +1662,7 @@ ALTER TABLE `tbl_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_avaliacao`
 --
 ALTER TABLE `tbl_avaliacao`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_combustivel`
@@ -1613,7 +1674,7 @@ ALTER TABLE `tbl_combustivel`
 -- AUTO_INCREMENT de tabela `tbl_contato`
 --
 ALTER TABLE `tbl_contato`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_cor`
@@ -1625,13 +1686,19 @@ ALTER TABLE `tbl_cor`
 -- AUTO_INCREMENT de tabela `tbl_endereco`
 --
 ALTER TABLE `tbl_endereco`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_estado_civil`
 --
 ALTER TABLE `tbl_estado_civil`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de tabela `tbl_locacao_veiculo`
+--
+ALTER TABLE `tbl_locacao_veiculo`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_manutencao`
@@ -1649,7 +1716,7 @@ ALTER TABLE `tbl_marca`
 -- AUTO_INCREMENT de tabela `tbl_modelo`
 --
 ALTER TABLE `tbl_modelo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_profissao`
@@ -1667,17 +1734,24 @@ ALTER TABLE `tbl_tipo_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_usuario`
 --
 ALTER TABLE `tbl_usuario`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_veiculo`
 --
 ALTER TABLE `tbl_veiculo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `tbl_locacao_veiculo`
+--
+ALTER TABLE `tbl_locacao_veiculo`
+  ADD CONSTRAINT `fk_locacao_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuario` (`id`),
+  ADD CONSTRAINT `fk_locacao_veiculo` FOREIGN KEY (`id_veiculo`) REFERENCES `tbl_veiculo` (`id`);
 
 --
 -- Restrições para tabelas `tbl_manutencao`
