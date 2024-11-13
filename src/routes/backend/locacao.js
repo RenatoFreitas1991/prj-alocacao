@@ -41,11 +41,12 @@ router.post('/register/', async (req, res) => {
     
         const id_usuario = userResults[0].id;
         const id_veiculo = vehicleResults[0].id;
-        const quilometragemInt = Number(quilometragem)
+        const quilometragemInt = Number(quilometragem);
+        const disponibilidade = 0;
 
         const id = null;
     
-        const [result] = await sequelize.query(
+        const [resultInsert] = await sequelize.query(
             `INSERT INTO tbl_locacao_veiculo 
                 (id,
                 id_veiculo, 
@@ -75,8 +76,42 @@ router.post('/register/', async (req, res) => {
                 }
         );
     
-        if (result === 0) {
+        if (resultInsert === 0) {
             throw new Error('Error ao cadastrar Locação');
+        }
+
+        const [resultUpdate] = await sequelize.query(
+            `UPDATE tbl_veiculo 
+                SET  disponibilidade = :disponibilidade
+                WHERE id = :id_veiculo`,
+            {
+                replacements: {
+                    disponibilidade,
+                    id_veiculo
+                },
+                type: QueryTypes.UPDATE,
+            }
+        );
+
+        if (resultUpdate === 0) {
+            throw new Error('Error ao atualizar a disponibilidade do Veículo');
+        }
+
+        const [vehicleUserUpdate] = await sequelize.query(
+            `UPDATE tbl_veiculo 
+                SET  id_motorista = :id_usuario
+                WHERE id = :id_veiculo`,
+            {
+                replacements: {
+                    id_usuario,
+                    id_veiculo
+                },
+                type: QueryTypes.UPDATE,
+            }
+        );
+
+        if (vehicleUserUpdate === 0) {
+            throw new Error('Error ao atualizar a disponibilidade do Veículo');
         }
 
         res.status(200).json({ message: 'Locação cadastrada com sucesso' });
