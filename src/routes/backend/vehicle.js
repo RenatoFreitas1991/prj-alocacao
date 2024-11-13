@@ -249,5 +249,31 @@ router.get('/info/:id', async (req, res) => {
 });
 
 
+router.get('/info/user/:id', async (req, res) => {
+    const id = Number(req.params.id);
+
+    if(isNaN(id)) {
+        return res.status(400).json({ error: 'Id inválido' });
+    }
+
+    try {
+        const sql = `SELECT u.nome FROM tbl_locacao_veiculo l
+                        INNER JOIN tbl_usuario u ON l.id_usuario = u.id
+                        WHERE l.id_veiculo = :id AND l.id_usuario > 1`;
+
+        const result = await sequelize.query(sql, {
+            replacements: { id },
+            type: QueryTypes.SELECT,
+        });
+
+        console.log(result);
+        res.status(200).json(result);
+
+    } catch (error) {
+      console.error('Erro ao obter dados relacionados ao nome do usuário:', error);
+      res.status(500).json({ error: 'Erro ao obter relacionados ao nome do usuário' });
+    }
+});
+
   
 module.exports = router;

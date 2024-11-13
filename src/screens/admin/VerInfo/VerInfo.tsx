@@ -21,6 +21,7 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
     const [quilometragem, setQuilometragem] = useState();
     const navigation = useNavigation<NavigationProp>();
     const scaleAnim = new Animated.Value(1);
+    const [nomeUser, setNomeUser] = useState('');
 
     // Extraindo os dados do veículo passados pela navegação
     //const { id, modelo, marca, placa, cor, combustivel, ano, quilometragem, imagePath } = route.params;
@@ -73,8 +74,30 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
         }
     };
 
+    const fetchVehicleUserData = async () => {
+        try {
+            
+            const url = `${API_URL}/api/backend/vehicle/info/user/${id}`;
+            console.log(`Fetching: ${url}`);
+            const response = await fetch(url);
+            const result = await response.json();
+
+            const vehiclesData = result.map((vehicleUser: any) => {
+                setNomeUser(vehicleUser.nome);
+            });
+            
+        } catch (error) {
+            console.error("Erro ao buscar dados do nome do usuário:", error);
+            Alert.alert("Erro", "Não foi possível carregar o nome do usuário que está vinculado ao veículo.");
+        }
+    };
+
     useEffect(() => {
         fetchVehicleData();
+    }, [id]);
+
+    useEffect(() => {
+        fetchVehicleUserData();
     }, [id]);
 
     return (
@@ -128,6 +151,17 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
                         <View style={styles.infoColumn}>
                             <Text style={styles.label}>Quilometragem:</Text>
                             <Text style={styles.value}>{quilometragem || quilometragem}</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.row}>
+                        <View style={styles.infoColumn}>
+                            <Text style={styles.label}>Locador:</Text>
+                            <Text style={styles.value}>{nomeUser || 'N/A'}</Text>
+                        </View>
+                        <View style={styles.infoColumn}>
+                            <Text style={styles.label}></Text>
+                            <Text style={styles.value}></Text>
                         </View>
                     </View>
                 </View>
