@@ -12,7 +12,7 @@ export default function UserTabNavigator() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: false,
-                tabBarActiveTintColor: '#2B3A67',  // Cor da bolha ativa
+                tabBarActiveTintColor: 'white',  // Cor da bolha ativa
                 tabBarInactiveTintColor: '#2B3A67', // Cor do ícone inativo
                 tabBarStyle: { 
                     backgroundColor: '#2B3A67', 
@@ -41,7 +41,7 @@ export default function UserTabNavigator() {
                         <Ionicons
                             name={route.name === 'Home' ? 'home' : route.name === 'Favoritos' ? 'heart' :
                                 'person'}
-                            size={focused ? size + 5 : size} // Aumenta o ícone ativo
+                            size={focused ? size + 2 : size} // Aumenta o ícone ativo
                             color={focused ? '#2B3A67' : 'white'} // Cor do ícone ativo igual ao background da tabBar
                         />
                     </View>
@@ -63,10 +63,10 @@ export default function UserTabNavigator() {
                 }}  
             />
              <Tab.Screen
-                name="salvos"
+                name="conta"
                 component={salvosUser}
                 options={{
-                    title: 'Salvos',
+                    title: 'Conta',
                 }}
                 
             />

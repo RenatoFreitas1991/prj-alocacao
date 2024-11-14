@@ -38,7 +38,7 @@ export type StackParamList = {
     VeiculosAlugadosAdmin: undefined;
     VeiculosNaoAlugadosAdmin: undefined;
     Notificacoes: undefined;
-    VerInfo:{id: number, modelo:string, marca:string, placa:string, imagePath?:string};
+    VerInfo:{id: number, modelo:string, marca:string, placa:string, imagePath?:string, isUserScreen?: boolean};
     TelaLocacaoVeiculo: undefined;
     TelaManutencaoVeiculo:undefined;
 };

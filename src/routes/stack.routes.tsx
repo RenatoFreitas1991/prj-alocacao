@@ -41,7 +41,7 @@ export function StackRoutes() {
         <Stack.Navigator initialRouteName="Home" screenOptions={screenOptions}>
             <Stack.Screen name="Home" component={TelaInicial} options={{ headerShown: false  }} />
             <Stack.Screen name="LoginAdmin" component={TelaLoginAdmin} options={{ headerShown: false}} />
-            <Stack.Screen name="LoginUser" component={TelaLoginUser} options={{ title: 'Login Cliente', headerStyle: { backgroundColor: 'black' }, headerTintColor: 'white',}} />
+            <Stack.Screen name="LoginUser" component={TelaLoginUser} options={{ title: 'Login Cliente', headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
             <Stack.Screen name="Cadastro" component={TelaCadastro} options={{ title: 'Cadastro', headerStyle: { backgroundColor: 'black' }, headerTintColor: 'white',}} />
             <Stack.Screen name="TelaSenha" component={TelaSenha} options={{ title: 'Recuperar Senha' }} />
             <Stack.Screen name="TelaHomeAdmin" component={TelaHomeAdmin} options={{ title: 'Admin',  headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />

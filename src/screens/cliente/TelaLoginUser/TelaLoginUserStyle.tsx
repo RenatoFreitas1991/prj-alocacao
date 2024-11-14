@@ -5,29 +5,29 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#121212',
+        backgroundColor: '#ffffff', // Fundo principal branco
     },
     container2: {
         width: '85%',
         padding: 20,
-        backgroundColor: '#1e1e1e',
+        backgroundColor: '#f7f7f7', // Fundo do card branco suave
         borderRadius: 15,
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.4,
+        shadowOpacity: 0.2,
         shadowRadius: 8,
         elevation: 5,
     },
     titulo: {
         fontSize: 30,
-        color: '#f0f0f0',
+        color: '#2B3A67', // Azul escuro
         textAlign: 'center',
         fontWeight: 'bold',
     },
     subtitulo: {
         fontSize: 16,
-        color: '#a9a9a9',
+        color: '#4f4f4f', // Cinza suave para o subtítulo
         textAlign: 'center',
         marginBottom: 30,
     },
@@ -42,9 +42,9 @@ const styles = StyleSheet.create({
         marginVertical: 8,
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: "#333",
-        backgroundColor: "#262626",
-        color: '#f0f0f0',
+        borderColor: "#2B3A67", // Azul escuro para borda
+        backgroundColor: "#f0f0f0", // Fundo cinza claro
+        color: '#2B3A67', // Texto azul escuro
     },
     botoesContainer: {
         width: '100%',
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '100%',
-        backgroundColor: '#2765E5',
+        backgroundColor: '#2B3A67', // Fundo azul escuro
         paddingVertical: 12,
         borderRadius: 8,
         marginVertical: 5,
@@ -65,18 +65,18 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: 'transparent',
         borderWidth: 1,
-        borderColor: '#2765E5',
+        borderColor: '#2B3A67', // Azul escuro para borda
         marginVertical: 5,
         alignItems: 'center',
     },
     buttonText: {
         fontSize: 18,
-        color: '#ffffff',
+        color: '#ffffff', // Texto branco para o botão principal
         fontWeight: 'bold',
     },
     buttonTextSecondary: {
         fontSize: 18,
-        color: '#2765E5',
+        color: '#2B3A67', // Texto azul escuro para botão secundário
         fontWeight: 'bold',
     },
     errorMessage: {

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function Favorites() {
   return (
     <View style={styles.container}>
-      <Text>Pagina Salvos</Text>
+      <Text>Aqui ficarão os Veiculos Favoritos</Text>
     </View>
   );
 }
@@ -11,7 +11,7 @@ export default function Favorites() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#040316',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

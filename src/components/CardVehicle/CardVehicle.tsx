@@ -36,7 +36,7 @@ export default function CardVehicle({
 
   function handleVerInfo() {
     setModalVisible(false);
-    navigation.navigate('VerInfo', { id, modelo, marca, placa, imagePath });
+    navigation.navigate('VerInfo', { id, modelo, marca, placa, imagePath, isUserScreen});
   }
 
   return (
@@ -45,7 +45,7 @@ export default function CardVehicle({
         {imagePath ? (
           <Image source={{ uri: imagePath }} style={isUserScreen ? userStyles.img : styles.img} resizeMode="cover" />
         ) : (
-          <Image source={require('../../../assets/photo.jpeg')} style={isUserScreen ? userStyles.img : styles.img} />
+          <Image source={require('../../../assets/moto.jpeg')} style={isUserScreen ? userStyles.img : styles.img} />
         )}
       </TouchableOpacity>
       <View style={styles.textContainer}>

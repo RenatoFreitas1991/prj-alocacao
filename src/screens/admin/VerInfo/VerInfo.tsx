@@ -5,71 +5,56 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { StackParamList } from '../../../routes/types';
 import { API_URL } from '@env';
-import axios from 'axios';
 
 interface VehicleInfoProps {
     route: any;
+    isUser?: boolean;  // Prop para indicar se é usuário ou admin
 }
 
 type NavigationProp = NativeStackNavigationProp<StackParamList, 'VerInfo'>;
 
-const VerInfo = ({ route }: VehicleInfoProps) => {
-
+const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
     const [cor, setCor] = useState();
     const [ano, setAno] = useState();
     const [combustivel, setCombustivel] = useState();
     const [quilometragem, setQuilometragem] = useState();
     const navigation = useNavigation<NavigationProp>();
     const scaleAnim = new Animated.Value(1);
+    
 
-    // Extraindo os dados do veículo passados pela navegação
-    //const { id, modelo, marca, placa, cor, combustivel, ano, quilometragem, imagePath } = route.params;
-    const { id, modelo, placa, marca, imagePath } = route.params;
+    const { id, modelo, placa, marca, imagePath, isUserScreen} = route.params;
 
-    // Função para redirecionar à tela de edição
+    
+
     function handleEditar() {
         navigation.navigate('TelaEditarVeiculo', { id: id });
     }
 
-    // Função para voltar à tela anterior
     function handleBack() {
         navigation.goBack();
     }
 
-    // Função para animar os botões
     const animateButton = () => {
         Animated.sequence([
-            Animated.timing(scaleAnim, {
-                toValue: 1.2,
-                duration: 150,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleAnim, {
-                toValue: 1,
-                duration: 150,
-                useNativeDriver: true,
-            }),
+            Animated.timing(scaleAnim, { toValue: 1.2, duration: 150, useNativeDriver: true }),
+            Animated.timing(scaleAnim, { toValue: 1, duration: 150, useNativeDriver: true }),
         ]).start();
     };
 
     const fetchVehicleData = async () => {
         try {
-            
             const url = `${API_URL}/api/backend/vehicle/info/${id}`;
-            console.log(`Fetching: ${url}`);
             const response = await fetch(url);
             const result = await response.json();
 
-            const vehiclesData = result.map((vehicle: any) => {
+            result.map((vehicle: any) => {
                 setCor(vehicle.cor);
                 setAno(vehicle.ano);
                 setCombustivel(vehicle.combustivel);
                 setQuilometragem(vehicle.quilometragem);
             });
-            
         } catch (error) {
-            console.error("Erro ao buscar dados:", error);
-            Alert.alert("Erro", "Não foi possível carregar as opções ou os dados do veículo.");
+            Alert.alert("Erro", "Não foi possível carregar os dados do veículo.");
         }
     };
 
@@ -79,20 +64,17 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
 
     return (
         <View style={styles.container}>
-            {/* Imagem do veículo com o botão de voltar sobreposto */}
             <View style={styles.imageContainer}>
                 <Image 
                     source={imagePath ? { uri: imagePath } : require('../../../../assets/photo.jpeg')}
                     style={styles.vehicleImage}
                     resizeMode="cover"
                 />
-                {/* Botão de voltar com transparência */}
                 <TouchableOpacity style={styles.backButton} onPress={handleBack}>
                     <Icon name="arrow-left" size={24} color="white" />
                 </TouchableOpacity>
             </View>
 
-            {/* Informações do veículo em um card */}
             <ScrollView contentContainerStyle={styles.infoContainer}>
                 <Text style={styles.modelo}>{modelo}</Text>
                 <View style={styles.specificationsContainer}>
@@ -127,28 +109,35 @@ const VerInfo = ({ route }: VehicleInfoProps) => {
                         </View>
                         <View style={styles.infoColumn}>
                             <Text style={styles.label}>Quilometragem:</Text>
-                            <Text style={styles.value}>{quilometragem || quilometragem}</Text>
+                            <Text style={styles.value}>{quilometragem || 'N/A'}</Text>
                         </View>
                     </View>
                 </View>
             </ScrollView>
-            
 
-            {/* Barra de navegação fixa com três botões */}
-            <View style={styles.tabBar}>
-                {/* Botão Editar */}
-                <TouchableOpacity 
-                    style={styles.editButton} 
-                    onPress={() => { 
-                        handleEditar(); 
-                        animateButton(); 
-                    }}
-                >
-                    <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
-                        <Icon name="edit" size={24} color="white" />
-                    </Animated.View>
+            {/* Condicional para exibir a tab bar e o botão Editar somente para o admin */}
+            {!isUser && (
+                <View style={styles.tabBar}>
+                    <TouchableOpacity 
+                        style={styles.editButton} 
+                        onPress={() => { 
+                            handleEditar(); 
+                            animateButton(); 
+                        }}
+                    >
+                        <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+                            <Icon name="edit" size={24} color="white" />
+                        </Animated.View>
+                    </TouchableOpacity>
+                </View>
+            )}
+
+            {/* Botão específico para a tela do usuário */}
+            {isUser && (
+                <TouchableOpacity style={styles.userButton}>
+                    <Text style={styles.userButtonText}>Novo Botão</Text>
                 </TouchableOpacity>
-            </View>
+            )}
         </View>
     );
 };
@@ -158,9 +147,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFFAFA',
     },
-    infoContainer: {
-
-    },
+    infoContainer: {},
     imageContainer: {
         width: '100%',
         height: 250,
@@ -221,21 +208,30 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: 'white', // Transparência na tabBar
+        backgroundColor: 'white',
         paddingVertical: 5,
         position: 'absolute',
         bottom: 0,
         width: '100%',
     },
-    tabButton: {
-        padding: 10,
-        backgroundColor: '#354A84',
-        borderRadius: 50, // Botões arredondados
-    },
     editButton: {
         padding: 15,
         backgroundColor: '#354A84',
-        borderRadius: 50, // Botão de editar arredondado
+        borderRadius: 50,
+    },
+    userButton: {
+        position: 'absolute',
+        bottom: 20,
+        alignSelf: 'center',
+        backgroundColor: '#354A84',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 25,
+    },
+    userButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 
