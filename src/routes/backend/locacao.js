@@ -97,22 +97,22 @@ router.post('/register/', async (req, res) => {
             throw new Error('Error ao atualizar a disponibilidade do Veículo');
         }
 
-        const [vehicleUserUpdate] = await sequelize.query(
-            `UPDATE tbl_veiculo 
-                SET  id_motorista = :id_usuario
-                WHERE id = :id_veiculo`,
-            {
-                replacements: {
-                    id_usuario,
-                    id_veiculo
-                },
-                type: QueryTypes.UPDATE,
-            }
-        );
+        // const [vehicleUserUpdate] = await sequelize.query(
+        //     `UPDATE tbl_veiculo 
+        //         SET  id_motorista = :id_usuario
+        //         WHERE id = :id_veiculo`,
+        //     {
+        //         replacements: {
+        //             id_usuario,
+        //             id_veiculo
+        //         },
+        //         type: QueryTypes.UPDATE,
+        //     }
+        // );
 
-        if (vehicleUserUpdate === 0) {
-            throw new Error('Error ao atualizar a disponibilidade do Veículo');
-        }
+        // if (vehicleUserUpdate === 0) {
+        //     throw new Error('Error ao atualizar a disponibilidade do Veículo');
+        // }
 
         res.status(200).json({ message: 'Locação cadastrada com sucesso' });
 

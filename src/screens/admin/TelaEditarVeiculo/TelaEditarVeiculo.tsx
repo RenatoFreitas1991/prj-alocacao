@@ -88,12 +88,8 @@ export default function TelaEditarVeiculo() {
 
         try {
             await axios.put(`${API_URL}/api/backend/vehicle/${id}`, updatedVehicleData);
-            Alert.alert('Sucesso', 'Veículo atualizado com sucesso!', [
-                {
-                    text: 'OK',
-                    onPress: () => navigation.navigate('TelaHomeAdmin')
-                }
-            ]);
+            Alert.alert('Sucesso', 'Veículo atualizado com sucesso!');
+            navigation.navigate('telaHomeDefinitiva')
         } catch (error) {
             console.error('Erro ao atualizar veículo:', error);
             Alert.alert('Erro', 'Não foi possível atualizar o veículo.');

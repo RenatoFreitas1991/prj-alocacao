@@ -59,7 +59,6 @@ router.post('/register/vehicles/', async (req, res) => {
             const dataPadrao = '00/00/000';
 
             const veiculo = await Veiculo.create({
-                id_motorista: 1,
                 disponibilidade,
                 placa,
                 chassi,
@@ -165,7 +164,6 @@ router.put('/:id', async (req, res) => {
             });
 
             const id_tipo_veiculo = tipoVeiculoRecord.id;
-            const id_motorista = 1;
             const id_modelo = modeloRecord.id;
             const id_marca = marcaRecord.id;
             const id_cor = corRecord.id;
@@ -174,7 +172,6 @@ router.put('/:id', async (req, res) => {
             const [result] = await sequelize.query(
                 `UPDATE tbl_veiculo 
                  SET id_tipo_veiculo = :id_tipo_veiculo,
-                     id_motorista = :id_motorista,
                      id_modelo = :id_modelo,
                      id_marca = :id_marca,
                      id_cor = :id_cor,
@@ -188,7 +185,6 @@ router.put('/:id', async (req, res) => {
                 {
                     replacements: {
                         id_tipo_veiculo,
-                        id_motorista,
                         id_modelo,
                         id_marca,
                         id_cor,

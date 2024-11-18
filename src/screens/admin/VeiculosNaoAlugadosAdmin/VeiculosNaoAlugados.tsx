@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, ListRenderItem, TextInput, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
+import { View, FlatList, ListRenderItem, TextInput, StyleSheet, KeyboardAvoidingView, Platform, Text } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import style from '../../styles/TelaHomeStyle';
 import ButtonMore from '../../../components/ButtonMore/ButtonMore';
@@ -103,6 +103,11 @@ export default function VeiculosNaoAlugados() {
         renderItem={renderCardVehicle}
         numColumns={2}
         contentContainerStyle={{ paddingBottom: 100 }} // Adicionando espaço para o botão fixo
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>Nenhum veículo foi cadastrado.</Text>
+          </View>
+        }
       />
       
       {/* Botão fixo centralizado na parte inferior */}
@@ -158,5 +163,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#888',
+    textAlign: 'center',
   },
 });

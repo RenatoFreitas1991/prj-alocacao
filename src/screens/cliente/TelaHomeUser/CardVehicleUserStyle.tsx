@@ -61,6 +61,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#888',
+    textAlign: 'center',
+  },
 });
 
 export default styles;

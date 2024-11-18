@@ -132,7 +132,7 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
                         </View>
                         <View style={styles.infoColumn}>
                             <Text style={styles.label}>Quilometragem:</Text>
-                            <Text style={styles.value}>{quilometragem || 'N/A'}</Text>
+                            <Text style={styles.value}>{quilometragem || quilometragem}</Text>
                         </View>
                     </View>
 

@@ -8,11 +8,6 @@ const Veiculo = sequelize.define('Veiculo', {
     autoIncrement: true
   },
 
-  id_motorista: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  },
-
   disponibilidade: {
     type: DataTypes.INTEGER,
     allowNull: false
