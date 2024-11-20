@@ -14,6 +14,7 @@ interface CardVehicleProps {
   placa: string;
   imagePath?: string;
   isUserScreen?: boolean;
+  tela?:string;
 }
 
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'TelaHomeAdmin'>;
@@ -25,6 +26,7 @@ export default function CardVehicle({
   placa,
   imagePath,
   isUserScreen = false,  // Valor padrão como 'false'
+  tela,
 }: CardVehicleProps) {
   const navigation = useNavigation<NavigationPropInicial>();
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,6 +34,11 @@ export default function CardVehicle({
   function handleEditar() {
     setModalVisible(false);
     navigation.navigate('TelaEditarVeiculo', { id: id });
+  }
+
+  function handleEditarLocacao() {
+    setModalVisible(false);
+    navigation.navigate('TelaEditarLocacaoVeiculo', {id: id});
   }
 
   function handleVerInfo() {
@@ -71,6 +78,15 @@ export default function CardVehicle({
               <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
                 <Text style={styles.modalButtonText}>Ver Info</Text>
               </TouchableOpacity>
+            ) : tela != 'naoAlugado' ? (
+              <>
+                <TouchableOpacity style={styles.modalButton} onPress={handleEditarLocacao}>
+                  <Text style={styles.modalButtonText}>Locação</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
+                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                </TouchableOpacity>
+              </>
             ) : (
               <>
                 <TouchableOpacity style={styles.modalButton} onPress={handleEditar}>

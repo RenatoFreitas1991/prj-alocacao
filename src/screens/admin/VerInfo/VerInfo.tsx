@@ -17,15 +17,13 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
     const [cor, setCor] = useState();
     const [ano, setAno] = useState();
     const [combustivel, setCombustivel] = useState();
-    const [quilometragem, setQuilometragem] = useState();
+    const [quilometragem, setQuilometragem] = useState('');
     const navigation = useNavigation<NavigationProp>();
     const scaleAnim = new Animated.Value(1);
     const [nomeUser, setNomeUser] = useState('');
     
 
     const { id, modelo, placa, marca, imagePath, isUserScreen} = route.params;
-
-    
 
     function handleEditar() {
         navigation.navigate('TelaEditarVeiculo', { id: id });

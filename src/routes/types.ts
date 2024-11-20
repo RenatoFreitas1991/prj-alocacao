@@ -41,4 +41,5 @@ export type StackParamList = {
     VerInfo:{id: number, modelo:string, marca:string, placa:string, imagePath?:string, isUserScreen?: boolean};
     TelaLocacaoVeiculo: undefined;
     TelaManutencaoVeiculo:undefined;
+    TelaEditarLocacaoVeiculo: { id: number };
 };

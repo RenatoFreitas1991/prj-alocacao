@@ -20,6 +20,8 @@ export default function VeiculosNaoAlugados() {
   const [filteredVehicles, setFilteredVehicles] = useState<MinVeiculo[]>([]);
   const [searchText, setSearchText] = useState("");
 
+  const tela = "naoAlugado";
+
   const fetchData = async () => {
     try {
         const url = `${API_URL}/api/backend/vehicles/disponibilidade/1`;
@@ -77,6 +79,7 @@ export default function VeiculosNaoAlugados() {
       marca={item.marca}
       placa={item.placa}
       imagePath={item.imagePath}
+      tela={tela}
     />
   );
 

@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Animated, Button, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Button, Alert } from 'react-native';
 import { API_URL } from '@env';
-import styles from './TelaLocacaoVeiculoStyle';
+import styles from './TelaEditarLocacaoVeiculoStyle';
 import BR from '../../../components/BR/BR';
 
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useRoute, useNavigation, NavigationProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from "../../../routes/types";
 
 import axios from 'axios';
 
-type NavigationProp = NativeStackNavigationProp<StackParamList, 'telaHomeDefinitiva'>;
+type TelaEditarLocacaoVeiculoRouteProp = RouteProp<StackParamList, 'TelaEditarLocacaoVeiculo'>;
 
-export default function TelaLocacaoVeiculo() {
-    const navigation = useNavigation<NavigationProp>();
+type RouteParams = {
+    id: number;
+};
+
+// 1 - Botão para Finzalizar locação(Coloque um Pop up depois) => mudar a disponibilidade do veículo
+// 2 - Botão de Atualizar
+// 3 - Botão de cancelar
+
+export default function TelaEditarLocacaoVeiculo() {
+    const route = useRoute<TelaEditarLocacaoVeiculoRouteProp>();
+    const navigation = useNavigation<NavigationProp<StackParamList>>();
+    const { id } = route.params;
 
     const [imagePath, setImageUri] = useState('');
     const [placa, setPlaca] = useState('');
@@ -117,7 +127,7 @@ export default function TelaLocacaoVeiculo() {
             </View>
 
             <TouchableOpacity style={styles.button} onPress={cadastrarLocacao}>
-                <Text style={styles.buttonText}>Alocar</Text>
+                <Text style={styles.buttonText}>Atualizar</Text>
             </TouchableOpacity>
 
             <BR />
