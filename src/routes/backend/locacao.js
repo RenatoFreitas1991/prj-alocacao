@@ -97,23 +97,6 @@ router.post('/register/', async (req, res) => {
             throw new Error('Error ao atualizar a disponibilidade do Veículo');
         }
 
-        // const [vehicleUserUpdate] = await sequelize.query(
-        //     `UPDATE tbl_veiculo 
-        //         SET  id_motorista = :id_usuario
-        //         WHERE id = :id_veiculo`,
-        //     {
-        //         replacements: {
-        //             id_usuario,
-        //             id_veiculo
-        //         },
-        //         type: QueryTypes.UPDATE,
-        //     }
-        // );
-
-        // if (vehicleUserUpdate === 0) {
-        //     throw new Error('Error ao atualizar a disponibilidade do Veículo');
-        // }
-
         res.status(200).json({ message: 'Locação cadastrada com sucesso' });
 
     } catch (error) {
@@ -121,6 +104,29 @@ router.post('/register/', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 
+});
+
+router.get('/:id_veiculo', async (req, res) => {
+    const id_veiculo = Number(req.params.id_veiculo);
+
+    try {
+        const sql = `SELECT v.placa, l.quilometragem, u.cpf, u.nome, l.data_de_entrega, l.data_de_devolucao 
+                        FROM tbl_locacao_veiculo l 
+                        INNER JOIN tbl_usuario u ON u.id = l.id_usuario 
+                        INNER JOIN tbl_veiculo v ON v.id = l.id_veiculo 
+                        WHERE v.id = :id_veiculo AND v.disponibilidade = 0;`;
+
+        const result = await sequelize.query(sql, {
+            replacements: { id_veiculo },
+            type: QueryTypes.SELECT,
+        })
+
+        console.log(result);
+        res.json(result);
+    } catch(error) {
+        console.error('Erro ao buscar dados da locação:', error);
+        res.status(500).json({ erro: 'Erro ao buscar dados da locação' })
+    }
 });
 
 module.exports = router;

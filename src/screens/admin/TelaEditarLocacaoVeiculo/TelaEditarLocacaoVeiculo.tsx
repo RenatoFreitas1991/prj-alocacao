@@ -37,23 +37,28 @@ export default function TelaEditarLocacaoVeiculo() {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     }
 
-    useEffect(() => {
-        const addOneMonth = (date: Date) => {
-            const newDate = new Date(date);
-            newDate.setMonth(newDate.getMonth() + 1);
-            return newDate;
-        }
+    const fetchLocacaoData = async () => {
+        try {
+            const id_veiculo = id;
+            const url = `${API_URL}/api/backend/locacao/${id_veiculo}`;
+            console.log(`Fetching: ${url}`);
+            const response = await fetch(url);
+            const result = await response.json();
 
-        const formDate = (date: Date) => {
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
-        }
+            const locacaoData = result.map((locacao: any) => {
+                setPlaca(locacao.placa);
+                setQuilometragem(locacao.quilometragem);
+                setCPfUsuario(locacao.cpf);
+                setNomeUsuario(locacao.nome);
+                setDataEntrega(locacao.dataEntrega);
+                setDataDevolucao(locacao.dataDevolucao);
+            })
 
-        setDataEntrega(formDate(new Date));
-        setDataDevolucao(formDate(addOneMonth(new Date)));
-    }, []);
+        } catch(error) {
+            console.error("Erro ao buscar dados da Locação:", error);
+            Alert.alert("Erro", "Não foi possível carregar os dados da Locação.");
+        }
+    }
 
     const cadastrarLocacao = async () => {
 
@@ -77,6 +82,11 @@ export default function TelaEditarLocacaoVeiculo() {
         }
 
     };
+
+    useEffect(() => {
+        fetchLocacaoData();
+    }, [id]);
+
 
     return(
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
