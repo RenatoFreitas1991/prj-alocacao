@@ -30,8 +30,8 @@ export default function TelaEditarLocacaoVeiculo() {
     const [quilometragem, setQuilometragem] = useState('');
     const [cpfUsuario, setCPfUsuario] = useState('');
     const [nomeUsuario, setNomeUsuario] = useState('');
-    const [dataEntrega, setDataEntrega] = useState<string>('');
-    const [dataDevolucao, setDataDevolucao] = useState<string>('');
+    const [dataEntrega, setDataEntrega] = useState('');
+    const [dataDevolucao, setDataDevolucao] = useState('');
 
     function formatCPF(cpf: string): string {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
@@ -50,8 +50,8 @@ export default function TelaEditarLocacaoVeiculo() {
                 setQuilometragem(locacao.quilometragem);
                 setCPfUsuario(locacao.cpf);
                 setNomeUsuario(locacao.nome);
-                setDataEntrega(locacao.dataEntrega);
-                setDataDevolucao(locacao.dataDevolucao);
+                setDataEntrega(locacao.data_de_entrega);
+                setDataDevolucao(locacao.data_de_devolucao);
             })
 
         } catch(error) {
@@ -60,7 +60,7 @@ export default function TelaEditarLocacaoVeiculo() {
         }
     }
 
-    const cadastrarLocacao = async () => {
+    const atualizarLocacao = async () => {
 
         const locacaoData = {
             imagePath,
@@ -73,12 +73,12 @@ export default function TelaEditarLocacaoVeiculo() {
         }
 
         try {
-            const response = await axios.post(`${API_URL}/api/backend/locacao/register/`, locacaoData);
-            Alert.alert('Sucesso', 'Locação realizada com sucesso!');
+            await axios.put(`${API_URL}/api/backend/locacao/update/`, locacaoData);
+            Alert.alert('Sucesso', 'Locação atualizada com sucesso!');
             navigation.navigate('telaHomeDefinitiva');
         } catch (error) {
             console.error('Erro ao registrar locação:', error);
-            Alert.alert('Erro', 'Não foi possível registrar a locação.');
+            Alert.alert('Erro', 'Não foi possível atualizar a locação.');
         }
 
     };
@@ -136,7 +136,10 @@ export default function TelaEditarLocacaoVeiculo() {
                 <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataDevolucao} value={dataDevolucao || ''} />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={cadastrarLocacao}>
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Finalizar Locação</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={atualizarLocacao}>
                 <Text style={styles.buttonText}>Atualizar</Text>
             </TouchableOpacity>
 

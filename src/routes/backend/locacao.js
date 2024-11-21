@@ -129,4 +129,93 @@ router.get('/:id_veiculo', async (req, res) => {
     }
 });
 
+router.put('/update/', async (req, res) => {
+    const {
+        imagePath,
+        placa,
+        quilometragem,
+        cpfUsuario,
+        nomeUsuario,
+        dataEntrega,
+        dataDevolucao
+    } = req.body;
+
+    try {
+        const userResults = await sequelize.query(
+            "SELECT id FROM tbl_usuario WHERE cpf = :cpfUsuario",
+            {
+                replacements: { cpfUsuario },
+                type: QueryTypes.SELECT,
+            }
+        );
+    
+        if(userResults.length == 0) {
+            throw new Error(`Error Locação: Usuário não encontrado com o cpf: ${cpfUsuario}.`);
+        }
+    
+        const vehicleResults = await sequelize.query(
+            "SELECT id FROM tbl_veiculo WHERE placa = :placa",
+            {
+                replacements: { placa },
+                type: QueryTypes.SELECT,
+            }
+        );
+    
+        if(vehicleResults.length == 0) {
+            throw new Error(`Error Locação: Veículo não encontrado com a placa: ${placa}.`);
+        }
+    
+        const id_usuario = userResults[0].id;
+        const id_veiculo = vehicleResults[0].id;
+        const quilometragemInt = Number(quilometragem);
+        const disponibilidade = 0;
+
+        const locacaoResults = await sequelize.query(
+            `SELECT l.id FROM tbl_locacao_veiculo l 
+                INNER JOIN tbl_veiculo v ON v.id = l.id_veiculo 
+                WHERE v.id = :id_veiculo AND v.disponibilidade = 0`,
+            {
+                replacements: { id_veiculo },
+                type: QueryTypes.SELECT,
+            }
+        );
+
+        const id = locacaoResults[0].id;
+    
+        const [resultInsert] = await sequelize.query(
+            `UPDATE tbl_locacao_veiculo SET
+                id_veiculo = :id_veiculo, 
+                id_usuario = :id_usuario, 
+                quilometragem = :quilometragemInt, 
+                data_de_entrega = :dataEntrega, 
+                data_de_devolucao = :dataDevolucao, 
+                imagePath = :imagePath 
+                WHERE id = :id`,
+                {
+                    replacements: {
+                        id_veiculo,
+                        id_usuario,
+                        quilometragemInt,
+                        dataEntrega,
+                        dataDevolucao,
+                        imagePath,
+                        id,
+                    },
+                    type: QueryTypes.UPDATE,
+                }
+        );
+    
+        if (resultInsert === 0) {
+            throw new Error('Error ao atualizar Locação');
+        }
+
+        res.status(200).json({ message: 'Locação atualizada com sucesso' });
+
+    } catch (error) {
+        console.error('Erro ao atualizar Locação:', error);
+        res.status(500).json({ error: error.message });
+    }
+
+});
+
 module.exports = router;
