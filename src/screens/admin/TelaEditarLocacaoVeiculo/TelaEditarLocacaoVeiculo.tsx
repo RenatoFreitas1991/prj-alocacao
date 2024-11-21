@@ -60,8 +60,7 @@ export default function TelaEditarLocacaoVeiculo() {
         }
     }
 
-    const atualizarLocacao = async () => {
-
+    const rentalVehicleUpdate = async () => {
         const locacaoData = {
             imagePath,
             placa,
@@ -77,10 +76,30 @@ export default function TelaEditarLocacaoVeiculo() {
             Alert.alert('Sucesso', 'Locação atualizada com sucesso!');
             navigation.navigate('telaHomeDefinitiva');
         } catch (error) {
-            console.error('Erro ao registrar locação:', error);
+            console.error('Erro ao atualizar locação:', error);
             Alert.alert('Erro', 'Não foi possível atualizar a locação.');
         }
+    };
 
+    const vehicleAvailabilityUpdate = async () => {
+        const locacaoData = {
+            imagePath,
+            placa,
+            quilometragem,
+            cpfUsuario,
+            nomeUsuario,
+            dataEntrega,
+            dataDevolucao,
+        }
+
+        try {
+            await axios.put(`${API_URL}/api/backend/locacao/disponibilityUpdate/`, locacaoData);
+            Alert.alert('Sucesso', 'Disponibilidade atualizada com sucesso!');
+            navigation.navigate('telaHomeDefinitiva');
+        } catch (error) {
+            console.error('Erro ao atualizar a disponibilidade do veículo em locação:', error);
+            Alert.alert('Erro', 'Não foi possível atualizar a disponibilidade do veículo em locação.');
+        }
     };
 
     useEffect(() => {
@@ -136,10 +155,10 @@ export default function TelaEditarLocacaoVeiculo() {
                 <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataDevolucao} value={dataDevolucao || ''} />
             </View>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={vehicleAvailabilityUpdate}>
                 <Text style={styles.buttonText}>Finalizar Locação</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={atualizarLocacao}>
+            <TouchableOpacity style={styles.button} onPress={rentalVehicleUpdate}>
                 <Text style={styles.buttonText}>Atualizar</Text>
             </TouchableOpacity>
 
