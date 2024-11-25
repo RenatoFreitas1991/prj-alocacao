@@ -8,11 +8,12 @@ import { StackParamList } from "../../routes/types";
 interface CardHistoricoProps {
     id:number;
     dataManutencao:string;
+    descricao:String;
 }
 
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'TelaHomeAdmin'>;
 
-export default function CarVehicleHistoric({dataManutencao, id}: CardHistoricoProps) {
+export default function CarVehicleHistoric({dataManutencao, descricao, id}: CardHistoricoProps) {
 
     const navigation = useNavigation<NavigationPropInicial>();
 
