@@ -41,6 +41,11 @@ export default function CardVehicle({
     navigation.navigate('TelaEditarLocacaoVeiculo', {id: id});
   }
 
+  function handleHistoricoManutencaoVeiculo() {
+    setModalVisible(false);
+    navigation.navigate('TelaHistoricoManutencaoVeiculo', {id: id});
+  }
+
   function handleVerInfo() {
     setModalVisible(false);
     navigation.navigate('VerInfo', { id, modelo, marca, placa, imagePath, isUserScreen});
@@ -86,6 +91,9 @@ export default function CardVehicle({
                 <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
                   <Text style={styles.modalButtonText}>Ver Info</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton}>
+                  <Text style={styles.modalButtonText} onPress={handleHistoricoManutencaoVeiculo}>Manutenções</Text>
+                </TouchableOpacity>
               </>
             ) : (
               <>
@@ -94,6 +102,9 @@ export default function CardVehicle({
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
                   <Text style={styles.modalButtonText}>Ver Info</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton}>
+                  <Text style={styles.modalButtonText} onPress={handleHistoricoManutencaoVeiculo}>Manutenções</Text>
                 </TouchableOpacity>
               </>
             )}

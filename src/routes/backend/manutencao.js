@@ -66,4 +66,31 @@ router.post('/register/', async (req, res) => {
 
 })
 
+router.get('/vehicle/:id_veiculo', async (req, res) => {
+    const id_veiculo = Number(req.params.id_veiculo);
+
+    if(isNaN(id_veiculo)) {
+        return res.status(400).json({ error: 'Id inválido' });
+    }
+
+    try {
+        const sql = `SELECT m.id, m.data_manutencao, m.descricao 
+                        FROM tbl_manutencao m 
+                        WHERE m.id_veiculo = :id_veiculo
+                        ORDER BY m.data_manutencao;`;
+
+        const result = await sequelize.query(sql, {
+            replacements: { id_veiculo },
+            type: QueryTypes.SELECT,
+        });
+
+        console.log(result);
+        res.status(200).json(result);
+
+    } catch (error) {
+      console.error('Erro ao obter dados de manutenções do veículo:', error);
+      res.status(500).json({ error: 'Erro ao obter dados de manutenções do veículo' });
+    }
+});
+
 module.exports = router;

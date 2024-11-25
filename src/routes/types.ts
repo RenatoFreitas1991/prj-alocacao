@@ -31,7 +31,7 @@ export type StackParamList = {
     TelaBlackList: undefined;
     CadastrarVeiculo: undefined;
     telaHomeDefinitiva: undefined;
-    HistoricoManutencao: undefined;
+    HistoricoManutencao: {clienteProp: string, marcaProp: string, modeloProp: string, placaProp: string, };
     HistoricoAlugados: undefined;
     TelaAvaliacaoCliente: undefined;
     TelaCalendario: undefined;
@@ -42,4 +42,5 @@ export type StackParamList = {
     TelaLocacaoVeiculo: undefined;
     TelaManutencaoVeiculo:undefined;
     TelaEditarLocacaoVeiculo: { id: number };
+    TelaHistoricoManutencaoVeiculo: { id: number };
 };
