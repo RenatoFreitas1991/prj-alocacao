@@ -255,7 +255,8 @@ router.get('/info/user/:id', async (req, res) => {
     try {
         const sql = `SELECT u.nome FROM tbl_locacao_veiculo l
                         INNER JOIN tbl_usuario u ON l.id_usuario = u.id
-                        WHERE l.id_veiculo = :id AND l.id_usuario > 1`;
+                        INNER JOIN tbl_veiculo v ON l.id_veiculo = v.id
+                        WHERE l.id_veiculo = :id AND v.disponibilidade != 1;`;
 
         const result = await sequelize.query(sql, {
             replacements: { id },
