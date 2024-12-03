@@ -43,4 +43,5 @@ export type StackParamList = {
     TelaManutencaoVeiculo:undefined;
     TelaEditarLocacaoVeiculo: { id: number };
     TelaHistoricoManutencaoVeiculo: { id: number };
+    TelaFavorito: undefined;
 };

@@ -21,6 +21,8 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
     const navigation = useNavigation<NavigationProp>();
     const scaleAnim = new Animated.Value(1);
     const [nomeUser, setNomeUser] = useState('');
+
+    console.log();
     
 
     const { id, modelo, placa, marca, imagePath, isUserScreen} = route.params;
@@ -148,7 +150,7 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
             </ScrollView>
 
             {/* Condicional para exibir a tab bar e o botão Editar somente para o admin */}
-            {!isUser && (
+            {!isUserScreen && (
                 <View style={styles.tabBar}>
                     <TouchableOpacity 
                         style={styles.editButton} 
@@ -165,7 +167,7 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
             )}
 
             {/* Botão específico para a tela do usuário */}
-            {isUser && (
+            {isUserScreen && (
                 <TouchableOpacity style={styles.userButton}>
                     <Text style={styles.userButtonText}>Novo Botão</Text>
                 </TouchableOpacity>

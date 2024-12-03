@@ -8,6 +8,7 @@ import TelaLocacaoVeiculo from '../screens/admin/TelaLocacaoVeiculo/TelaLocacaoV
 import TelaManutencaoVeiculo from "src/screens/admin/TelaManutencaoVeiculo/TelaManutencaoVeiculo";
 import TelaEditarLocacaoVeiculo from './../screens/admin/TelaEditarLocacaoVeiculo/TelaEditarLocacaoVeiculo';
 import TelaHistoricoManutencaoVeiculo from './../screens/admin/TelaHistoricoManutencaoVeiculo/TelaHistoricoManutencaoVeiculo';
+import TelaFavorito from './../screens/cliente/Favorito/favoritoUser';
 import {
     TelaInicial,
     TelaLoginAdmin,
@@ -66,6 +67,7 @@ export function StackRoutes() {
             <Stack.Screen name="TelaManutencaoVeiculo" component={TelaManutencaoVeiculo} options={{ title: 'Manutenção' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
             <Stack.Screen name="TelaEditarLocacaoVeiculo" component={TelaEditarLocacaoVeiculo} options={{ title: 'Editar Locação' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
             <Stack.Screen name="TelaHistoricoManutencaoVeiculo" component={TelaHistoricoManutencaoVeiculo} options={{ title: 'Histórico de Manutenção' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
+            <Stack.Screen name="TelaFavorito" component={TelaFavorito} options={{ title: 'Tela Favoritos' , headerStyle: { backgroundColor: '#2B3A67' }, headerTintColor: 'white',}} />
             {/* Adição do UserTabNavigator para o usuário */}
             <Stack.Screen 
                 name="UserTabNavigator" 

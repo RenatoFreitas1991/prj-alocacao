@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, Modal } from 'react-native';
 import styles from './CardVehicleStyle';
 import userStyles from '../../screens/cliente/TelaHomeUser/CardVehicleUserStyle';  // Estilos da tela de usuário
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../routes/types";
@@ -31,22 +30,26 @@ export default function CardVehicle({
   const navigation = useNavigation<NavigationPropInicial>();
   const [modalVisible, setModalVisible] = useState(false);
 
-  function handleEditar() {
+  function goToTelaFavorito() {
+    setModalVisible(false);
+  }
+
+  function goToEditar() {
     setModalVisible(false);
     navigation.navigate('TelaEditarVeiculo', { id: id });
   }
 
-  function handleEditarLocacao() {
+  function goToEditarLocacao() {
     setModalVisible(false);
     navigation.navigate('TelaEditarLocacaoVeiculo', {id: id});
   }
 
-  function handleHistoricoManutencaoVeiculo() {
+  function goToHistoricoManutencaoVeiculo() {
     setModalVisible(false);
     navigation.navigate('TelaHistoricoManutencaoVeiculo', {id: id});
   }
 
-  function handleVerInfo() {
+  function goToVerInfo() {
     setModalVisible(false);
     navigation.navigate('VerInfo', { id, modelo, marca, placa, imagePath, isUserScreen});
   }
@@ -80,31 +83,36 @@ export default function CardVehicle({
         >
           <View style={styles.modalContainer}>
             {isUserScreen ? (
-              <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
-                <Text style={styles.modalButtonText}>Ver Info</Text>
-              </TouchableOpacity>
+              <>
+                <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
+                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} >
+                  <Text style={styles.modalButtonText} onPress={goToTelaFavorito}>Favoritar</Text>
+                </TouchableOpacity>
+              </>
             ) : tela != 'naoAlugado' ? (
               <>
-                <TouchableOpacity style={styles.modalButton} onPress={handleEditarLocacao}>
+                <TouchableOpacity style={styles.modalButton} onPress={goToEditarLocacao}>
                   <Text style={styles.modalButtonText}>Locação</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
+                <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
                   <Text style={styles.modalButtonText}>Ver Info</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton}>
-                  <Text style={styles.modalButtonText} onPress={handleHistoricoManutencaoVeiculo}>Manutenções</Text>
+                  <Text style={styles.modalButtonText} onPress={goToHistoricoManutencaoVeiculo}>Manutenções</Text>
                 </TouchableOpacity>
               </>
             ) : (
               <>
-                <TouchableOpacity style={styles.modalButton} onPress={handleEditar}>
+                <TouchableOpacity style={styles.modalButton} onPress={goToEditar}>
                   <Text style={styles.modalButtonText}>Editar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton} onPress={handleVerInfo}>
+                <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
                   <Text style={styles.modalButtonText}>Ver Info</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton}>
-                  <Text style={styles.modalButtonText} onPress={handleHistoricoManutencaoVeiculo}>Manutenções</Text>
+                  <Text style={styles.modalButtonText} onPress={goToHistoricoManutencaoVeiculo}>Manutenções</Text>
                 </TouchableOpacity>
               </>
             )}
