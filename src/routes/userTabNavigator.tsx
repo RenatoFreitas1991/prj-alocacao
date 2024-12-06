@@ -5,9 +5,19 @@ import { View } from 'react-native';
 import TelaHomeUser from '../screens/cliente/TelaHomeUser/TelaHomeUser';
 import FavoritoUser from '../screens/cliente/Favorito/favoritoUser';
 import salvosUser from '../screens/cliente/salvos/salvosUser';
+
+import { StackParamList } from '../routes/types';
+import { RouteProp, useRoute } from '@react-navigation/native';
+
+type userTabNavigatorProp = RouteProp<StackParamList, 'UserTabNavigator'>;
+
 const Tab = createBottomTabNavigator();
 
 export default function UserTabNavigator() {
+
+    const route = useRoute<userTabNavigatorProp>();
+    const { cpf } = route.params;
+
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
@@ -50,7 +60,7 @@ export default function UserTabNavigator() {
         >
             <Tab.Screen
                 name="Home"
-                component={TelaHomeUser}
+                component={ () => <TelaHomeUser cpf={cpf}/> }
                 options={{
                     title: 'Início',
                 }}

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18/11/2024 às 13:03
+-- Tempo de geração: 06/12/2024 às 14:20
 -- Versão do servidor: 10.6.15-MariaDB
 -- Versão do PHP: 8.2.0
 
@@ -207,8 +207,12 @@ CREATE TABLE `tbl_locacao_veiculo` (
 --
 
 INSERT INTO `tbl_locacao_veiculo` (`id`, `id_veiculo`, `id_usuario`, `quilometragem`, `data_de_entrega`, `data_de_devolucao`, `imagePath`) VALUES
-(8, 8, 6, 0, '18/11/2024', '18/12/2024', ''),
-(9, 8, 6, 0, '18/11/2024', '18/12/2024', '');
+(8, 8, 6, 0, '18/11/2024', '14/12/2024', ''),
+(10, 9, 8, 0, '21/11/2024', '10/12/2024', ''),
+(11, 7, 7, 0, '21/11/2024', '21/12/2024', ''),
+(12, 12, 8, 0, '03/12/2024', '03/01/2025', ''),
+(13, 12, 8, 0, '03/12/2024', '03/01/2025', ''),
+(14, 12, 8, 0, '03/12/2024', '03/01/2025', '');
 
 -- --------------------------------------------------------
 
@@ -228,7 +232,8 @@ CREATE TABLE `tbl_manutencao` (
 --
 
 INSERT INTO `tbl_manutencao` (`id`, `id_veiculo`, `data_manutencao`, `descricao`) VALUES
-(2, 9, '18/11/2024', 'Troca do motor');
+(2, 9, '18/11/2024', 'Troca do motor'),
+(3, 9, '25/11/2024', 'Troca de Gasolina');
 
 -- --------------------------------------------------------
 
@@ -1556,10 +1561,29 @@ CREATE TABLE `tbl_veiculo` (
 
 INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `imagePath`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
 (7, 2, 7, 1, 14, 1, '[]', 1, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
-(8, 2, 7, 3, 10, 1, '[]', 0, 'J0DF-AS3R', 'SDASGD63R62', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 5),
+(8, 2, 7, 3, 10, 1, '[]', 1, 'J0DF-AS3R', 'SDASGD63R62', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 5),
 (9, 2, 7, 5, 13, 8, '[]', 1, 'HC32X-242D', 'ICYN37Q7DHT34DS', 'tetracilín', '2024', '0000-00-00', '0000-00-00', 0),
 (11, 2, 7, 4, 2, 1, '[]', 1, 'FCWFE-2344', 'CW32Z23F', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
-(12, 2, 7, 5, 2, 1, '[]', 1, 'GFHJ-234T', 'C434ESFEE643', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 0);
+(12, 2, 7, 5, 2, 1, '[]', 0, 'GFHJ-234T', 'C434ESFEE643', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tbl_veiculo_favorito`
+--
+
+CREATE TABLE `tbl_veiculo_favorito` (
+  `id` int(11) NOT NULL,
+  `id_veiculo` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_veiculo_favorito`
+--
+
+INSERT INTO `tbl_veiculo_favorito` (`id`, `id_veiculo`, `id_usuario`) VALUES
+(1, 7, 8);
 
 --
 -- Índices para tabelas despejadas
@@ -1664,6 +1688,14 @@ ALTER TABLE `tbl_veiculo`
   ADD KEY `fk_combustivel` (`id_combustivel`);
 
 --
+-- Índices de tabela `tbl_veiculo_favorito`
+--
+ALTER TABLE `tbl_veiculo_favorito`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_favorito_veiculo` (`id_veiculo`),
+  ADD KEY `fk_favorito_usuario` (`id_usuario`);
+
+--
 -- AUTO_INCREMENT para tabelas despejadas
 --
 
@@ -1707,13 +1739,13 @@ ALTER TABLE `tbl_estado_civil`
 -- AUTO_INCREMENT de tabela `tbl_locacao_veiculo`
 --
 ALTER TABLE `tbl_locacao_veiculo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_manutencao`
 --
 ALTER TABLE `tbl_manutencao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_marca`
@@ -1750,6 +1782,12 @@ ALTER TABLE `tbl_usuario`
 --
 ALTER TABLE `tbl_veiculo`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de tabela `tbl_veiculo_favorito`
+--
+ALTER TABLE `tbl_veiculo_favorito`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restrições para tabelas despejadas
@@ -1793,6 +1831,13 @@ ALTER TABLE `tbl_veiculo`
   ADD CONSTRAINT `fk_marca` FOREIGN KEY (`id_marca`) REFERENCES `tbl_marca` (`id`),
   ADD CONSTRAINT `fk_modelo` FOREIGN KEY (`id_modelo`) REFERENCES `tbl_modelo` (`id`),
   ADD CONSTRAINT `fk_tipo_veiculo` FOREIGN KEY (`id_tipo_veiculo`) REFERENCES `tbl_tipo_veiculo` (`id`);
+
+--
+-- Restrições para tabelas `tbl_veiculo_favorito`
+--
+ALTER TABLE `tbl_veiculo_favorito`
+  ADD CONSTRAINT `fk_favorito_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuario` (`id`),
+  ADD CONSTRAINT `fk_favorito_veiculo` FOREIGN KEY (`id_veiculo`) REFERENCES `tbl_veiculo` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -5,7 +5,6 @@ import styles from './TelaEditarLocacaoVeiculoStyle';
 import BR from '../../../components/BR/BR';
 
 import { RouteProp, useRoute, useNavigation, NavigationProp } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from "../../../routes/types";
 
 import axios from 'axios';

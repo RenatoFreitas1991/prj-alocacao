@@ -63,7 +63,7 @@ export default function TelaLogin() {
 
                 if (response.status === 200) {
                     Keyboard.dismiss();
-                    navigation.navigate("UserTabNavigator"); // Redireciona para o Tab Navigator
+                    navigation.navigate("UserTabNavigator", {cpf: cpf}); // Redireciona para o Tab Navigator
                 }
             } catch (error: any) {
                 if (error.response) {

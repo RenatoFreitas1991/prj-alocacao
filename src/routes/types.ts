@@ -3,7 +3,7 @@ export type StackParamList = {
     LoginAdmin: undefined;
     LoginUser: undefined;
     Cadastro: undefined;
-    UserTabNavigator: undefined;
+    UserTabNavigator: {cpf: string};
     TelaSenha: { 
         userData: {
             nome: string;

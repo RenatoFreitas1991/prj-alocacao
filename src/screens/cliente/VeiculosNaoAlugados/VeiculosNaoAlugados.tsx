@@ -7,10 +7,11 @@ import styles from '../TelaHomeUser/CardVehicleUserStyle';
 
 
 interface VeiculosNaoAlugadosProps {
+  cpf?:string;
   isUserScreen?: boolean;
 }
 
-export default function VeiculosNaoAlugados({ isUserScreen = false }: VeiculosNaoAlugadosProps) {
+export default function VeiculosNaoAlugados({ cpf, isUserScreen = false }: VeiculosNaoAlugadosProps) {
 
   interface MinVeiculo {
     id: number;
@@ -18,7 +19,6 @@ export default function VeiculosNaoAlugados({ isUserScreen = false }: VeiculosNa
     marca: string;
     placa: string;
     imagePath?: string;
-    
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
@@ -75,6 +75,7 @@ export default function VeiculosNaoAlugados({ isUserScreen = false }: VeiculosNa
       placa={item.placa}
       imagePath={item.imagePath}
       isUserScreen={true}  // Passando a prop para o CardVehicle
+      cpfUser={cpf}
     />
   );
 

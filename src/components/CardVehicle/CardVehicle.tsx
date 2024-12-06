@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Modal, Alert } from 'react-native';
 import styles from './CardVehicleStyle';
 import userStyles from '../../screens/cliente/TelaHomeUser/CardVehicleUserStyle';  // Estilos da tela de usuário
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../routes/types";
+
+import { API_URL } from '@env';
+import axios from 'axios';
 
 interface CardVehicleProps {
   id: number;
@@ -14,6 +17,7 @@ interface CardVehicleProps {
   imagePath?: string;
   isUserScreen?: boolean;
   tela?:string;
+  cpfUser?:string;
 }
 
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'TelaHomeAdmin'>;
@@ -26,13 +30,30 @@ export default function CardVehicle({
   imagePath,
   isUserScreen = false,  // Valor padrão como 'false'
   tela,
+  cpfUser
 }: CardVehicleProps) {
   const navigation = useNavigation<NavigationPropInicial>();
   const [modalVisible, setModalVisible] = useState(false);
 
-  function goToTelaFavorito() {
+  const favoritateVehicle = async () => {
     setModalVisible(false);
-  }
+
+    const id_veiculo = id;
+
+    const bodyRequest = {
+      cpfUser,
+      id_veiculo
+    }
+
+    try {
+      const response = await axios.post(`${API_URL}/api/backend/favorites/favoritate`, bodyRequest);
+      Alert.alert('Sucesso', 'Veículo Favoritado com sucesso');
+    } catch(error) {
+      console.log('Error ao favoritar veículo', error);
+      Alert.alert('Error', 'Error ao favoritar veículo');
+    }
+
+  };
 
   function goToEditar() {
     setModalVisible(false);
@@ -88,7 +109,7 @@ export default function CardVehicle({
                   <Text style={styles.modalButtonText}>Ver Info</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} >
-                  <Text style={styles.modalButtonText} onPress={goToTelaFavorito}>Favoritar</Text>
+                  <Text style={styles.modalButtonText} onPress={favoritateVehicle}>Favoritar</Text>
                 </TouchableOpacity>
               </>
             ) : tela != 'naoAlugado' ? (

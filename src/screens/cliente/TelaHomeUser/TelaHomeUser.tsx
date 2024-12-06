@@ -7,7 +7,11 @@ import { useNavigation } from "@react-navigation/native";  // Para usar a navega
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function TelaHome() {
+interface HomeUser {
+  cpf:string;
+}
+
+export default function TelaHome({ cpf }: HomeUser) {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
 
@@ -39,7 +43,7 @@ export default function TelaHome() {
       >
         <Tab.Screen 
           name="Veiculos Disponíveis" 
-          children={() => <VeiculosNaoAlugados isUserScreen={true} />} 
+          children={() => <VeiculosNaoAlugados cpf={cpf} isUserScreen={true} />} 
         />
       </Tab.Navigator>
     </View>
