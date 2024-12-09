@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06/12/2024 às 14:20
+-- Tempo de geração: 09/12/2024 às 14:25
 -- Versão do servidor: 10.6.15-MariaDB
 -- Versão do PHP: 8.2.0
 
@@ -1583,7 +1583,9 @@ CREATE TABLE `tbl_veiculo_favorito` (
 --
 
 INSERT INTO `tbl_veiculo_favorito` (`id`, `id_veiculo`, `id_usuario`) VALUES
-(1, 7, 8);
+(1, 7, 8),
+(5, 8, 8),
+(6, 11, 8);
 
 --
 -- Índices para tabelas despejadas
@@ -1787,7 +1789,7 @@ ALTER TABLE `tbl_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_veiculo_favorito`
 --
 ALTER TABLE `tbl_veiculo_favorito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restrições para tabelas despejadas

@@ -183,9 +183,9 @@ export default function TelaCadastro() {
         return (
           <InputField
             ref={nomeRef}
-            label="Nome"
+            label="Nome Completo"
             value={nome}
-            placeholder="Digite seu nome"
+            placeholder="Digite seu nome completo"
             onChangeText={setNome}
             error={error}
             returnKeyType="next"

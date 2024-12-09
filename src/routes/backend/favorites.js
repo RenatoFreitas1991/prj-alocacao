@@ -27,34 +27,70 @@ router.post('/favoritate/', async (req, res) => {
     
         const id = null;
         const id_usuario = userResults[0].id;
-    
-        const [favoritateResult] = await sequelize.query(
-            `INSERT INTO tbl_veiculo_favorito 
-                (id, 
-                id_veiculo, 
-                id_usuario) 
-                VALUES (:id,
-                        :id_veiculo,
-                        :id_usuario)`,
-                {
-                    replacements: {
-                        id,
-                        id_veiculo,
-                        id_usuario,
-                    },
-                    type: QueryTypes.INSERT,
-                }
+
+        const vehicleFavorite = await sequelize.query(
+            `SELECT * FROM tbl_veiculo_favorito 
+                WHERE id_veiculo = :id_veiculo AND id_usuario = :id_usuario`,
+            {
+                replacements: {id_veiculo, id_usuario},
+                type: QueryTypes.SELECT,
+            }
         );
-    
-        if(favoritateResult.length == 0) {
-            throw new Error(`Error ao favoritar veículo.`);
+        if(vehicleFavorite.length == 0) {
+            const [favoritateResult] = await sequelize.query(
+                `INSERT INTO tbl_veiculo_favorito 
+                    (id, 
+                    id_veiculo, 
+                    id_usuario) 
+                    VALUES (:id,
+                            :id_veiculo,
+                            :id_usuario)`,
+                    {
+                        replacements: {
+                            id,
+                            id_veiculo,
+                            id_usuario,
+                        },
+                        type: QueryTypes.INSERT,
+                    }
+            );
+        
+            if(favoritateResult.length == 0) {
+                throw new Error(`Error ao favoritar veículo.`);
+            }
+        
+            res.status(200).json({ message: 'Veículo favoritado com sucesso' });        
+        } else {
+            res.status(400).json({ message: 'Este veículo já foi favoritado.' });
         }
-    
-        res.status(200).json({ message: 'Veículo favoritado com sucesso' });
+
 
     } catch(error) {
         console.log(error);
         res.status(500).json({ message: error.message })
+    }
+});
+
+router.get('/:userId', async (req, res) => { 
+    const id_usuario = Number(req.params.userId);
+
+    try {
+        const sql = `SELECT v.id, mo.modelo, ma.marca, v.placa, v.imagePath FROM tbl_veiculo_favorito f
+                        INNER JOIN tbl_veiculo v ON v.id = f.id_veiculo 
+                        INNER JOIN tbl_modelo mo ON mo.id = v.id_modelo 
+                        INNER JOIN tbl_marca ma ON ma.id = v.id_marca
+                        WHERE f.id_usuario = :id_usuario`;
+
+        const results = await sequelize.query(sql, {
+            replacements: { id_usuario },
+            type: QueryTypes.SELECT,
+        });
+
+        console.log(results);
+        res.json(results);
+    } catch (error) {
+        console.error('Erro ao buscar veículos favoritos do usuário:', error);
+        res.status(500).json({ error: 'Erro ao buscar veículos favoritos do usuário' });
     }
 });
 
