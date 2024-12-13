@@ -20,6 +20,7 @@ router.get('/disponibilidade/:disponibilidade', async (req, res) => {
 
         console.log(results);
         res.json(results);
+        
     } catch (error) {
         console.error('Erro ao buscar dados dos veículos:', error);
         res.status(500).json({ error: 'Erro ao buscar dados dos veículos' });

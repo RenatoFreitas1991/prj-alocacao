@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { View } from 'react-native';
 import TelaHomeUser from '../screens/cliente/TelaHomeUser/TelaHomeUser';
-import FavoritoUser from '../screens/cliente/Favorito/favoritoUser';
+import TelaFavorito from '../screens/cliente/Favorito/favoritoUser';
 import salvosUser from '../screens/cliente/salvos/salvosUser';
 
 import { StackParamList } from '../routes/types';
@@ -60,17 +60,19 @@ export default function UserTabNavigator() {
         >
             <Tab.Screen
                 name="Home"
-                component={ () => <TelaHomeUser cpf={cpf}/> }
+                component={TelaHomeUser}
                 options={{
                     title: 'Início',
                 }}
+                initialParams={{ cpf: cpf }}
             />
             <Tab.Screen
                 name="Favoritos"
-                component={FavoritoUser}
+                component={TelaFavorito}
                 options={{
                     title: 'Favoritos',
-                }}  
+                }}
+                initialParams={{ cpf: cpf }}
             />
              <Tab.Screen
                 name="conta"

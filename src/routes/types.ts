@@ -24,7 +24,7 @@ export type StackParamList = {
         };
     };
     TelaHomeAdmin: undefined;
-    Tela_Home_User: undefined;
+    TelaHomeUser: { cpf: string };
     Alugados: undefined;
     NaoAlugados: undefined;
     TelaEditarVeiculo: { id: number };
@@ -43,5 +43,5 @@ export type StackParamList = {
     TelaManutencaoVeiculo:undefined;
     TelaEditarLocacaoVeiculo: { id: number };
     TelaHistoricoManutencaoVeiculo: { id: number };
-    TelaFavorito: undefined;
+    TelaFavorito: { cpf: string };
 };

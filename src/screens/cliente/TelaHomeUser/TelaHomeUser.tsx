@@ -5,15 +5,20 @@ import { MaterialIcons } from 'react-native-vector-icons';  // Para o ícone de 
 import VeiculosNaoAlugados from '../VeiculosNaoAlugados/VeiculosNaoAlugados';
 import { useNavigation } from "@react-navigation/native";  // Para usar a navegação
 
+import { StackParamList } from '../../../routes/types';
+import { RouteProp, useRoute } from '@react-navigation/native';
+
 const Tab = createMaterialTopTabNavigator();
 
-interface HomeUser {
-  cpf:string;
-}
+type userTabNavigatorProp = RouteProp<StackParamList, 'TelaHomeUser'>;
 
-export default function TelaHome({ cpf }: HomeUser) {
+export default function TelaHome() {
+
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
+
+  const route = useRoute<userTabNavigatorProp>();
+  const { cpf } = route.params;
 
   return (
     <View style={styles.container}>

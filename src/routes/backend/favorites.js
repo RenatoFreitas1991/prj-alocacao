@@ -71,15 +71,25 @@ router.post('/favoritate/', async (req, res) => {
     }
 });
 
-router.get('/:userId', async (req, res) => { 
-    const id_usuario = Number(req.params.userId);
+router.get('/:cpfUser', async (req, res) => { 
+    const cpf = req.params.cpfUser;
 
     try {
+        const findUserIdByCpf = await sequelize.query(
+            `SELECT id FROM tbl_usuario WHERE cpf = :cpf`,
+            {
+                replacements: { cpf },
+                type: QueryTypes.SELECT,
+            }
+        );
+
+        const id_usuario = findUserIdByCpf[0].id;
+
         const sql = `SELECT v.id, mo.modelo, ma.marca, v.placa, v.imagePath FROM tbl_veiculo_favorito f
-                        INNER JOIN tbl_veiculo v ON v.id = f.id_veiculo 
-                        INNER JOIN tbl_modelo mo ON mo.id = v.id_modelo 
-                        INNER JOIN tbl_marca ma ON ma.id = v.id_marca
-                        WHERE f.id_usuario = :id_usuario`;
+        INNER JOIN tbl_veiculo v ON v.id = f.id_veiculo 
+        INNER JOIN tbl_modelo mo ON mo.id = v.id_modelo 
+        INNER JOIN tbl_marca ma ON ma.id = v.id_marca
+        WHERE f.id_usuario = :id_usuario`;
 
         const results = await sequelize.query(sql, {
             replacements: { id_usuario },
@@ -88,6 +98,7 @@ router.get('/:userId', async (req, res) => {
 
         console.log(results);
         res.json(results);
+
     } catch (error) {
         console.error('Erro ao buscar veículos favoritos do usuário:', error);
         res.status(500).json({ error: 'Erro ao buscar veículos favoritos do usuário' });

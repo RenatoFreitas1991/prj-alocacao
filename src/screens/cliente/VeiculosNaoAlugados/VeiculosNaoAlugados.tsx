@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, FlatList, ListRenderItem, Text } from "react-native";
 import { API_URL } from '@env';
 import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
-import BR from '../../../components/BR/BR';
 import styles from '../TelaHomeUser/CardVehicleUserStyle';
 
 
@@ -91,11 +90,6 @@ export default function VeiculosNaoAlugados({ cpf, isUserScreen = false }: Veicu
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>Nenhum veículo foi cadastrado locador.</Text>
           </View>
-        }
-        ListFooterComponent={
-          <>
-            <BR />
-          </>
         }
       />
     </View>

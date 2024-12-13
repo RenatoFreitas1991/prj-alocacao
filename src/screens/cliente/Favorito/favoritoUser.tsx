@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { StyleSheet,FlatList, Text, View, ListRenderItem } from 'react-native';
 import { API_URL } from '@env';
-import BR from '../../../components/BR/BR';
 import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
 
-export default function Favorites() {
+import { StackParamList } from '../../../routes/types';
+import { RouteProp, useRoute } from '@react-navigation/native';
+
+type userTabNavigatorProp = RouteProp<StackParamList, 'TelaFavorito'>;
+
+export default function TelaFavorito() {
+
+  const route = useRoute<userTabNavigatorProp>();
+  const { cpf } = route.params;
 
   interface MinVeiculo {
     id: number;
@@ -15,11 +22,11 @@ export default function Favorites() {
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
-  const [idUser, setIdUser] = useState(8);
+  const [cpfUser, setCpfUser] = useState(cpf);
 
   const fetchData = async () => {
     try {
-      const url = `${API_URL}/api/backend/favorites/${idUser}`;
+      const url = `${API_URL}/api/backend/favorites/${cpfUser}`;
       console.log(`Fetching: ${url}`);
       const response = await fetch(url);
       const result = await response.json();
@@ -52,13 +59,13 @@ export default function Favorites() {
       console.log('Fetched vehicles:', vehiclesData);
       setVehicles(vehiclesData);
     } catch (error) {
-      console.error('Erro ao buscar veículos favoritos do usuário ->', error);
+      console.error('Erro ao buscar os dados dos veículos ->', error);
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, [idUser]);
+  }, [cpfUser]);
 
   const renderCardVehicle: ListRenderItem<MinVeiculo> = ({ item }) => (
     <CardVeiculo
@@ -73,7 +80,7 @@ export default function Favorites() {
 
   return (
     <View style={styles.container1}>
-            <FlatList
+      <FlatList
         style={styles.listContainer}
         data={vehicles}
         keyExtractor={(item) => item.id.toString()}
@@ -81,13 +88,8 @@ export default function Favorites() {
         numColumns={1}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>Nenhum veículo foi cadastrado locador.</Text>
+            <Text style={styles.emptyText}>Nenhum veículo foi favoritado.</Text>
           </View>
-        }
-        ListFooterComponent={
-          <>
-            <BR />
-          </>
         }
       />
     </View>
