@@ -129,6 +129,40 @@ router.get('/:id_veiculo', async (req, res) => {
     }
 });
 
+router.get('/vehicles/user/:cpf', async (req, res) => {
+    const cpf = req.params.cpf;
+
+    try {
+        const findUserIdByCpf = await sequelize.query(
+            `SELECT id FROM tbl_usuario WHERE cpf = :cpf`,
+            {
+                replacements: { cpf },
+                type: QueryTypes.SELECT,
+            }
+        );
+
+        const id_usuario = findUserIdByCpf[0].id;
+
+        const sql = `SELECT l.id, m.modelo, ma.marca, v.placa, v.imagePath 
+                        FROM tbl_locacao_veiculo l
+                        INNER JOIN tbl_veiculo v ON l.id_veiculo = v.id
+                        INNER JOIN tbl_modelo m ON m.id = v.id_modelo 
+                        INNER JOIN tbl_marca ma ON ma.id = v.id_marca 
+                        WHERE l.id_usuario = :id_usuario`;
+
+        const result = await sequelize.query(sql, {
+            replacements: { id_usuario },
+            type: QueryTypes.SELECT,
+        })
+
+        console.log(result);
+        res.json(result);
+    } catch(error) {
+        console.error('Erro ao buscar dados da locação do usuário:', error);
+        res.status(500).json({ erro: 'Erro ao buscar dados da locação do usuário' })
+    }
+});
+
 router.put('/update/', async (req, res) => {
     const {
         imagePath,

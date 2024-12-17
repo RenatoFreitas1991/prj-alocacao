@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { StyleSheet,FlatList, Text, View, ListRenderItem } from 'react-native';
 import { API_URL } from '@env';
 import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
+import BR from '../../../components/BR/BR';
 
 import { StackParamList } from '../../../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -80,6 +81,7 @@ export default function TelaFavorito() {
 
   return (
     <View style={styles.container1}>
+      <BR /> <BR />
       <FlatList
         style={styles.listContainer}
         data={vehicles}

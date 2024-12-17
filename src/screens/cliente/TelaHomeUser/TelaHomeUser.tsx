@@ -5,20 +5,25 @@ import { MaterialIcons } from 'react-native-vector-icons';  // Para o ícone de 
 import VeiculosNaoAlugados from '../VeiculosNaoAlugados/VeiculosNaoAlugados';
 import { useNavigation } from "@react-navigation/native";  // Para usar a navegação
 
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from '../../../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
-type userTabNavigatorProp = RouteProp<StackParamList, 'TelaHomeUser'>;
+type userTabNavigatorProp = NativeStackNavigationProp<StackParamList, 'TelaHomeUser'>;
 
 export default function TelaHome() {
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<userTabNavigatorProp>();
   const [searchText, setSearchText] = useState('');
 
   const route = useRoute<userTabNavigatorProp>();
   const { cpf } = route.params;
+
+  function goToLocaoUser() {
+    navigation.navigate('LocacaoUser', {cpf: cpf});
+  }
 
   return (
     <View style={styles.container}>
@@ -37,7 +42,12 @@ export default function TelaHome() {
         />
         <MaterialIcons name="search" size={24} color="#2B3A67" style={styles.searchIcon} />
       </View>
-
+      
+      <View style={styles.buttonView}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText} onPress={goToLocaoUser}> Ver Locação </Text>
+        </TouchableOpacity>
+      </View>
       
       {/* Navegação com Tab */}
       <Tab.Navigator
@@ -88,5 +98,22 @@ const styles = StyleSheet.create({
   },
   searchIcon: {
     marginLeft: 10,
+  },
+  buttonView: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#2B3A67',
+    paddingVertical: 15,
+    borderRadius: 8,
+    marginVertical: 20,
+    width: '90%',
+    alignItems: 'center',
+  },
+  buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
   },
 });

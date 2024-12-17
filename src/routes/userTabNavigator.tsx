@@ -74,7 +74,7 @@ export default function UserTabNavigator() {
                 }}
                 initialParams={{ cpf: cpf }}
             />
-             <Tab.Screen
+            <Tab.Screen
                 name="conta"
                 component={salvosUser}
                 options={{
