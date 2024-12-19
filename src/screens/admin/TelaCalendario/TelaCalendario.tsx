@@ -12,7 +12,7 @@ LocaleConfig.defaultLocale = 'pt-br';
 export default function TelaCalendario() {
   const [day, setDay] = useState<DateData>();
   
-  const formatDate = (dateString) => {
+  const formatDate = (dateString:any) => {
     const [year, month, day] = dateString.split('-');
     return `${day}/${month}/${year}`;
   };
@@ -22,7 +22,7 @@ export default function TelaCalendario() {
   return (
     <View style={styles.container}>
       <Calendar
-        renderArrow={(direction) => (
+        renderArrow={(direction:any) => (
           <Feather size={24} color="#E8E8E8" name={`chevron-${direction}`} />
         )}
         headerStyle={{

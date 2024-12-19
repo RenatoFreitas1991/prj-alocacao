@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, ScrollView } from "react-native";
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import styles from '../../styles/TelaHomeStyle';
 import CardHistorico from '../../../components/CardHistorico/CardHistorico';
 import BR from '../../../components/BR/BR'

@@ -17,7 +17,7 @@ import pickerSelectStyles from "../../styles/selectStyles";
 import useStep from "../../../hooks/useStep";
 import fetchAddress from '../../../hooks/cepRequest';
 import { fetchProfissoes, fetchEstadosCivis } from './fetchs';
-import { API_URL } from '@env';
+//import { API_URL } from '@env';
 import { StackParamList } from '../../../routes/types';
 import { formatCPF, isValidCPF } from "../../../utils/cpfUtils";
 

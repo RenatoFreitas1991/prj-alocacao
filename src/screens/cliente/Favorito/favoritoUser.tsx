@@ -81,7 +81,10 @@ export default function TelaFavorito() {
 
   return (
     <View style={styles.container1}>
-      <BR /> <BR />
+      <View style={styles.bar}>
+        <Text style={styles.textBar}>Veículos Favoritos</Text>
+      </View>
+      <BR />
       <FlatList
         style={styles.listContainer}
         data={vehicles}
@@ -159,5 +162,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#888',
     textAlign: 'center',
+  },
+  bar: {
+    width: '100%',
+    height: '7%',
+    backgroundColor: '#2B3A67',
+  },
+  textBar: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 20,
+    marginTop: '4%',
   },
 });

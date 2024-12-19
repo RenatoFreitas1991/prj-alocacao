@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, FlatList, ListRenderItem, TextInput, StyleSheet, KeyboardAvoidingView, Platform, Text } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import style from '../../styles/TelaHomeStyle';
+//import style from '../../styles/TelaHomeStyle';
 import ButtonMore from '../../../components/ButtonMore/ButtonMore';
 import { API_URL } from '@env';
 import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
-
 
 export default function VeiculosNaoAlugados() {
   interface MinVeiculo {
@@ -14,6 +13,7 @@ export default function VeiculosNaoAlugados() {
     marca: string;
     placa: string;
     imagePath?: string;
+    searchQuery?: string;
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);

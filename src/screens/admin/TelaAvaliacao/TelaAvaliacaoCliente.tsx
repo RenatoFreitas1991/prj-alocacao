@@ -11,7 +11,7 @@ type AvaliacaoUser = {
 };
 
 // Teste e Verificando busca de CPF do usuário ( remover apos finalização )
-const buscarNomePorCPF = (cpf) => {
+const buscarNomePorCPF = (cpf:string) => {
   const usuariosSimulados = {
     "12345678900": "Joãozinho",
     "09876543210": "Joaquim",
@@ -29,7 +29,7 @@ const TelaAvaliacaoCliente = () => {
   const [avaliacoes, setAvaliacoes] = useState<AvaliacaoUser[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const handleCpfChange = (inputCpf) => {
+  const handleCpfChange = (inputCpf:string) => {
     const apenasNumeros = inputCpf.replace(/[^0-9]/g, '');
     setCpf(apenasNumeros);
 

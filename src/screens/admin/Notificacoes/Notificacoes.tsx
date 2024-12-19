@@ -3,12 +3,12 @@ import { View, Text, ScrollView } from "react-native";
 import styles from "./NotificacoesStyle";
 import { useRoute } from '@react-navigation/native';
 
-type RouteParams = {
-    clienteProp?: string;
-    marcaProp?: string;
-    modeloProp?: string;
-    placaProp?: string;
-};
+// type RouteParams = {
+//     clienteProp?: string;
+//     marcaProp?: string;
+//     modeloProp?: string;
+//     placaProp?: string;
+// };
 
 export default function Notificacoes() {
     const route = useRoute();

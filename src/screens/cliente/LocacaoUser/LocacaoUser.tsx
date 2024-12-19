@@ -8,12 +8,21 @@ import { StackParamList } from '../../../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import BR from '../../../components/BR/BR';
 
-type locacaoUserProp = NativeStackNavigationProp<StackParamList, 'LocacaoUser'>;
+type locacaoUserProp = RouteProp<StackParamList, 'LocacaoUser'>;
 
 export default function LocacaoUser() {
+
+  interface MinVeiculo {
+    id: number;
+    modelo: string;
+    marca: string;
+    placa: string;
+    imagePath?: string;
+  }
+
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
 
-  const route = useRoute<userTabNavigatorProp>();
+  const route = useRoute<locacaoUserProp>();
   const { cpf } = route.params;
 
   const fetchData = async () => {
@@ -96,5 +105,19 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    listContainer: {
+      width: '100%',
+    },
+    emptyContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    emptyText: {
+      fontSize: 16,
+      color: '#888',
+      textAlign: 'center',
     },
 })

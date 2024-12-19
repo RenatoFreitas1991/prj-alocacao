@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, FlatList, ListRenderItem, StyleSheet, Text, ScrollView, Alert } from "react-native";
 import { RouteProp, useRoute, useNavigation, NavigationProp } from '@react-navigation/native';
 import { API_URL } from '@env';
-import CarVehicleHistoric from '../../../components/CarVehicleHistoric/CarVehicleHistoric';
 import { StackParamList } from '../../../routes/types';
 
 type RouteParams = {

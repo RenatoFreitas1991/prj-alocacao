@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { MaterialIcons } from 'react-native-vector-icons';  // Para o ícone de lupa
+import MaterialIcons  from 'react-native-vector-icons/MaterialIcons';
 import VeiculosNaoAlugados from '../VeiculosNaoAlugados/VeiculosNaoAlugados';
-import { useNavigation } from "@react-navigation/native";  // Para usar a navegação
+import { useNavigation } from "@react-navigation/native";
 
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from '../../../routes/types';
@@ -11,14 +11,15 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
-type userTabNavigatorProp = NativeStackNavigationProp<StackParamList, 'TelaHomeUser'>;
+type homeUserRouter = RouteProp<StackParamList, 'TelaHomeUser'>;
+type homeUserNavigation = NativeStackNavigationProp<StackParamList, 'TelaHomeUser'>;
 
 export default function TelaHome() {
 
-  const navigation = useNavigation<userTabNavigatorProp>();
+  const navigation = useNavigation<homeUserNavigation>();
   const [searchText, setSearchText] = useState('');
 
-  const route = useRoute<userTabNavigatorProp>();
+  const route = useRoute<homeUserRouter>();
   const { cpf } = route.params;
 
   function goToLocaoUser() {

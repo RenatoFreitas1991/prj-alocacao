@@ -35,10 +35,12 @@ export default function TelaHomeAdmin() {
         })}
       >
         <Tab.Screen name="Não Alugados">
-          {() => <VeiculosNaoAlugados searchQuery={searchQuery} />}
+          {/* {() => <VeiculosNaoAlugados searchQuery={searchQuery} />} */}
+          {() => <VeiculosNaoAlugados />}
         </Tab.Screen>
         <Tab.Screen name="Alugados">
-          {() => <VeiculosAlugados searchQuery={searchQuery} />}
+          {/* {() => <VeiculosAlugados searchQuery={searchQuery} />} */}
+          {() => <VeiculosAlugados />}
         </Tab.Screen>
       </Tab.Navigator>
     </View>

@@ -34,6 +34,7 @@ export default function CardVehicle({
 }: CardVehicleProps) {
   const navigation = useNavigation<NavigationPropInicial>();
   const [modalVisible, setModalVisible] = useState(false);
+  const [cpf, setCpf] = useState(cpfUser || '');
 
   const favoritateVehicle = async () => {
     setModalVisible(false);
