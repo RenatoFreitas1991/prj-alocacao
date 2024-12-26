@@ -72,6 +72,29 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContainer: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        width: 200,
+    },
+    modalButton: {
+        padding: 10,
+        backgroundColor: 'white',
+        marginVertical: 5,
+        borderRadius: 5,
+    },
+      modalButtonText: {
+        color: 'black',
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
 });
 
 export default styles;

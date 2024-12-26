@@ -89,7 +89,7 @@ router.get('/:cpfUser', async (req, res) => {
         INNER JOIN tbl_veiculo v ON v.id = f.id_veiculo 
         INNER JOIN tbl_modelo mo ON mo.id = v.id_modelo 
         INNER JOIN tbl_marca ma ON ma.id = v.id_marca
-        WHERE f.id_usuario = :id_usuario`;
+        WHERE f.id_usuario = :id_usuario AND v.disponibilidade = 1`;
 
         const results = await sequelize.query(sql, {
             replacements: { id_usuario },

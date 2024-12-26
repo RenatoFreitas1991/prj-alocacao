@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Button, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Modal, Button, Alert } from 'react-native';
 import { API_URL } from '@env';
 import styles from './TelaEditarLocacaoVeiculoStyle';
 import BR from '../../../components/BR/BR';
@@ -22,6 +22,7 @@ type RouteParams = {
 export default function TelaEditarLocacaoVeiculo() {
     const route = useRoute<TelaEditarLocacaoVeiculoRouteProp>();
     const navigation = useNavigation<NavigationProp<StackParamList>>();
+    const [modalVisible, setModalVisible] = useState(false);
     const { id } = route.params;
 
     const [imagePath, setImageUri] = useState('');
@@ -81,6 +82,7 @@ export default function TelaEditarLocacaoVeiculo() {
     };
 
     const vehicleAvailabilityUpdate = async () => {
+        setModalVisible(false);
         const locacaoData = {
             imagePath,
             placa,
@@ -111,6 +113,28 @@ export default function TelaEditarLocacaoVeiculo() {
             <View>
                 <Text style={styles.titulo}>Locação do Veículo</Text>
             </View>
+
+            <Modal
+                transparent={true}
+                animationType="fade"
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+                <TouchableOpacity
+                style={styles.modalOverlay}
+                onPress={() => setModalVisible(false)}
+                activeOpacity={1}
+                >
+                    <View style={styles.modalContainer}>
+                        <TouchableOpacity style={styles.modalButton} >
+                            <Text style={styles.modalButtonText} onPress={vehicleAvailabilityUpdate}>Finalizar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.modalButton} >
+                            <Text style={styles.modalButtonText} onPress={() => setModalVisible(false)}>Cancelar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
+            </Modal>
 
             {/* <View style={styles.viewImg}>
 
@@ -154,15 +178,21 @@ export default function TelaEditarLocacaoVeiculo() {
                 <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataDevolucao} value={dataDevolucao || ''} />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={vehicleAvailabilityUpdate}>
+            {/* <TouchableOpacity style={styles.button} onPress={vehicleAvailabilityUpdate}>
+                <Text style={styles.buttonText}>Finalizar Locação</Text>
+            </TouchableOpacity> */}
+
+            <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
                 <Text style={styles.buttonText}>Finalizar Locação</Text>
             </TouchableOpacity>
+
             <TouchableOpacity style={styles.button} onPress={rentalVehicleUpdate}>
                 <Text style={styles.buttonText}>Atualizar</Text>
             </TouchableOpacity>
 
             <BR />
         </ScrollView>
+        
     )
 
 }
