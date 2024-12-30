@@ -11,11 +11,13 @@ import axios from 'axios';
 
 interface CardVehicleProps {
   id: number;
+  favoriteId?:number;
   modelo: string;
   marca: string;
   placa: string;
   imagePath?: string;
   isUserScreen?: boolean;
+  usersUnrentedVehiclesScreen?:boolean
   tela?:string;
   cpfUser?:string;
 }
@@ -24,17 +26,19 @@ type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'TelaHome
 
 export default function CardVehicle({
   id,
+  favoriteId,
   modelo,
   marca,
   placa,
   imagePath,
-  isUserScreen = false,  // Valor padrão como 'false'
+  isUserScreen = false,
+  usersUnrentedVehiclesScreen = false,
   tela,
   cpfUser
 }: CardVehicleProps) {
   const navigation = useNavigation<NavigationPropInicial>();
   const [modalVisible, setModalVisible] = useState(false);
-  const [cpf, setCpf] = useState(cpfUser || '');
+  //const [cpf, setCpf] = useState(cpfUser || '');
 
   const favoritateVehicle = async () => {
     setModalVisible(false);
@@ -55,6 +59,18 @@ export default function CardVehicle({
     }
 
   };
+
+  const unfavorite = async () => {
+    setModalVisible(false);
+
+    try {
+      const response = await axios.delete(`${API_URL}/api/backend/favorites/delete/${favoriteId}`);
+      Alert.alert('Sucesso', 'Veículo desfavoritado com sucesso');
+    } catch(error) {
+      console.log('Erro ao desfavoritar veículo', error);
+      Alert.alert('Error', 'Erro ao desfavoritar veículo');
+    }
+  }
 
   function goToEditar() {
     setModalVisible(false);
@@ -91,7 +107,6 @@ export default function CardVehicle({
          <Text style={isUserScreen ? userStyles.placaText : styles.text}>{placa}</Text>
       </View>
 
-
       <Modal
         transparent={true}
         animationType="fade"
@@ -111,6 +126,15 @@ export default function CardVehicle({
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} >
                   <Text style={styles.modalButtonText} onPress={favoritateVehicle}>Favoritar</Text>
+                </TouchableOpacity>
+              </>
+            ) : usersUnrentedVehiclesScreen ? (
+              <>
+                <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
+                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} >
+                  <Text style={styles.modalButtonText} onPress={unfavorite}>Desfavoritar</Text>
                 </TouchableOpacity>
               </>
             ) : tela != 'naoAlugado' ? (

@@ -85,7 +85,7 @@ router.get('/:cpfUser', async (req, res) => {
 
         const id_usuario = findUserIdByCpf[0].id;
 
-        const sql = `SELECT v.id, mo.modelo, ma.marca, v.placa, v.imagePath FROM tbl_veiculo_favorito f
+        const sql = `SELECT f.id AS favoriteId, v.id, mo.modelo, ma.marca, v.placa, v.imagePath FROM tbl_veiculo_favorito f
         INNER JOIN tbl_veiculo v ON v.id = f.id_veiculo 
         INNER JOIN tbl_modelo mo ON mo.id = v.id_modelo 
         INNER JOIN tbl_marca ma ON ma.id = v.id_marca
@@ -102,6 +102,37 @@ router.get('/:cpfUser', async (req, res) => {
     } catch (error) {
         console.error('Erro ao buscar veículos favoritos do usuário:', error);
         res.status(500).json({ error: 'Erro ao buscar veículos favoritos do usuário' });
+    }
+});
+
+router.delete('/delete/:favoriteId', async (req, res) => { 
+    const favoriteId = Number(req.params.favoriteId);
+
+    try {
+
+        const vehicleFavorite = await sequelize.query(
+            `SELECT * FROM tbl_veiculo_favorito WHERE id = :favoriteId`,
+            {
+                replacements: {favoriteId},
+                type: QueryTypes.SELECT,
+            }
+        );
+
+        if(vehicleFavorite.length != 0) {
+            const sql = `DELETE FROM tbl_veiculo_favorito WHERE id = :favoriteId`;
+
+            const results = await sequelize.query(sql, {
+                replacements: { favoriteId },
+                type: QueryTypes.DELETE,
+            });
+    
+            console.log(results);
+            res.json(results);
+        }
+
+    } catch (error) {
+        console.error('Erro ao desfavoritar veículo:', error);
+        res.status(500).json({ error: 'Erro ao desfavoritar veículo' });
     }
 });
 

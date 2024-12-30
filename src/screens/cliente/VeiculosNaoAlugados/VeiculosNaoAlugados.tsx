@@ -75,6 +75,7 @@ export default function VeiculosNaoAlugados({ cpf, isUserScreen = false }: Veicu
       imagePath={item.imagePath}
       isUserScreen={true}  // Passando a prop para o CardVehicle
       cpfUser={cpf}
+      tela="veiculosNaoAlugadosUser"
     />
   );
 

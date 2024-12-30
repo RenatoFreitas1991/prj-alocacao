@@ -16,6 +16,7 @@ export default function TelaFavorito() {
 
   interface MinVeiculo {
     id: number;
+    favoriteId?:number;
     modelo: string;
     marca: string;
     placa: string;
@@ -50,6 +51,7 @@ export default function TelaFavorito() {
         console.log('Image path para veículo:', vehicle.modelo, imagePath);
         return {
           id: vehicle.id,
+          favoriteId: vehicle.favoriteId,
           modelo: vehicle.modelo,
           marca: vehicle.marca,
           placa: vehicle.placa,
@@ -71,11 +73,12 @@ export default function TelaFavorito() {
   const renderCardVehicle: ListRenderItem<MinVeiculo> = ({ item }) => (
     <CardVeiculo
       id={item.id}
+      favoriteId={item.favoriteId}
       modelo={item.modelo}
       marca={item.marca}
       placa={item.placa}
       imagePath={item.imagePath}
-      isUserScreen={true}  // Passando a prop para o CardVehicle
+      usersUnrentedVehiclesScreen={true}
     />
   );
 
@@ -90,7 +93,7 @@ export default function TelaFavorito() {
         data={vehicles}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCardVehicle}
-        numColumns={1}
+        numColumns={2}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>Nenhum veículo foi favoritado.</Text>
