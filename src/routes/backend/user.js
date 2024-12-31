@@ -4,6 +4,7 @@ const { Usuario, Contato, Endereco, Profissao, EstadoCivil, Avaliacao } = requir
 const sequelize = require('../../config/database');
 const { formatCPF } = require('../../utils/cpfUtils');
 const bcrypt = require('bcrypt');
+const { QueryTypes } = require('sequelize');
 
 // Rota para registrar um novo usuário
 router.post('/register', async (req, res) => {
@@ -160,6 +161,26 @@ router.get('/blacklist', async (req, res) => {
   } catch (error) {
     console.error('Erro ao buscar usuários na blacklist:', error);
     res.status(500).json({ error: 'Erro ao buscar usuários na blacklist' });
+  }
+});
+
+router.get('/info/:cpf', async (req, res) => {
+  const cpf = req.params.cpf;
+
+  try {
+      const findInfoUserByCpf = await sequelize.query(
+          `SELECT nome, cpf, cnh, nascimento FROM tbl_usuario WHERE cpf = :cpf`,
+          {
+              replacements: { cpf },
+              type: QueryTypes.SELECT,
+          }
+      );
+
+      console.log(findInfoUserByCpf);
+      res.json(findInfoUserByCpf);
+  } catch(error) {
+      console.error('Erro ao buscar dados do usuários:', error);
+      res.status(500).json({ erro: 'Erro ao buscar dados do usuário' })
   }
 });
 

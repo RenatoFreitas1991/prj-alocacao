@@ -18,7 +18,7 @@ export default function TelaLocacaoVeiculo() {
     const [imagePath, setImageUri] = useState('');
     const [placa, setPlaca] = useState('');
     const [quilometragem, setQuilometragem] = useState('');
-    const [cpfUsuario, setCPfUsuario] = useState('');
+    const [cpfUsuario, setCPfUsuario] = useState<string>('');
     const [nomeUsuario, setNomeUsuario] = useState('');
     const [dataEntrega, setDataEntrega] = useState<string>('');
     const [dataDevolucao, setDataDevolucao] = useState<string>('');
@@ -26,6 +26,27 @@ export default function TelaLocacaoVeiculo() {
     function formatCPF(cpf: string): string {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     }
+
+    const fetchLocacaoUserData = async () => {
+        try {
+            const url = `${API_URL}/api/backend/user/info/${cpfUsuario}`;
+            console.log(`Fetching: ${url}`);
+            const response = await fetch(url);
+            const result = await response.json();
+
+            const locacaUseroData = result.map((userInfo: any) => {
+                setNomeUsuario(userInfo.nome);
+            })
+
+        } catch(error) {
+            console.error("Erro ao buscar dados da Locação:", error);
+            Alert.alert("Erro", "Não foi possível carregar os dados da Locação.");
+        }
+    }
+
+    useEffect(() => {
+        fetchLocacaoUserData();
+    }, [cpfUsuario]);
 
     useEffect(() => {
         const addOneMonth = (date: Date) => {
@@ -103,7 +124,14 @@ export default function TelaLocacaoVeiculo() {
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Nome do Usuário</Text>
-                <TextInput style={styles.input} placeholder="Nome do Usuário" onChangeText={setNomeUsuario} value={nomeUsuario || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Nome do Usuário" 
+                    onChangeText={() => {
+                        fetchLocacaoUserData();
+                    }} 
+                    value={nomeUsuario || ''} 
+                />
             </View>
 
             <View style={styles.viewInput}>
