@@ -116,7 +116,7 @@ export default function CadastrarVeiculo() {
         } as any);
     
         try {
-            const response = await axios.post(`${API_URL}/api/backend/upload`, formData, {
+            const response = await axios.post(`${API_URL}/api/backend/upload/`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
             return response.data.imagePath;
@@ -147,7 +147,7 @@ export default function CadastrarVeiculo() {
             dataEntrega,
             dataDevolucao,
             quilometragem,
-            imagens: uploadedImages // Array com caminhos das imagens carregadas
+            imagens: uploadedImages, // Array com caminhos das imagens carregadas
         };
     
         try {

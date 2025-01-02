@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Alert, Button, Image } from 'react-native';
 import { RouteProp, useRoute, useNavigation, NavigationProp } from '@react-navigation/native';
 import RNPickerSelect from 'react-native-picker-select';
 import { API_URL } from '@env';
@@ -8,6 +8,8 @@ import styles from './TeleEditarVeiculoStyle';
 import pickerSelectStyles from '../../styles/selectStyles';
 import BR from '../../../components/BR/BR';
 import { StackParamList } from '../../../routes/types';
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 type RouteParams = {
     id: number;
@@ -34,6 +36,7 @@ export default function TelaEditarVeiculo() {
     const [combustiveisOptions, setCombustiveisOptions] = useState([]);
     const [tiposVeiculoOptions, setTiposVeiculoOptions] = useState([]);
     const [disponibilidade, setDisponibilidade] = useState('');
+    const [imagesUri, setImagesUri] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -72,7 +75,68 @@ export default function TelaEditarVeiculo() {
         fetchData();
     }, [id]);
 
+    // Função para capturar a imagem
+    const handleImagePick = async () => {
+        if (imagesUri.length >= 5) {
+            Alert.alert("Limite de Imagens", "Você só pode adicionar até 5 imagens.");
+            return;
+        }
+
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert("Permissão negada", "Precisamos de permissão para acessar a câmera.");
+            return;
+        }
+
+        const result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            const imageUri = result.assets[0].uri;
+            const fileName = imageUri.split('/').pop(); 
+            const newPath = `${FileSystem.documentDirectory}veiculos/${fileName}`;
+
+            try {
+                await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}veiculos`, { intermediates: true });
+                await FileSystem.copyAsync({ from: imageUri, to: newPath });
+                setImagesUri((prevImages) => [...prevImages, newPath]);
+                Alert.alert("Imagem salva com sucesso!");
+            } catch (error) {
+                console.error("Erro ao salvar imagem:", error);
+                Alert.alert("Erro", "Não foi possível salvar a imagem.");
+            }
+        }
+    };
+
+    const handleImageUpload = async (imageUri: string) => {
+        const formData = new FormData();
+        formData.append('image', {
+            uri: imageUri,
+            type: 'image/jpeg',
+            name: `vehicle_${Date.now()}.jpg`
+        } as any);
+    
+        try {
+            const response = await axios.post(`${API_URL}/api/backend/upload/`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            return response.data.imagePath;
+        } catch (error) {
+            console.error("Erro ao fazer upload da imagem:", error);
+            Alert.alert("Erro", "Não foi possível fazer upload da imagem.");
+            return null;
+        }
+    };
+
     const handleUpdateVehicle = async () => {
+        const uploadedImages: string[] = [];
+        for (const imageUri of imagesUri) {
+            const imagePath = await handleImageUpload(imageUri);
+            if (imagePath) uploadedImages.push(imagePath); // Adiciona o caminho ao array se o upload for bem-sucedido
+        }
         const updatedVehicleData = {
             modelo,
             marca,
@@ -84,6 +148,7 @@ export default function TelaEditarVeiculo() {
             ano,
             quilometragem,
             tipo_veiculo: tipoVeiculo,
+            imagens: uploadedImages,
         };
 
         try {
@@ -100,6 +165,16 @@ export default function TelaEditarVeiculo() {
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <View style={styles.viewTitulo}>
                 <Text style={styles.titulo}>Editar veículo</Text>
+            </View>
+
+            <View style={{ marginBottom: 15 }}>
+                <Button title="Tirar Foto do Veículo" onPress={handleImagePick} />
+            </View>
+
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                {imagesUri.map((uri, index) => (
+                    <Image key={index} source={{ uri }} style={{ width: 100, height: 100, margin: 5 }} />
+                ))}
             </View>
 
             <View style={styles.viewInput}>

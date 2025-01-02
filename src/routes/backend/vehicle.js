@@ -125,7 +125,10 @@ router.put('/:id', async (req, res) => {
         ano,
         quilometragem,
         tipo_veiculo,
+        imagens
     } = req.body;
+
+    console.log("1");
 
     try {
         await sequelize.transaction(async (t) => {
@@ -169,6 +172,8 @@ router.put('/:id', async (req, res) => {
             const id_cor = corRecord.id;
             const id_combustivel = combustivelRecord.id;
 
+            console.log("2");
+
             const [result] = await sequelize.query(
                 `UPDATE tbl_veiculo 
                  SET id_tipo_veiculo = :id_tipo_veiculo,
@@ -180,7 +185,8 @@ router.put('/:id', async (req, res) => {
                      chassi = :chassi,
                      motor = :motor,
                      ano = :ano,
-                     quilometragem = :quilometragem
+                     quilometragem = :quilometragem,
+                     imagePath = :imagePath
                 WHERE id = :id`,
                 {
                     replacements: {
@@ -194,11 +200,14 @@ router.put('/:id', async (req, res) => {
                         motor,
                         ano,
                         quilometragem,
+                        imagePath: JSON.stringify(imagens),
                         id
                     },
                     transaction: t
                 }
             );
+
+            console.log("3");
 
             if (result === 0) {
                 throw new Error('Erro ao atualizar Veículo');
