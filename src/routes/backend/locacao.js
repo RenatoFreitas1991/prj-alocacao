@@ -5,13 +5,12 @@ const { QueryTypes } = require('sequelize');
 
 router.post('/register/', async (req, res) => {
     const {
-        imagePath,
         placa,
         quilometragem,
         cpfUsuario,
-        nomeUsuario,
         dataEntrega,
-        dataDevolucao
+        dataDevolucao,
+        imagens
     } = req.body;
 
     try {
@@ -70,7 +69,7 @@ router.post('/register/', async (req, res) => {
                         quilometragemInt,
                         dataEntrega,
                         dataDevolucao,
-                        imagePath,
+                        imagePath: JSON.stringify(imagens)
                     },
                     type: QueryTypes.INSERT,
                 }

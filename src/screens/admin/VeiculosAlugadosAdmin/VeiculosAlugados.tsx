@@ -17,46 +17,45 @@ export default function VeiculosAlugados() {
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
-  const [disponibilidade, setDisponibilidade] = useState(0);
   const [searchText, setSearchText] = useState('');
   const [filteredVehicles, setFilteredVehicles] = useState<MinVeiculo[]>([]);
 
   const fetchData = async () => {
     try {
-      const url = `${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`;
-      const response = await fetch(url);
-      const result = await response.json();
+        const url = `${API_URL}/api/backend/vehicles/disponibilidade/0`;
+        console.log(`Fetching: ${url}`);
+        const response = await fetch(url);
+        const result = await response.json();
+        
+        const vehiclesData = result.map((vehicle: any) => {
+            let imagePath = null;
 
-      const vehiclesData = result.map((vehicle: any) => {
-        let imagePath = null;
-
-        if (vehicle.imagePath) {
-          try {
-            const imagePathArray = JSON.parse(vehicle.imagePath);
-            if (Array.isArray(imagePathArray) && imagePathArray.length > 0) {
-              imagePath = `${API_URL}${imagePathArray[0]}`;
+            if (vehicle.imagePath) {
+                try {
+                    const imagePathArray = JSON.parse(vehicle.imagePath);
+                    if (Array.isArray(imagePathArray) && imagePathArray.length > 0) {
+                        imagePath = `${API_URL}${imagePathArray[0]}`;
+                    }
+                } catch (parseError) {
+                    console.error('Erro ao parsear imagePath:', parseError);
+                }
             }
-          } catch (parseError) {
-            console.error('Erro ao parsear imagePath:', parseError);
-          }
-        }
+            return {
+                ...vehicle,
+                imagePath,
+            };
+        });
 
-        return {
-          ...vehicle,
-          imagePath,
-        };
-      });
-
-      setVehicles(vehiclesData);
-      setFilteredVehicles(vehiclesData);
+        setVehicles(vehiclesData);
+        setFilteredVehicles(vehiclesData);
     } catch (error) {
-      console.error('Erro ao buscar os dados dos veículos ->', error);
+        console.error('Erro ao buscar os dados dos veículos ->', error);
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, [disponibilidade]);
+  }, []);
 
   useEffect(() => {
     const filtered = vehicles.filter(vehicle =>

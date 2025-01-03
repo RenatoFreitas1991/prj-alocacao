@@ -35,7 +35,6 @@ export default function TelaEditarVeiculo() {
     const [coresOptions, setCoresOptions] = useState([]);
     const [combustiveisOptions, setCombustiveisOptions] = useState([]);
     const [tiposVeiculoOptions, setTiposVeiculoOptions] = useState([]);
-    const [disponibilidade, setDisponibilidade] = useState('');
     const [imagesUri, setImagesUri] = useState<string[]>([]);
 
     useEffect(() => {
