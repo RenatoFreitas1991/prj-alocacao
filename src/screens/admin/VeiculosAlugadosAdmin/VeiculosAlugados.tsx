@@ -22,7 +22,7 @@ export default function VeiculosAlugados() {
 
   const fetchData = async () => {
     try {
-        const url = `${API_URL}/api/backend/vehicles/disponibilidade/0`;
+        const url = `${API_URL}/api/backend/vehicles/notAvailable`;
         console.log(`Fetching: ${url}`);
         const response = await fetch(url);
         const result = await response.json();

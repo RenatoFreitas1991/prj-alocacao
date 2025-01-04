@@ -27,4 +27,27 @@ router.get('/disponibilidade/:disponibilidade', async (req, res) => {
     }
 });
 
+router.get('/notAvailable', async (req, res) => { 
+
+    try {
+        const sql = `SELECT v.id, m.modelo, ma.marca, v.placa, l.imagePath 
+                        FROM tbl_veiculo v 
+                        INNER JOIN tbl_modelo m ON m.id = v.id_modelo 
+                        INNER JOIN tbl_marca ma ON ma.id = v.id_marca 
+                        INNER JOIN tbl_locacao_veiculo l ON l.id_veiculo = v.id 
+                        WHERE v.disponibilidade = 0 AND l.id_locacao_status = 2`;
+
+        const results = await sequelize.query(sql, {
+            type: QueryTypes.SELECT,
+        });
+
+        console.log(results);
+        res.json(results);
+        
+    } catch (error) {
+        console.error('Erro ao buscar dados dos veículos:', error);
+        res.status(500).json({ error: 'Erro ao buscar dados dos veículos' });
+    }
+});
+
 module.exports = router;
