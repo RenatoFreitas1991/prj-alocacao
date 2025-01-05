@@ -46,8 +46,8 @@ export default function TelaLocacaoVeiculo() {
             const response = await fetch(url);
             const result = await response.json();
 
-            const locacaUseroData = result.map((userInfo: any) => {
-                setNomeUsuario(userInfo.nome);
+            const locacaoData = result.map((data: any) => {
+                setNomeUsuario(data.nome);
             })
 
         } catch(error) {
@@ -57,7 +57,11 @@ export default function TelaLocacaoVeiculo() {
     }
 
     useEffect(() => {
-        fetchLocacaoUserData();
+        if(cpfUsuario.length == 14) {
+            fetchLocacaoUserData();
+        } else {
+            setNomeUsuario("")
+        }
     }, [cpfUsuario]);
 
     useEffect(() => {
@@ -201,9 +205,7 @@ export default function TelaLocacaoVeiculo() {
                 <TextInput 
                     style={styles.input} 
                     placeholder="Nome do Usuário" 
-                    onChangeText={() => {
-                        fetchLocacaoUserData();
-                    }} 
+                    editable={false} 
                     value={nomeUsuario || ''} 
                 />
             </View>
