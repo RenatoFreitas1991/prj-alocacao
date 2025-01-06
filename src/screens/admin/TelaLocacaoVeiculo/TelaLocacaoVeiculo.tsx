@@ -34,6 +34,7 @@ export default function TelaLocacaoVeiculo() {
     const [dataEntrega, setDataEntrega] = useState<string>('');
     const [dataDevolucao, setDataDevolucao] = useState<string>('');
     const [imagesUri, setImagesUri] = useState<string[]>([]);
+    const [showViewImg, setShowViewImg] = useState(false);
 
     function formatCPF(cpf: string): string {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
@@ -110,6 +111,7 @@ export default function TelaLocacaoVeiculo() {
                 await FileSystem.copyAsync({ from: imageUri, to: newPath });
                 setImagesUri((prevImages) => [...prevImages, newPath]);
                 Alert.alert("Imagem salva com sucesso!");
+                setShowViewImg(true);
             } catch (error) {
                 console.error("Erro ao salvar imagem:", error);
                 Alert.alert("Erro", "Não foi possível salvar a imagem.");
@@ -174,12 +176,15 @@ export default function TelaLocacaoVeiculo() {
             <View style={{ marginBottom: 15 }}>
                 <Button title="Tirar Foto do Veículo" onPress={handleImagePick} />
             </View>
-
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                {imagesUri.map((uri, index) => (
-                    <Image key={index} source={{ uri }} style={{ width: 100, height: 100, margin: 5 }} />
-                ))}
-            </View>
+            {showViewImg == true ? (
+                <View style={styles.viewImg}>
+                    {imagesUri.map((uri, index) => (
+                        <Image key={index} source={{ uri }} style={{ width: 100, height: 100, margin: 5 }} />
+                    ))}
+                </View>
+            ) : (
+                <View></View>
+            )}
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Placa</Text>

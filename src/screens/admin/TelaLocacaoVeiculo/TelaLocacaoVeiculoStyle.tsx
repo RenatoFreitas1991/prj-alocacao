@@ -25,12 +25,12 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     viewImg: {
-        // width: '90%',
-        // height: '20%',
-        // padding: 20,
-        // borderWidth: 2,
-        // borderColor: 'black',
-        // borderRadius: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        borderColor: 'black',
+        borderWidth: 2,
+        padding: 10,
+        borderRadius: 5,
     },
     viewInput: {
         margin: 'auto',

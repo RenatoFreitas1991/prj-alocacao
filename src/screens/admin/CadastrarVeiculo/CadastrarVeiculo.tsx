@@ -42,6 +42,7 @@ export default function CadastrarVeiculo() {
     const [dataEntrega, setDataEntrega] = useState('');
     const [dataDevolucao, setDataDevolucao] = useState('');
     const [imagesUri, setImagesUri] = useState<string[]>([]);
+    const [showViewImg, setShowViewImg] = useState(false);
 
     const [marcasOptions, setMarcasOptions] = useState([]);
     const [coresOptions, setCoresOptions] = useState([]);
@@ -100,6 +101,7 @@ export default function CadastrarVeiculo() {
                 await FileSystem.copyAsync({ from: imageUri, to: newPath });
                 setImagesUri((prevImages) => [...prevImages, newPath]);
                 Alert.alert("Imagem salva com sucesso!");
+                setShowViewImg(true);
             } catch (error) {
                 console.error("Erro ao salvar imagem:", error);
                 Alert.alert("Erro", "Não foi possível salvar a imagem.");
@@ -170,12 +172,15 @@ export default function CadastrarVeiculo() {
                     <Button title="Tirar Foto do Veículo" onPress={handleImagePick} />
                 </View>
 
-                {/* Exibe todas as imagens capturadas */}
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                    {imagesUri.map((uri, index) => (
-                        <Image key={index} source={{ uri }} style={{ width: 100, height: 100, margin: 5 }} />
-                    ))}
-                </View>
+                {showViewImg == true ? (
+                    <View style={styles.viewImg}>
+                        {imagesUri.map((uri, index) => (
+                            <Image key={index} source={{ uri }} style={{ width: 100, height: 100, margin: 5 }} />
+                        ))}
+                    </View>
+                    ) : (
+                        <View></View>
+                )}
 
                 <Text style={styles.label}>Tipo de veículo:</Text>
                 <View style={styles.input}>

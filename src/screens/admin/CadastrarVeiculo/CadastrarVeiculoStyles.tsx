@@ -37,6 +37,17 @@
             flex: 1,
             marginHorizontal: 5,
         },
+        viewImg: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            borderColor: 'white',
+            borderWidth: 2,
+            padding: 10,
+            borderRadius: 5,
+        },
     });
 
     export default styles;
