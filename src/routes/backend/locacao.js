@@ -42,6 +42,7 @@ router.post('/register/', async (req, res) => {
         const id_veiculo = vehicleResults[0].id;
         const quilometragemInt = Number(quilometragem);
         const disponibilidade = 0;
+        const id_locacao_status = 2;
 
         const id = null;
     
@@ -53,14 +54,16 @@ router.post('/register/', async (req, res) => {
                 quilometragem, 
                 data_de_entrega, 
                 data_de_devolucao, 
-                imagePath) 
+                imagePath,
+                id_locacao_status) 
                 VALUES (:id,
                         :id_veiculo, 
                         :id_usuario, 
                         :quilometragemInt,
                         :dataEntrega, 
                         :dataDevolucao, 
-                        :imagePath)`,
+                        :imagePath,
+                        :id_locacao_status)`,
                 {
                     replacements: {
                         id,
@@ -142,12 +145,12 @@ router.get('/vehicles/user/:cpf', async (req, res) => {
 
         const id_usuario = findUserIdByCpf[0].id;
 
-        const sql = `SELECT l.id, m.modelo, ma.marca, v.placa, v.imagePath 
+        const sql = `SELECT l.id, v.id AS idVehicle, m.modelo, ma.marca, v.placa, v.imagePath 
                         FROM tbl_locacao_veiculo l
                         INNER JOIN tbl_veiculo v ON l.id_veiculo = v.id
                         INNER JOIN tbl_modelo m ON m.id = v.id_modelo 
                         INNER JOIN tbl_marca ma ON ma.id = v.id_marca 
-                        WHERE l.id_usuario = :id_usuario`;
+                        WHERE l.id_usuario = :id_usuario AND l.id_locacao_status = 2`;
 
         const result = await sequelize.query(sql, {
             replacements: { id_usuario },
@@ -291,6 +294,7 @@ router.put('/disponibilityUpdate/', async (req, res) => {
         const id_veiculo = vehicleResults[0].id;
         const quilometragemInt = Number(quilometragem);
         const disponibilidade = 0;
+        const id_locacao_status = 1;
 
         const locacaoResults = await sequelize.query(
             `SELECT l.id FROM tbl_locacao_veiculo l 
@@ -311,7 +315,8 @@ router.put('/disponibilityUpdate/', async (req, res) => {
                 quilometragem = :quilometragemInt, 
                 data_de_entrega = :dataEntrega, 
                 data_de_devolucao = :dataDevolucao, 
-                imagePath = :imagePath 
+                imagePath = :imagePath, 
+                id_locacao_status = :id_locacao_status
                 WHERE id = :id`,
                 {
                     replacements: {
@@ -321,6 +326,7 @@ router.put('/disponibilityUpdate/', async (req, res) => {
                         dataEntrega,
                         dataDevolucao,
                         imagePath,
+                        id_locacao_status,
                         id,
                     },
                     type: QueryTypes.UPDATE,

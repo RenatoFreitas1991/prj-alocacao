@@ -3,10 +3,11 @@ import { View, FlatList, ListRenderItem, Text, StyleSheet } from "react-native";
 import { API_URL } from '@env';
 import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
 
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from '../../../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import BR from '../../../components/BR/BR';
+
+import { isBefore, isAfter, isEqual, differenceInDays } from 'date-fns';
 
 type locacaoUserProp = RouteProp<StackParamList, 'LocacaoUser'>;
 
@@ -49,7 +50,7 @@ export default function LocacaoUser() {
 
         console.log('Image path para veículo:', vehicle.modelo, imagePath);
         return {
-          id: vehicle.id,
+          id: vehicle.idVehicle,
           modelo: vehicle.modelo,
           marca: vehicle.marca,
           placa: vehicle.placa,
@@ -64,9 +65,23 @@ export default function LocacaoUser() {
     }
   };
 
+  const rentalDate = async() => {
+    const date1 = new Date(2025, 0, 3);
+    const date2 = new Date(2025, 0, 10);
+
+    if(isBefore(date1, date2) && differenceInDays(date2, date1) == 7) {
+      //alert('Pay the rental');
+    }
+
+  }
+
   useEffect(() => {
     fetchData();
   }, [cpf]);
+
+  useEffect(() => {
+    rentalDate();
+  }, []);
 
   const renderCardVehicle: ListRenderItem<MinVeiculo> = ({ item }) => (
     <CardVeiculo
@@ -90,6 +105,7 @@ export default function LocacaoUser() {
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>Você não possui nenhuma locação.</Text>
+            
           </View>
         }
       />

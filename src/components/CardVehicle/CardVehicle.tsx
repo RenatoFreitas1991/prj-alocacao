@@ -18,6 +18,7 @@ interface CardVehicleProps {
   imagePath?: string;
   isUserScreen?: boolean;
   usersUnrentedVehiclesScreen?:boolean
+  vehicleNotRentalAdminScreen?:boolean;
   tela?:string;
   cpfUser?:string;
 }
@@ -33,6 +34,7 @@ export default function CardVehicle({
   imagePath,
   isUserScreen = false,
   usersUnrentedVehiclesScreen = false,
+  vehicleNotRentalAdminScreen = false,
   tela,
   cpfUser
 }: CardVehicleProps) {
@@ -137,7 +139,7 @@ export default function CardVehicle({
                   <Text style={styles.modalButtonText} onPress={unfavorite}>Desfavoritar</Text>
                 </TouchableOpacity>
               </>
-            ) : tela != 'naoAlugado' ? (
+            ) : vehicleNotRentalAdminScreen ? (
               <>
                 <TouchableOpacity style={styles.modalButton} onPress={goToEditarLocacao}>
                   <Text style={styles.modalButtonText}>Locação</Text>
@@ -151,15 +153,15 @@ export default function CardVehicle({
               </>
             ) : (
               <>
-                <TouchableOpacity style={styles.modalButton} onPress={goToEditar}>
+                {/* <TouchableOpacity style={styles.modalButton} onPress={goToEditar}>
                   <Text style={styles.modalButtonText}>Editar</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
-                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                  <Text style={styles.modalButtonText}>Ver Info - </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.modalButton}>
+                {/* <TouchableOpacity style={styles.modalButton}>
                   <Text style={styles.modalButtonText} onPress={goToHistoricoManutencaoVeiculo}>Manutenções</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </>
             )}
           </View>

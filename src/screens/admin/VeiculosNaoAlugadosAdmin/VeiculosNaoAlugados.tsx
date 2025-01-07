@@ -79,7 +79,7 @@ export default function VeiculosNaoAlugados() {
       marca={item.marca}
       placa={item.placa}
       imagePath={item.imagePath}
-      tela={tela}
+      vehicleNotRentalAdminScreen={true}
     />
   );
 

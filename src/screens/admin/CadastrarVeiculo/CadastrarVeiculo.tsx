@@ -180,7 +180,8 @@ export default function CadastrarVeiculo() {
                     </View>
                     ) : (
                         <View></View>
-                )}
+                    )
+                }
 
                 <Text style={styles.label}>Tipo de veículo:</Text>
                 <View style={styles.input}>
