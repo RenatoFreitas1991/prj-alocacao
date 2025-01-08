@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, ScrollView, TouchableOpacity, Share, Alert } from 'react-native';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  Button, 
+  ScrollView, 
+  TouchableOpacity, 
+  KeyboardAvoidingView,
+  Share, 
+  Alert,
+  ListRenderItem,
+  Platform,
+  FlatList } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { motivos } from '../TelaBlackList/motivosBlackList';
 import styles from '../TelaBlackList/BlakListStyle';
@@ -8,16 +20,27 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { API_URL } from '@env';
 import { formatCPF, isValidCPF } from '../../../utils/cpfUtils';
 
-type BlacklistUser = {
-  cpf: string;
-  reason: string;
-  nome: string;
-};
+// type BlacklistUser = {
+//   id: number;
+//   cpf: string;
+//   reason: string;
+//   nome: string;
+// };
 
-const TelaBlackList = () => {
+export default function TelaBlackList() {
+
+  interface BlacklistUser {
+    id: number;
+    cpf: string;
+    reason: string;
+    nome: string;
+  };
+
   const [cpf, setCpf] = useState('');
   const [selectedReason, setSelectedReason] = useState('');
   const [blacklist, setBlacklist] = useState<BlacklistUser[]>([]);
+  const [filteredVehicles, setFilteredVehicles] = useState<BlacklistUser[]>([]);
+  const [searchText, setSearchText] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
 
   const fetchBlacklistUsers = async () => {
@@ -28,10 +51,12 @@ const TelaBlackList = () => {
       }
       const data = await response.json();
       const formattedData = data.map((user: any) => ({
+        id: user.id,
         cpf: user.cpf,
         reason: user.motivo_blacklist,
         nome: user.nome,
       }));
+      console.log(formattedData)
       setBlacklist(formattedData);
     } catch (error) {
       console.error('Erro ao buscar usuários na blacklist ->', error);
@@ -86,7 +111,7 @@ const TelaBlackList = () => {
     }
   };
 
-  const handleRemoveUser = (cpf: string, index: number) => {
+  const handleRemoveUser = (cpf: string) => {
     Alert.alert(
       'Confirmação de Exclusão',
       'Você tem certeza que quer excluir?',
@@ -125,8 +150,6 @@ const TelaBlackList = () => {
     );
   };
   
-  
-
   const onShare = async (nome:string, cpf:String, reason:string) => {
     const result = await Share.share({
       message:
@@ -134,73 +157,139 @@ const TelaBlackList = () => {
     });
   };
 
+  useEffect(() => {
+    if (searchText) {
+      const filtered = blacklist.filter(blacklist =>
+        blacklist.nome.toLowerCase().includes(searchText.toLowerCase()) ||
+        blacklist.cpf.toLowerCase().includes(searchText.toLowerCase()) ||
+        blacklist.reason.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredVehicles(filtered);
+    } else {
+      setFilteredVehicles(blacklist);
+    }
+  }, [searchText, blacklist]);
+
+  const renderBlackList: ListRenderItem<BlacklistUser> = ({ item }) => {
+    return(
+      <View key={item.id} style={styles.userCard}>
+        <Text style={styles.userName}>
+          Nome: {item.nome}
+        </Text>
+        <Text style={styles.userName}>
+          CPF: {item.cpf}
+        </Text>
+        <View style={styles.userReasonContainer}>
+          <Text style={styles.userReason}>
+            Motivo: {item.reason}
+          </Text>
+          <TouchableOpacity onPress={() => onShare(item.nome, item.cpf, item.reason)} style={styles.shareButton}>
+            <Icon name="share" size={22} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => handleRemoveUser(item.cpf)} style={styles.removeButton}>
+            <Icon name="close" size={24} color="white" />
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>Lista Negra</Text>
-        <Icon name="block" size={50} color="red" />
-      </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      style={styles.container1}
+    >
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Lista Negra</Text>
+          <Icon name="block" size={50} color="red" />
+        </View>
 
-      <View style={styles.formContainer}>
-        <Text style={styles.label}>CPF do Usuário:</Text>
+        <View style={styles.formContainer}>
+          <Text style={styles.label}>CPF do Usuário:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Digite o CPF do usuário"
+            placeholderTextColor="#AAA"
+            keyboardType="numeric"
+            value={cpf}
+            onChangeText={(text) => setCpf(formatCPF(text))}
+          />
+
+          <Text style={styles.label}>Motivo:</Text>
+          <RNPickerSelect
+            onValueChange={(value) => setSelectedReason(value)}
+            items={motivos.map(motivo => ({ label: motivo.label, value: motivo.value }))}
+            style={pickerSelectStyles}
+            placeholder={{ label: 'Selecione o motivo', value: '' }}
+            value={selectedReason}
+          />
+
+          <Button
+            title="Adicionar à Lista Negra"
+            onPress={handleAddToBlacklist}
+            color="red"
+          />
+
+          {errorMessage ? (
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+          ) : null}
+        </View>
+
+        <Text style={styles.description}>
+          Esta tela exibe todos os usuários que foram adicionados à blacklist.
+        </Text>
+
+      <View style={styles.searchContainer}>
+        <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
         <TextInput
-          style={styles.input}
-          placeholder="Digite o CPF do usuário"
-          placeholderTextColor="#AAA"
-          keyboardType="numeric"
-          value={cpf}
-          onChangeText={(text) => setCpf(formatCPF(text))}
+          style={styles.searchBar}
+          placeholder="Buscar veículos..."
+          placeholderTextColor="#888"
+          value={searchText}
+          onChangeText={setSearchText}
         />
-
-        <Text style={styles.label}>Motivo:</Text>
-        <RNPickerSelect
-          onValueChange={(value) => setSelectedReason(value)}
-          items={motivos.map(motivo => ({ label: motivo.label, value: motivo.value }))}
-          style={pickerSelectStyles}
-          placeholder={{ label: 'Selecione o motivo', value: '' }}
-          value={selectedReason}
-        />
-
-        <Button
-          title="Adicionar à Lista Negra"
-          onPress={handleAddToBlacklist}
-          color="red"
-        />
-
-        {errorMessage ? (
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-        ) : null}
       </View>
 
-      <Text style={styles.description}>
-        Esta tela exibe todos os usuários que foram adicionados à blacklist.
-      </Text>
+        <ScrollView style={styles.scrollContainer}>
+          <FlatList 
+            data={filteredVehicles}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderBlackList}
+            ListEmptyComponent={
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>Nenhum usuário está na blacklist.</Text>
+              </View>
+            }
+          />
+        </ScrollView>
 
-      <ScrollView style={styles.scrollContainer}>
-        {blacklist.map((user, index) => (
-          <View key={index} style={styles.userCard}>
-            <Text style={styles.userName}>
-              Nome: {user.nome}
-            </Text>
-            <Text style={styles.userName}>
-              CPF: {user.cpf}
-            </Text>
-            <View style={styles.userReasonContainer}>
-              <Text style={styles.userReason}>
-                Motivo: {user.reason}
+        {/* <ScrollView style={styles.scrollContainer}>
+          {blacklist.map((user, index) => (
+            <View key={index} style={styles.userCard}>
+              <Text style={styles.userName}>
+                Nome: {user.nome}
               </Text>
-              <TouchableOpacity onPress={() => onShare(user.nome, user.cpf, user.reason)} style={styles.shareButton}>
-                <Icon name="share" size={22} color="white" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleRemoveUser(user.cpf, index)} style={styles.removeButton}>
-                <Icon name="close" size={24} color="white" />
-              </TouchableOpacity>
+              <Text style={styles.userName}>
+                CPF: {user.cpf}
+              </Text>
+              <View style={styles.userReasonContainer}>
+                <Text style={styles.userReason}>
+                  Motivo: {user.reason}
+                </Text>
+                <TouchableOpacity onPress={() => onShare(user.nome, user.cpf, user.reason)} style={styles.shareButton}>
+                  <Icon name="share" size={22} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleRemoveUser(user.cpf)} style={styles.removeButton}>
+                  <Icon name="close" size={24} color="white" />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        ))}
-      </ScrollView>
-    </View>
+          ))}
+        </ScrollView> */}
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
-export default TelaBlackList;
+//export default TelaBlackList;

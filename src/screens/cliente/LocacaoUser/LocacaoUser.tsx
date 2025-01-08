@@ -19,6 +19,7 @@ export default function LocacaoUser() {
     marca: string;
     placa: string;
     imagePath?: string;
+    dataDevolucao?:string;
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
@@ -55,6 +56,7 @@ export default function LocacaoUser() {
           marca: vehicle.marca,
           placa: vehicle.placa,
           imagePath,
+          dataDevolucao: vehicle.data_de_devolucao,
         };
       });
 
@@ -66,6 +68,11 @@ export default function LocacaoUser() {
   };
 
   const rentalDate = async() => {
+    const dateProp = "07/01/2025";
+    const dateSplit = dateProp.split("/");
+    console.log(dateSplit[0])
+    console.log(dateSplit[1])
+    console.log(dateSplit[2])
     const date1 = new Date(2025, 0, 3);
     const date2 = new Date(2025, 0, 10);
 

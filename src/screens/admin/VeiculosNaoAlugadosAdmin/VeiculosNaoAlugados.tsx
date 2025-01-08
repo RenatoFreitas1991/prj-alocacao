@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, ListRenderItem, TextInput, StyleSheet, KeyboardAvoidingView, Platform, Text } from "react-native";
+import { 
+  View, 
+  FlatList, 
+  ListRenderItem, 
+  TextInput,
+   StyleSheet, 
+   KeyboardAvoidingView, 
+   Platform, 
+   Text } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import style from '../../styles/TelaHomeStyle';
 import ButtonMore from '../../../components/ButtonMore/ButtonMore';

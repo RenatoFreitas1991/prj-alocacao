@@ -6,6 +6,11 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#1C1C1E',
   },
+  container1: {
+    flex: 1,
+    justifyContent: "flex-start",
+    backgroundColor: "#fff",
+  },
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -105,6 +110,44 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#FF453A',
     marginTop: 10,
+    textAlign: 'center',
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F0F0F0",
+    borderRadius: 30,
+    paddingHorizontal: 10,
+    marginVertical: 10,
+    marginHorizontal: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 4,
+  },
+  searchIcon: {
+    marginRight: 5,
+  },
+  searchBar: {
+    flex: 1,
+    height: 50,
+    color: "#333",
+    fontSize: 16,
+  },
+  listContainer: {
+    flex: 1,
+    marginHorizontal: 10,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#888',
     textAlign: 'center',
   },
 });

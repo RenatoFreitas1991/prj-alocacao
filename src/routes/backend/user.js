@@ -150,14 +150,34 @@ router.delete('/blacklist', async (req, res) => {
   }
 });
 
-router.get('/blacklist', async (req, res) => {
-  try {
-    const usuariosNaBlacklist = await Usuario.findAll({
-      where: { blacklist: 1 },
-      attributes: ['cpf', 'nome', 'motivo_blacklist'] // Ajuste os campos que deseja retornar
-    });
+// router.get('/blacklist', async (req, res) => {
+//   try {
+//     const usuariosNaBlacklist = await Usuario.findAll({
+//       where: { blacklist: 1 },
+//       attributes: ['id', 'cpf', 'nome', 'motivo_blacklist'] // Ajuste os campos que deseja retornar
+//     });
+//     console.log(usuariosNaBlacklist)
+//     res.status(200).json(usuariosNaBlacklist);
+//   } catch (error) {
+//     console.error('Erro ao buscar usuários na blacklist:', error);
+//     res.status(500).json({ error: 'Erro ao buscar usuários na blacklist' });
+//   }
+// });
 
-    res.status(200).json(usuariosNaBlacklist);
+router.get('/blacklist', async (req, res) => {
+
+  try {
+      const sql = `SELECT id, nome, cpf, motivo_blacklist 
+                    FROM tbl_usuario 
+                    WHERE blacklist = 1`;
+
+      const result = await sequelize.query(sql, {
+          type: QueryTypes.SELECT,
+      });
+
+      console.log(result);
+      res.status(200).json(result);
+
   } catch (error) {
     console.error('Erro ao buscar usuários na blacklist:', error);
     res.status(500).json({ error: 'Erro ao buscar usuários na blacklist' });
