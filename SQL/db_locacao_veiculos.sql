@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 04/01/2025 às 14:31
+-- Tempo de geração: 13/01/2025 às 13:08
 -- Versão do servidor: 10.6.15-MariaDB
 -- Versão do PHP: 8.2.0
 
@@ -219,22 +219,23 @@ CREATE TABLE `tbl_locacao_veiculo` (
   `data_de_entrega` varchar(11) NOT NULL,
   `data_de_devolucao` varchar(11) NOT NULL,
   `imagePath` varchar(255) NOT NULL,
-  `id_locacao_status` int(11) NOT NULL
+  `id_locacao_status` int(11) NOT NULL,
+  `id_pagamento` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tbl_locacao_veiculo`
 --
 
-INSERT INTO `tbl_locacao_veiculo` (`id`, `id_veiculo`, `id_usuario`, `quilometragem`, `data_de_entrega`, `data_de_devolucao`, `imagePath`, `id_locacao_status`) VALUES
-(8, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1),
-(10, 9, 8, 0, '21/11/2024', '10/12/2024', '', 1),
-(12, 12, 8, 0, '03/12/2024', '03/01/2025', '', 1),
-(15, 7, 7, 0, '17/12/2024', '17/01/2025', '', 1),
-(16, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1),
-(17, 7, 1, 0, '03/01/2025', '03/02/2025', '', 1),
-(20, 7, 1, 0, '03/01/2025', '03/02/2025', '[\"/assets/veiculos/1735908777467-758481105-vehicle_1735908776828.jpg\"]', 2),
-(21, 20, 6, 0, '04/01/2025', '04/02/2025', '[]', 2);
+INSERT INTO `tbl_locacao_veiculo` (`id`, `id_veiculo`, `id_usuario`, `quilometragem`, `data_de_entrega`, `data_de_devolucao`, `imagePath`, `id_locacao_status`, `id_pagamento`) VALUES
+(8, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 1),
+(10, 9, 8, 0, '21/11/2024', '10/12/2024', '', 2, 1),
+(12, 12, 8, 0, '03/12/2024', '03/01/2025', '', 2, 1),
+(15, 7, 7, 0, '17/12/2024', '17/01/2025', '', 1, 1),
+(16, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 1),
+(17, 7, 1, 0, '03/01/2025', '03/02/2025', '', 1, 1),
+(20, 7, 1, 0, '03/01/2025', '03/02/2025', '[\"/assets/veiculos/1735908777467-758481105-vehicle_1735908776828.jpg\"]', 1, 1),
+(21, 20, 6, 0, '04/01/2025', '04/02/2025', '', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -366,6 +367,25 @@ INSERT INTO `tbl_modelo` (`id`, `modelo`) VALUES
 (9, 'HondaSSS'),
 (10, 'HondaSS'),
 (11, 'Scooter');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tbl_pagamento`
+--
+
+CREATE TABLE `tbl_pagamento` (
+  `id` int(11) NOT NULL,
+  `pagamento` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_pagamento`
+--
+
+INSERT INTO `tbl_pagamento` (`id`, `pagamento`) VALUES
+(1, 'NÃO PAGO'),
+(2, 'PAGO');
 
 -- --------------------------------------------------------
 
@@ -1550,7 +1570,7 @@ CREATE TABLE `tbl_usuario` (
 
 INSERT INTO `tbl_usuario` (`id`, `nome`, `cpf`, `cnh`, `nascimento`, `senha`, `rg`, `orgao_expedidor`, `blacklist`, `motivo_blacklist`, `id_profissao`, `id_contato`, `id_endereco`, `id_locador`, `id_estado_civil`, `id_avaliacao`) VALUES
 (1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 1, 'Pagamento atrasado', 4, 1, 1, 0, 1, 1),
-(6, 'Gabriel', '849.154.620-05', '650283', '01/05/1998', '$2b$10$xyvSj.2gbug8RzvWqGHtn.vT8Gwl0a1LigktPf8FjaCT0LVLcyWZ.', 717273, 'SSP', 0, '', 2, 6, 6, 0, 1, 6),
+(6, 'Gabriel', '849.154.620-05', '650283', '01/05/1998', '$2b$10$xyvSj.2gbug8RzvWqGHtn.vT8Gwl0a1LigktPf8FjaCT0LVLcyWZ.', 717273, 'SSP', 1, 'Processo jurídico', 2, 6, 6, 0, 1, 6),
 (7, 'Pedro', '026.415.300-66', '34234', '11/09/1998', '$2b$10$SINoJ6bsiLDukeSy0zhLU.7L/abciVXugRriyWEF6qmcGZqv9YBZe', 445435, 'ssp', 0, '', 2, 7, 7, 0, 1, 7),
 (8, 'Ana', '391.474.290-97', '233323', '11/11/1995', '$2b$10$BVDJPMBqKOTBNzfkCu8S9Ou.xmGJ.WwjsoP2B2kxUqDp.n.u6uaQm', 234234, 'ssp', 0, '', 865, 8, 8, 0, 1, 8);
 
@@ -1583,12 +1603,12 @@ CREATE TABLE `tbl_veiculo` (
 --
 
 INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `imagePath`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
-(7, 2, 7, 1, 14, 1, '[]', 0, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
+(7, 2, 7, 1, 14, 1, '[]', 1, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
 (8, 2, 7, 3, 10, 1, '[]', 1, 'J0DF-AS3R', 'SDASGD63R62', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 5),
 (9, 2, 7, 5, 13, 8, '[]', 1, 'HC32X-242D', 'ICYN37Q7DHT34DS', 'tetracilín', '2024', '0000-00-00', '0000-00-00', 0),
 (11, 2, 7, 4, 2, 1, '[]', 1, 'FCWFE-2344', 'CW32Z23F', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
 (12, 2, 7, 5, 2, 1, '[]', 1, 'GFHJ-234T', 'C434ESFEE643', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 0),
-(20, 2, 11, 65, 10, 1, '[\"/assets/veiculos/1735908446032-714330617-vehicle_1735908445391.jpg\"]', 0, 'SFAF-45F6', 'FAHAH45AGA5', 'Monocilínd', '2025', '0000-00-00', '0000-00-00', 0);
+(20, 2, 11, 65, 10, 1, '[\"/assets/veiculos/1735908446032-714330617-vehicle_1735908445391.jpg\"]', 1, 'SFAF-45F6', 'FAHAH45AGA5', 'Monocilínd', '2025', '0000-00-00', '0000-00-00', 0);
 
 -- --------------------------------------------------------
 
@@ -1664,7 +1684,8 @@ ALTER TABLE `tbl_locacao_veiculo`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_locacao_veiculo` (`id_veiculo`),
   ADD KEY `fk_locacao_usuario` (`id_usuario`),
-  ADD KEY `fk_locacao_status` (`id_locacao_status`);
+  ADD KEY `fk_locacao_status` (`id_locacao_status`),
+  ADD KEY `fk_locacao_pagamento` (`id_pagamento`);
 
 --
 -- Índices de tabela `tbl_manutencao`
@@ -1684,6 +1705,12 @@ ALTER TABLE `tbl_marca`
 -- Índices de tabela `tbl_modelo`
 --
 ALTER TABLE `tbl_modelo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `tbl_pagamento`
+--
+ALTER TABLE `tbl_pagamento`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1799,6 +1826,12 @@ ALTER TABLE `tbl_modelo`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT de tabela `tbl_pagamento`
+--
+ALTER TABLE `tbl_pagamento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de tabela `tbl_profissao`
 --
 ALTER TABLE `tbl_profissao`
@@ -1836,6 +1869,7 @@ ALTER TABLE `tbl_veiculo_favorito`
 -- Restrições para tabelas `tbl_locacao_veiculo`
 --
 ALTER TABLE `tbl_locacao_veiculo`
+  ADD CONSTRAINT `fk_locacao_pagamento` FOREIGN KEY (`id_pagamento`) REFERENCES `tbl_pagamento` (`id`),
   ADD CONSTRAINT `fk_locacao_status` FOREIGN KEY (`id_locacao_status`) REFERENCES `tbl_locacao_status` (`id`),
   ADD CONSTRAINT `fk_locacao_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuario` (`id`),
   ADD CONSTRAINT `fk_locacao_veiculo` FOREIGN KEY (`id_veiculo`) REFERENCES `tbl_veiculo` (`id`);

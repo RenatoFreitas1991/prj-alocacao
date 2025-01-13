@@ -7,7 +7,7 @@ import { StackParamList } from '../../../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import BR from '../../../components/BR/BR';
 
-import { isBefore, isAfter, isEqual, differenceInDays } from 'date-fns';
+import { isBefore, isEqual, differenceInDays } from 'date-fns';
 
 type locacaoUserProp = RouteProp<StackParamList, 'LocacaoUser'>;
 
@@ -69,17 +69,32 @@ export default function LocacaoUser() {
 
   const rentalDate = async() => {
     const dateProp = "07/01/2025";
-    const dateSplit = dateProp.split("/");
-    console.log(dateSplit[0])
-    console.log(dateSplit[1])
-    console.log(dateSplit[2])
-    const date1 = new Date(2025, 0, 3);
-    const date2 = new Date(2025, 0, 10);
 
-    if(isBefore(date1, date2) && differenceInDays(date2, date1) == 7) {
-      //alert('Pay the rental');
+    const now = dateNow();
+    const rentalDate = stringToDate(dateProp);
+
+    console.log("Rental Date: " + rentalDate)
+
+    if(isBefore(now, rentalDate) && differenceInDays(rentalDate, now) <= 7 || isEqual(rentalDate, now)) {
+      alert(`Pay the rental`);
     }
+  }
 
+  function stringToDate(dateString:string) {
+    const dateSplit = dateString.split("/");
+
+    const year = Number(dateSplit[0]);
+    const month = Number(dateSplit[1]) - 1;
+    const day = Number(dateSplit[2]);
+
+    const dateFormat = new Date(year, month, day);
+    return dateFormat;
+  }
+
+  function dateNow() {
+    const now = new Date();
+    const dateNow = new Date(now.getFullYear(), now.getMonth(), now.getDay());
+    return dateNow;
   }
 
   useEffect(() => {
