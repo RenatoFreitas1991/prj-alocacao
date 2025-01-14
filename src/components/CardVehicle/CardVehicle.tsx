@@ -19,6 +19,7 @@ interface CardVehicleProps {
   isUserScreen?: boolean;
   usersUnrentedVehiclesScreen?:boolean
   vehicleNotRentalAdminScreen?:boolean;
+  vehicleRentalAdminScreen?:boolean;
   tela?:string;
   cpfUser?:string;
 }
@@ -35,6 +36,7 @@ export default function CardVehicle({
   isUserScreen = false,
   usersUnrentedVehiclesScreen = false,
   vehicleNotRentalAdminScreen = false,
+  vehicleRentalAdminScreen = false,
   tela,
   cpfUser
 }: CardVehicleProps) {
@@ -139,7 +141,7 @@ export default function CardVehicle({
                   <Text style={styles.modalButtonText} onPress={unfavorite}>Desfavoritar</Text>
                 </TouchableOpacity>
               </>
-            ) : vehicleNotRentalAdminScreen ? (
+            ) : vehicleRentalAdminScreen ? (
               <>
                 <TouchableOpacity style={styles.modalButton} onPress={goToEditarLocacao}>
                   <Text style={styles.modalButtonText}>Locação</Text>
@@ -151,18 +153,22 @@ export default function CardVehicle({
                   <Text style={styles.modalButtonText} onPress={goToHistoricoManutencaoVeiculo}>Manutenções</Text>
                 </TouchableOpacity>
               </>
-            ) : (
+            ) : vehicleNotRentalAdminScreen ? (
               <>
-                {/* <TouchableOpacity style={styles.modalButton} onPress={goToEditar}>
+                <TouchableOpacity style={styles.modalButton} onPress={goToEditar}>
                   <Text style={styles.modalButtonText}>Editar</Text>
-                </TouchableOpacity> */}
-                <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
-                  <Text style={styles.modalButtonText}>Ver Info - </Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity style={styles.modalButton}>
+                <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
+                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton}>
                   <Text style={styles.modalButtonText} onPress={goToHistoricoManutencaoVeiculo}>Manutenções</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
               </>
+            ) : (
+              <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
+                <Text style={styles.modalButtonText}>Ver Info</Text>
+              </TouchableOpacity>
             )}
           </View>
         </TouchableOpacity>

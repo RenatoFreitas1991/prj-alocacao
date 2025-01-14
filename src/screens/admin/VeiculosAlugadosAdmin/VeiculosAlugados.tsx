@@ -73,6 +73,7 @@ export default function VeiculosAlugados() {
       marca={item.marca}
       placa={item.placa}
       imagePath={item.imagePath}
+      vehicleRentalAdminScreen={true}
     />
   );
 

@@ -27,12 +27,13 @@ export default function VeiculosNaoAlugados() {
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
   const [filteredVehicles, setFilteredVehicles] = useState<MinVeiculo[]>([]);
   const [searchText, setSearchText] = useState("");
+  const [disponibilidade, setDisponibilidade] = useState(1);
 
   const tela = "naoAlugado";
 
   const fetchData = async () => {
     try {
-        const url = `${API_URL}/api/backend/vehicles/disponibilidade/1`;
+        const url = `${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`;
         console.log(`Fetching: ${url}`);
         const response = await fetch(url);
         const result = await response.json();
