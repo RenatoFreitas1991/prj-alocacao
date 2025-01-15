@@ -146,12 +146,24 @@ export default function TelaEditarLocacaoVeiculo() {
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Placa</Text>
-                <TextInput style={styles.input} placeholder="Placa" onChangeText={setPlaca} value={placa || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Placa" 
+                    onChangeText={setPlaca} 
+                    value={placa || ''} 
+                    editable={false} 
+                />
             </View>
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Quilometragem</Text>
-                <TextInput style={styles.input} placeholder="Quilometragem" onChangeText={setQuilometragem} value={quilometragem || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Quilometragem" 
+                    onChangeText={setQuilometragem} 
+                    value={quilometragem || quilometragem}
+                    editable={false}
+                />
             </View>
 
             <View style={styles.viewInput}>
@@ -160,22 +172,40 @@ export default function TelaEditarLocacaoVeiculo() {
                     style={styles.input} 
                     placeholder="CPF do Usuário" 
                     onChangeText={(text: string) => setCPfUsuario(formatCPF(text))} 
-                    value={cpfUsuario || ''} />
+                    value={cpfUsuario || ''}
+                    editable={false}
+                />
             </View>
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Nome do Usuário</Text>
-                <TextInput style={styles.input} placeholder="Nome do Usuário" onChangeText={setNomeUsuario} value={nomeUsuario || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Nome do Usuário" 
+                    onChangeText={setNomeUsuario} 
+                    value={nomeUsuario || ''}
+                    editable={false}
+                />
             </View>
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Data de Enterga</Text>
-                <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataEntrega} value={dataEntrega || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Data de Devolução" 
+                    onChangeText={setDataEntrega} 
+                    value={dataEntrega || ''} 
+                    editable={false}
+                />
             </View>
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Data de Enterga</Text>
-                <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataDevolucao} value={dataDevolucao || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Data de Devolução" 
+                    onChangeText={setDataDevolucao} 
+                    value={dataDevolucao || ''} />
             </View>
 
             {/* <TouchableOpacity style={styles.button} onPress={vehicleAvailabilityUpdate}>

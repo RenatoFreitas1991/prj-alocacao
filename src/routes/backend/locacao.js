@@ -145,7 +145,7 @@ router.get('/vehicles/user/:cpf', async (req, res) => {
 
         const id_usuario = findUserIdByCpf[0].id;
 
-        const sql = `SELECT l.id, v.id AS idVehicle, m.modelo, ma.marca, v.placa, v.imagePath, l.data_de_devolucao 
+        const sql = `SELECT l.id, v.id AS idVehicle, m.modelo, ma.marca, v.placa, v.imagePath, l.data_de_devolucao, l.id_pagamento 
                         FROM tbl_locacao_veiculo l
                         INNER JOIN tbl_veiculo v ON l.id_veiculo = v.id
                         INNER JOIN tbl_modelo m ON m.id = v.id_modelo 

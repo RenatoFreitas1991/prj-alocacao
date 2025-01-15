@@ -7,7 +7,8 @@ import { StackParamList } from '../../../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import BR from '../../../components/BR/BR';
 
-import { isBefore, isEqual, differenceInDays } from 'date-fns';
+import { isBefore, isAfter, isEqual, differenceInDays } from 'date-fns';
+import { strict } from "assert";
 
 type locacaoUserProp = RouteProp<StackParamList, 'LocacaoUser'>;
 
@@ -20,12 +21,36 @@ export default function LocacaoUser() {
     placa: string;
     imagePath?: string;
     dataDevolucao?:string;
+    idPagamento?:number;
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
 
   const route = useRoute<locacaoUserProp>();
   const { cpf } = route.params;
+
+  function rentalDateVehicle(dateProp:string, id_pagamento:number) {
+
+    const now = new Date();
+    var rentalDate = stringToDate(dateProp);
+
+    if((isBefore(now, rentalDate) && differenceInDays(rentalDate, now) <= 7) || isEqual(rentalDate, now)) {
+      alert(`Pague o alaguel do veículo`);
+    } else if (isAfter(now, rentalDate) && (id_pagamento == 1)) {
+      alert(`Seu aluguel do veículo está atrasado! Tente pagar o quanto antes!`)
+    }
+  }
+
+  function stringToDate(dateString:string) {
+    const dateSplit = dateString.split("/");
+
+    const year = Number(dateSplit[2]);
+    const month = Number(dateSplit[1]) - 1;
+    const day = Number(dateSplit[0]);
+
+    const dateFormat = new Date(year, month, day);
+    return dateFormat;
+  }
 
   const fetchData = async () => {
     try {
@@ -50,6 +75,7 @@ export default function LocacaoUser() {
         console.log('Renderizando imagem com imagePath:', imagePath);
 
         console.log('Image path para veículo:', vehicle.modelo, imagePath);
+        rentalDateVehicle(vehicle.data_de_devolucao, vehicle.id_pagamento)
         return {
           id: vehicle.idVehicle,
           modelo: vehicle.modelo,
@@ -57,6 +83,7 @@ export default function LocacaoUser() {
           placa: vehicle.placa,
           imagePath,
           dataDevolucao: vehicle.data_de_devolucao,
+          idPagamento: vehicle.id_pagamento,
         };
       });
 
@@ -67,43 +94,13 @@ export default function LocacaoUser() {
     }
   };
 
-  const rentalDate = async() => {
-    const dateProp = "07/01/2025";
-
-    const now = dateNow();
-    const rentalDate = stringToDate(dateProp);
-
-    console.log("Rental Date: " + rentalDate)
-
-    if(isBefore(now, rentalDate) && differenceInDays(rentalDate, now) <= 7 || isEqual(rentalDate, now)) {
-      alert(`Pay the rental`);
-    }
-  }
-
-  function stringToDate(dateString:string) {
-    const dateSplit = dateString.split("/");
-
-    const year = Number(dateSplit[0]);
-    const month = Number(dateSplit[1]) - 1;
-    const day = Number(dateSplit[2]);
-
-    const dateFormat = new Date(year, month, day);
-    return dateFormat;
-  }
-
-  function dateNow() {
-    const now = new Date();
-    const dateNow = new Date(now.getFullYear(), now.getMonth(), now.getDay());
-    return dateNow;
-  }
-
   useEffect(() => {
     fetchData();
   }, [cpf]);
 
-  useEffect(() => {
-    rentalDate();
-  }, []);
+  // useEffect(() => {
+  //   rentalDate();
+  // }, []);
 
   const renderCardVehicle: ListRenderItem<MinVeiculo> = ({ item }) => (
     <CardVeiculo
