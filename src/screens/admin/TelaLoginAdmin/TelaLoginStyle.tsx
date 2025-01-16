@@ -61,7 +61,12 @@ const styles = StyleSheet.create({
     buttonTextSecondary: {
         color: '#F1F5FF', // Mesma cor clara para o botão secundário para manter o tema
         fontSize: 18,
-    }
+    },
+    errorMessage: {
+        color: 'red',
+        fontSize: 12,
+        marginTop: 4,
+    },
 });
 
 export default styles;

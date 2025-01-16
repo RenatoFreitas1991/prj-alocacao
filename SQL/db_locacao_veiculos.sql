@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/01/2025 às 13:08
+-- Tempo de geração: 16/01/2025 às 13:21
 -- Versão do servidor: 10.6.15-MariaDB
 -- Versão do PHP: 8.2.0
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `db_locacao_veiculos`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tbl_admin`
+--
+
+CREATE TABLE `tbl_admin` (
+  `id` int(11) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `senha` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_admin`
+--
+
+INSERT INTO `tbl_admin` (`id`, `email`, `senha`) VALUES
+(2, 'admin@gmail.com', '$2b$10$V1v4OeWpycLDbFrlL2TO0OMPdssA6TUV44tnQlyQXZomHCMRgc9He');
 
 -- --------------------------------------------------------
 
@@ -228,14 +247,14 @@ CREATE TABLE `tbl_locacao_veiculo` (
 --
 
 INSERT INTO `tbl_locacao_veiculo` (`id`, `id_veiculo`, `id_usuario`, `quilometragem`, `data_de_entrega`, `data_de_devolucao`, `imagePath`, `id_locacao_status`, `id_pagamento`) VALUES
-(8, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 1),
-(10, 9, 8, 0, '21/11/2024', '10/12/2024', '', 2, 1),
-(12, 12, 8, 0, '03/12/2024', '03/01/2025', '', 2, 1),
-(15, 7, 7, 0, '17/12/2024', '17/01/2025', '', 1, 1),
-(16, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 1),
-(17, 7, 1, 0, '03/01/2025', '03/02/2025', '', 1, 1),
-(20, 7, 1, 0, '03/01/2025', '03/02/2025', '[\"/assets/veiculos/1735908777467-758481105-vehicle_1735908776828.jpg\"]', 1, 1),
-(21, 20, 6, 0, '04/01/2025', '04/02/2025', '', 1, 1);
+(8, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 2),
+(10, 9, 8, 0, '3/07/2024', '22/01/2025', '', 2, 1),
+(12, 12, 8, 0, '03/12/2024', '03/01/2025', '', 1, 2),
+(15, 7, 7, 0, '17/12/2024', '17/01/2025', '', 1, 2),
+(16, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 2),
+(17, 7, 1, 0, '03/01/2025', '03/02/2025', '', 1, 2),
+(20, 7, 1, 0, '03/01/2025', '03/02/2025', '[\"/assets/veiculos/1735908777467-758481105-vehicle_1735908776828.jpg\"]', 1, 2),
+(21, 20, 6, 0, '04/01/2025', '04/02/2025', '', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -1605,7 +1624,7 @@ CREATE TABLE `tbl_veiculo` (
 INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `imagePath`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
 (7, 2, 7, 1, 14, 1, '[]', 1, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
 (8, 2, 7, 3, 10, 1, '[]', 1, 'J0DF-AS3R', 'SDASGD63R62', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 5),
-(9, 2, 7, 5, 13, 8, '[]', 1, 'HC32X-242D', 'ICYN37Q7DHT34DS', 'tetracilín', '2024', '0000-00-00', '0000-00-00', 0),
+(9, 2, 7, 5, 13, 8, '[]', 0, 'HC32X-242D', 'ICYN37Q7DHT34DS', 'tetracilín', '2024', '0000-00-00', '0000-00-00', 0),
 (11, 2, 7, 4, 2, 1, '[]', 1, 'FCWFE-2344', 'CW32Z23F', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
 (12, 2, 7, 5, 2, 1, '[]', 1, 'GFHJ-234T', 'C434ESFEE643', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 0),
 (20, 2, 11, 65, 10, 1, '[\"/assets/veiculos/1735908446032-714330617-vehicle_1735908445391.jpg\"]', 1, 'SFAF-45F6', 'FAHAH45AGA5', 'Monocilínd', '2025', '0000-00-00', '0000-00-00', 0);
@@ -1634,6 +1653,12 @@ INSERT INTO `tbl_veiculo_favorito` (`id`, `id_veiculo`, `id_usuario`) VALUES
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `tbl_admin`
+--
+ALTER TABLE `tbl_admin`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `tbl_avaliacao`
@@ -1758,6 +1783,12 @@ ALTER TABLE `tbl_veiculo_favorito`
 --
 -- AUTO_INCREMENT para tabelas despejadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `tbl_admin`
+--
+ALTER TABLE `tbl_admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_avaliacao`

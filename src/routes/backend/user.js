@@ -150,20 +150,6 @@ router.delete('/blacklist', async (req, res) => {
   }
 });
 
-// router.get('/blacklist', async (req, res) => {
-//   try {
-//     const usuariosNaBlacklist = await Usuario.findAll({
-//       where: { blacklist: 1 },
-//       attributes: ['id', 'cpf', 'nome', 'motivo_blacklist'] // Ajuste os campos que deseja retornar
-//     });
-//     console.log(usuariosNaBlacklist)
-//     res.status(200).json(usuariosNaBlacklist);
-//   } catch (error) {
-//     console.error('Erro ao buscar usuários na blacklist:', error);
-//     res.status(500).json({ error: 'Erro ao buscar usuários na blacklist' });
-//   }
-// });
-
 router.get('/blacklist', async (req, res) => {
 
   try {
@@ -203,5 +189,45 @@ router.get('/info/:cpf', async (req, res) => {
       res.status(500).json({ erro: 'Erro ao buscar dados do usuário' })
   }
 });
+
+// router.post('/admin/', async (req, res) => {
+
+//   try {
+//       const id = null;
+//       const email = 'robertocarlos236789@gmail.com';
+//       const senha = '315511661';
+//       const hashedPassword = await bcrypt.hash(senha, 10);
+  
+//       const [resultInsert] = await sequelize.query(
+//           `INSERT INTO tbl_admin 
+//               (id,
+//               email, 
+//               senha) 
+//               VALUES (:id,
+//                       :email, 
+//                       :hashedPassword)`,
+//               {
+//                   replacements: {
+//                       id,
+//                       email,
+//                       hashedPassword
+//                   },
+//                   type: QueryTypes.INSERT,
+//               }
+//       );
+  
+//       if (resultInsert === 0) {
+//           throw new Error('Error ao cadastrar Admin');
+//       }
+
+
+//       res.status(200).json({ message: 'Admin cadastrado com sucesso' });
+
+//   } catch (error) {
+//       console.error('Erro ao cadastrar Admin:', error);
+//       res.status(500).json({ error: error.message });
+//   }
+
+// });
 
 module.exports = router;
