@@ -6,15 +6,16 @@ import { StackParamList } from "../../../routes/types"; // Import StackParamList
 import styles from "./TelaLoginStyle";
 import axios from 'axios';
 import { API_URL } from '@env';
+import BR from "src/components/BR/BR";
 
 // Define the navigation prop type
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'LoginAdmin'>;
 
 export default function TelaLogin() {
-    const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState<string | null>(null);
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const passwordRef = useRef<string>("");
+    const emailRef = useRef<string>("");
 
     const navigation = useNavigation<NavigationPropInicial>();
 
@@ -28,6 +29,13 @@ export default function TelaLogin() {
 
     const validateInputs = useCallback(() => {
         let valid = true;
+
+        if(!emailRef.current.includes("@")) {
+            setEmailError("O E-mail deve conter o @");
+            valid = false;
+        } else {
+            setEmailError(null);
+        }
 
         if (passwordRef.current.length < 6) {
             setPasswordError("A senha deve conter pelo menos 6 caracteres.");
@@ -43,7 +51,7 @@ export default function TelaLogin() {
         if (validateInputs()) {
             try {
                 const response = await axios.post(`${API_URL}/api/backend/auth/login/admin`, {
-                    email: email,
+                    email: emailRef.current,
                     senha: passwordRef.current,
                 });
 
@@ -65,7 +73,7 @@ export default function TelaLogin() {
                 }
             }
         }
-    }, [email, validateInputs, navigation]);
+    }, [emailRef, validateInputs, navigation]);
 
     return (
         <View style={styles.container}>
@@ -73,12 +81,17 @@ export default function TelaLogin() {
                 <Text style={styles.titulo}>Login</Text>
                 <View style={styles.viewInput}>
                     <TextInput
-                        style={styles.input}
+                        style={[styles.input, passwordError ? { borderColor: 'red', borderWidth: 1 } : null]}
                         placeholder="E-mail"
-                        placeholderTextColor="#7A89A6"
-                        value={email}
-                        onChangeText={setEmail}
+                        placeholderTextColor="#aaa"
+                        keyboardType="default"
+                        onChangeText={(text) => {
+                            emailRef.current = text;
+                            setPasswordError(null);
+                        }}
+                        onSubmitEditing={() => Keyboard.dismiss()}
                     />
+                    {emailError && <Text style={styles.errorMessage}>{emailError} <BR/></Text>}
                     <TextInput
                         style={[styles.input, passwordError ? { borderColor: 'red', borderWidth: 1 } : null]}
                         placeholder="Senha"
