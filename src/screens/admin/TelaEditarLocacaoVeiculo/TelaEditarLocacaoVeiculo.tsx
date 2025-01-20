@@ -23,6 +23,7 @@ export default function TelaEditarLocacaoVeiculo() {
     const route = useRoute<TelaEditarLocacaoVeiculoRouteProp>();
     const navigation = useNavigation<NavigationProp<StackParamList>>();
     const [modalVisible, setModalVisible] = useState(false);
+    const [idLocacao, setIdLocacao] = useState();
     const { id } = route.params;
 
     const [imagePath, setImageUri] = useState('');
@@ -52,6 +53,7 @@ export default function TelaEditarLocacaoVeiculo() {
                 setNomeUsuario(locacao.nome);
                 setDataEntrega(locacao.data_de_entrega);
                 setDataDevolucao(locacao.data_de_devolucao);
+                setIdLocacao(locacao.id_locacao);
             })
 
         } catch(error) {
@@ -91,11 +93,12 @@ export default function TelaEditarLocacaoVeiculo() {
             nomeUsuario,
             dataEntrega,
             dataDevolucao,
+            idLocacao,
         }
 
         try {
             await axios.put(`${API_URL}/api/backend/locacao/disponibilityUpdate/`, locacaoData);
-            Alert.alert('Sucesso', 'Disponibilidade atualizada com sucesso!');
+            Alert.alert('Sucesso', 'Locação finalizada com sucesso!');
             navigation.navigate('telaHomeDefinitiva');
         } catch (error) {
             console.error('Erro ao atualizar a disponibilidade do veículo em locação:', error);

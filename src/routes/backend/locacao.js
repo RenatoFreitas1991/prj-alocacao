@@ -43,6 +43,7 @@ router.post('/register/', async (req, res) => {
         const quilometragemInt = Number(quilometragem);
         const disponibilidade = 0;
         const id_locacao_status = 2;
+        const id_pagamento = 1;
 
         const id = null;
     
@@ -55,7 +56,8 @@ router.post('/register/', async (req, res) => {
                 data_de_entrega, 
                 data_de_devolucao, 
                 imagePath,
-                id_locacao_status) 
+                id_locacao_status,
+                id_pagamento) 
                 VALUES (:id,
                         :id_veiculo, 
                         :id_usuario, 
@@ -63,7 +65,8 @@ router.post('/register/', async (req, res) => {
                         :dataEntrega, 
                         :dataDevolucao, 
                         :imagePath,
-                        :id_locacao_status)`,
+                        :id_locacao_status,
+                        :id_pagamento)`,
                 {
                     replacements: {
                         id,
@@ -72,7 +75,9 @@ router.post('/register/', async (req, res) => {
                         quilometragemInt,
                         dataEntrega,
                         dataDevolucao,
-                        imagePath: JSON.stringify(imagens)
+                        imagePath: JSON.stringify(imagens),
+                        id_locacao_status,
+                        id_pagamento
                     },
                     type: QueryTypes.INSERT,
                 }
@@ -112,11 +117,11 @@ router.get('/:id_veiculo', async (req, res) => {
     const id_veiculo = Number(req.params.id_veiculo);
 
     try {
-        const sql = `SELECT v.placa, l.quilometragem, u.cpf, u.nome, l.data_de_entrega, l.data_de_devolucao 
+        const sql = `SELECT l.id AS id_locacao, v.placa, l.quilometragem, u.cpf, u.nome, l.data_de_entrega, l.data_de_devolucao 
                         FROM tbl_locacao_veiculo l 
                         INNER JOIN tbl_usuario u ON u.id = l.id_usuario 
                         INNER JOIN tbl_veiculo v ON v.id = l.id_veiculo 
-                        WHERE v.id = :id_veiculo AND v.disponibilidade = 0;`;
+                        WHERE v.id = :id_veiculo AND v.disponibilidade = 0 AND l.id_locacao_status = 2;`;
 
         const result = await sequelize.query(sql, {
             replacements: { id_veiculo },
@@ -262,7 +267,8 @@ router.put('/disponibilityUpdate/', async (req, res) => {
         cpfUsuario,
         nomeUsuario,
         dataEntrega,
-        dataDevolucao
+        dataDevolucao,
+        idLocacao
     } = req.body;
 
     try {
@@ -293,8 +299,8 @@ router.put('/disponibilityUpdate/', async (req, res) => {
         const id_usuario = userResults[0].id;
         const id_veiculo = vehicleResults[0].id;
         const quilometragemInt = Number(quilometragem);
-        const disponibilidade = 0;
         const id_locacao_status = 1;
+        const id_pagamento = 2;
 
         const locacaoResults = await sequelize.query(
             `SELECT l.id FROM tbl_locacao_veiculo l 
@@ -316,8 +322,9 @@ router.put('/disponibilityUpdate/', async (req, res) => {
                 data_de_entrega = :dataEntrega, 
                 data_de_devolucao = :dataDevolucao, 
                 imagePath = :imagePath, 
-                id_locacao_status = :id_locacao_status
-                WHERE id = :id`,
+                id_locacao_status = :id_locacao_status,
+                id_pagamento = :id_pagamento
+                WHERE id = :idLocacao`,
                 {
                     replacements: {
                         id_veiculo,
@@ -327,7 +334,8 @@ router.put('/disponibilityUpdate/', async (req, res) => {
                         dataDevolucao,
                         imagePath,
                         id_locacao_status,
-                        id,
+                        id_pagamento,
+                        idLocacao,
                     },
                     type: QueryTypes.UPDATE,
                 }
