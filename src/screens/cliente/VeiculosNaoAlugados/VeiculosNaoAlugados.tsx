@@ -3,6 +3,7 @@ import { View, FlatList, ListRenderItem, Text } from "react-native";
 import { API_URL } from '@env';
 import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
 import styles from '../TelaHomeUser/CardVehicleUserStyle';
+import BR from "src/components/BR/BR";
 
 
 interface VeiculosNaoAlugadosProps {
@@ -93,6 +94,9 @@ export default function VeiculosNaoAlugados({ cpf, isUserScreen = false }: Veicu
           </View>
         }
       />
+      <BR /> 
+      <BR /> 
+      <BR />
     </View>
   );
 }

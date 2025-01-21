@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { View, FlatList, ListRenderItem, Text, StyleSheet } from "react-native";
+import { 
+  View, 
+  FlatList, 
+  ListRenderItem, 
+  Text, 
+  StyleSheet, 
+  Modal,
+  TouchableOpacity} from "react-native";
 import { API_URL } from '@env';
 import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
 
 import { StackParamList } from '../../../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import BR from '../../../components/BR/BR';
 
 import { isBefore, isAfter, isEqual, differenceInDays } from 'date-fns';
 import { strict } from "assert";
+import BR from "src/components/BR/BR";
 
 type locacaoUserProp = RouteProp<StackParamList, 'LocacaoUser'>;
 
@@ -25,6 +32,8 @@ export default function LocacaoUser() {
   }
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const route = useRoute<locacaoUserProp>();
   const { cpf } = route.params;
@@ -33,11 +42,17 @@ export default function LocacaoUser() {
 
     const now = new Date();
     var rentalDate = stringToDate(dateProp);
-
-    if((isBefore(now, rentalDate) && differenceInDays(rentalDate, now) <= 7) || isEqual(rentalDate, now)) {
-      alert(`Pague o alaguel do veículo`);
+    var timeDiff = Math.abs(rentalDate.getTime() - now.getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    
+    if((isBefore(now, rentalDate) && diffDays <= 7 && id_pagamento == 1) || ( diffDays == 1 && id_pagamento == 1)) {
+      setModalMessage(`Pague o alaguel do veículo`)
+      setModalVisible(true);
     } else if (isAfter(now, rentalDate) && (id_pagamento == 1)) {
-      alert(`Seu aluguel do veículo está atrasado! Tente pagar o quanto antes!`)
+      setModalMessage(`Seu aluguel do veículo está atrasado! Tente pagar o quanto antes!`)
+      setModalVisible(true);
+    } else {
+      setModalVisible(false);
     }
   }
 
@@ -114,7 +129,7 @@ export default function LocacaoUser() {
 
   return (
     <View style={styles.container1}>
-        <BR />
+
       <FlatList
         style={styles.listContainer}
         data={vehicles}
@@ -128,9 +143,31 @@ export default function LocacaoUser() {
           </View>
         }
       />
-        {/* <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>Você não possui nehuma locação.</Text>
-        </View> */}
+        <Modal
+            transparent={true}
+            animationType="fade"
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(false)}
+        >
+
+          <Text>{modalMessage}</Text>
+          <TouchableOpacity
+                style={styles.modalOverlay}
+                onPress={() => setModalVisible(false)}
+                activeOpacity={1}
+                >
+              <View style={styles.modalContainer}>
+
+                  <Text style={styles.textModalContainer}>{modalMessage}</Text>
+                  <BR />
+                  <TouchableOpacity style={styles.modalButton} >
+                      <Text style={styles.modalButtonText} onPress={() => setModalVisible(false)}>Cancelar</Text>
+                  </TouchableOpacity>
+              </View>
+          </TouchableOpacity>
+
+        </Modal>
+
     </View>
   );
 }
@@ -155,4 +192,30 @@ const styles = StyleSheet.create({
       color: '#888',
       textAlign: 'center',
     },
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalContainer: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        width: 200,
+    },
+    modalButton: {
+        padding: 10,
+        backgroundColor: 'white',
+        marginVertical: 5,
+        borderRadius: 5,
+    },
+      modalButtonText: {
+        color: 'black',
+        textAlign: 'center',
+        fontWeight: 'bold',
+    },
+    textModalContainer: {
+      textAlign: 'center',
+    }
 })

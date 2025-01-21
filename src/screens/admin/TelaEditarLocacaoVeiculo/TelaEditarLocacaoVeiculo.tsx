@@ -15,10 +15,6 @@ type RouteParams = {
     id: number;
 };
 
-// 1 - Botão para Finzalizar locação(Coloque um Pop up depois) => mudar a disponibilidade do veículo
-// 2 - Botão de Atualizar
-// 3 - Botão de cancelar
-
 export default function TelaEditarLocacaoVeiculo() {
     const route = useRoute<TelaEditarLocacaoVeiculoRouteProp>();
     const navigation = useNavigation<NavigationProp<StackParamList>>();
