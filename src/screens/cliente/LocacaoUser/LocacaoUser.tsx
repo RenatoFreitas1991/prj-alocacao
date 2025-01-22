@@ -13,8 +13,7 @@ import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
 import { StackParamList } from '../../../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import { isBefore, isAfter, isEqual, differenceInDays } from 'date-fns';
-import { strict } from "assert";
+import { isBefore, isAfter } from 'date-fns';
 import BR from "src/components/BR/BR";
 
 type locacaoUserProp = RouteProp<StackParamList, 'LocacaoUser'>;
@@ -33,27 +32,41 @@ export default function LocacaoUser() {
 
   const [vehicles, setVehicles] = useState<MinVeiculo[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [countRental, setCountRental] = useState(0);
   const [modalMessage, setModalMessage] = useState('');
 
   const route = useRoute<locacaoUserProp>();
   const { cpf } = route.params;
 
+  function showModal() {
+    setModalVisible(true);
+  }
+
+  var rentalQuantity = 0;
+
   function rentalDateVehicle(dateProp:string, id_pagamento:number) {
 
     const now = new Date();
     var rentalDate = stringToDate(dateProp);
-    var timeDiff = Math.abs(rentalDate.getTime() - now.getTime());
-    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    var diffDays = differenceOfDays(rentalDate, now);
     
     if((isBefore(now, rentalDate) && diffDays <= 7 && id_pagamento == 1) || ( diffDays == 1 && id_pagamento == 1)) {
-      setModalMessage(`Pague o alaguel do veículo`)
-      setModalVisible(true);
+      rentalQuantity += 1;
     } else if (isAfter(now, rentalDate) && (id_pagamento == 1)) {
-      setModalMessage(`Seu aluguel do veículo está atrasado! Tente pagar o quanto antes!`)
-      setModalVisible(true);
-    } else {
-      setModalVisible(false);
+      rentalQuantity += 1;
     }
+    setCountRental(rentalQuantity);
+
+    if(rentalQuantity > 0) {
+      setModalMessage(`Pague o alaguel do veículo`);
+      setModalVisible(true);
+    }
+  }
+
+  function differenceOfDays(rentalDate:any, now:any) {
+    var timeDiff = Math.abs(rentalDate.getTime() - now.getTime());
+    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    return diffDays;
   }
 
   function stringToDate(dateString:string) {
@@ -90,7 +103,7 @@ export default function LocacaoUser() {
         console.log('Renderizando imagem com imagePath:', imagePath);
 
         console.log('Image path para veículo:', vehicle.modelo, imagePath);
-        rentalDateVehicle(vehicle.data_de_devolucao, vehicle.id_pagamento)
+        rentalDateVehicle(vehicle.data_de_devolucao, vehicle.id_pagamento);
         return {
           id: vehicle.idVehicle,
           modelo: vehicle.modelo,
@@ -112,10 +125,6 @@ export default function LocacaoUser() {
   useEffect(() => {
     fetchData();
   }, [cpf]);
-
-  // useEffect(() => {
-  //   rentalDate();
-  // }, []);
 
   const renderCardVehicle: ListRenderItem<MinVeiculo> = ({ item }) => (
     <CardVeiculo
@@ -143,30 +152,31 @@ export default function LocacaoUser() {
           </View>
         }
       />
-        <Modal
-            transparent={true}
-            animationType="fade"
-            visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
-        >
-
-          <Text>{modalMessage}</Text>
-          <TouchableOpacity
-                style={styles.modalOverlay}
-                onPress={() => setModalVisible(false)}
-                activeOpacity={1}
-                >
-              <View style={styles.modalContainer}>
-
-                  <Text style={styles.textModalContainer}>{modalMessage}</Text>
-                  <BR />
-                  <TouchableOpacity style={styles.modalButton} >
-                      <Text style={styles.modalButtonText} onPress={() => setModalVisible(false)}>Cancelar</Text>
-                  </TouchableOpacity>
-              </View>
-          </TouchableOpacity>
-
-        </Modal>
+            <Modal
+                transparent={true}
+                animationType="fade"
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+            >
+    
+              <Text>{modalMessage}</Text>
+              <TouchableOpacity
+                    style={styles.modalOverlay}
+                    onPress={() => setModalVisible(false)}
+                    activeOpacity={1}
+                    >
+                  <View style={styles.modalContainer}>
+                      <Text style={styles.textModalContainer}>Quantidade de alugueis a pagar: {countRental}.</Text>
+                      <BR />
+                      <Text style={styles.textModalContainer}>{modalMessage}</Text>
+                      <BR />
+                      <TouchableOpacity style={styles.modalButton} >
+                          <Text style={styles.modalButtonText} onPress={() => setModalVisible(false)}>Fechar</Text>
+                      </TouchableOpacity>
+                  </View>
+              </TouchableOpacity>
+    
+            </Modal>
 
     </View>
   );
