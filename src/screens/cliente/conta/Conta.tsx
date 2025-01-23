@@ -1,8 +1,59 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons'; // Importando os ícones do FontAwesome5
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackParamList } from '../../../routes/types';
+import { useNavigation } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import BR from './../../../components/BR/BR';
+
+import { API_URL } from '@env';
+
+
+type NavigationProp = NativeStackNavigationProp<StackParamList, "Conta">;
+
+type userTabNavigatorProp = RouteProp<StackParamList, 'Conta'>;
 
 export default function Conta() {
+
+  const navigation = useNavigation<NavigationProp>();
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [nome, setNome] = useState('');
+  const [profissao, setProfissao] = useState('');
+  const [telefone, setTelefone] = useState('');
+
+
+  const route = useRoute<userTabNavigatorProp>();
+  const { cpf } = route.params;
+
+  function sair() {
+    navigation.navigate('LoginUser');
+  }
+
+  const fetchLUserData = async () => {
+      try {
+          const url = `${API_URL}/api/backend/user/info/${cpf}`;
+          console.log(`Fetching: ${url}`);
+          const response = await fetch(url);
+          const result = await response.json();
+
+          const userData = result.map((user: any) => {
+              setNome(user.nome);
+              setProfissao(user.profissao);
+              setTelefone(user.telefone);
+          })
+
+      } catch(error) {
+          console.error("Erro ao buscar dados da Locação:", error);
+          Alert.alert("Erro", "Não foi possível carregar os dados da Locação.");
+      }
+  }
+
+  useEffect(() => {
+    fetchLUserData();
+  }, [cpf]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -21,7 +72,7 @@ export default function Conta() {
         <TouchableOpacity style={styles.button}>
           <FontAwesome5 name="camera" size={24} color="white" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}  onPress={() => setModalVisible(true)}>
           <FontAwesome5 name="sign-out-alt" size={24} color="white" />
         </TouchableOpacity>
       </View>
@@ -30,10 +81,43 @@ export default function Conta() {
         <TouchableOpacity style={styles.optionButton}>
           <Text style={styles.optionButtonText}>Notificação</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.optionButton}>
+        <TouchableOpacity style={styles.optionButton} onPress={() => setModalVisible(true)}>
           <Text style={styles.optionButtonText}>Sair da Conta</Text>
         </TouchableOpacity>
       </View>
+
+      <View>
+        <Text><Text style={styles.label}>Nome:</Text> {nome}</Text>
+        <BR />
+
+        <Text><Text style={styles.label}>CPF:</Text> {cpf}</Text>
+        <BR />
+
+        <Text><Text style={styles.label}>Profissao:</Text> {profissao}</Text>
+        <BR />
+
+        <Text><Text style={styles.label}>Telefone:</Text> {telefone}</Text>
+      </View>
+
+      <Modal 
+        transparent={true}
+        animationType={"fade"}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+        >
+            <TouchableOpacity
+              style={styles.modalOverlay}
+              onPress={() => setModalVisible(false)}
+              activeOpacity={1}
+            >
+                <View style={styles.modalContainer}>
+                    <TouchableOpacity style={styles.modalButton} >
+                        <Text style={styles.modalButtonText} onPress={sair}>Sair</Text>
+                    </TouchableOpacity>
+                </View>
+            </TouchableOpacity>
+
+      </Modal>
     </View>
   );
 }
@@ -99,5 +183,31 @@ const styles = StyleSheet.create({
   optionButtonText: {
     color: '#FFFFFF', // Branco para o texto do botão
     fontSize: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+      backgroundColor: '#fff',
+      padding: 20,
+      borderRadius: 10,
+      width: 200,
+  },
+  modalButton: {
+      padding: 10,
+      backgroundColor: 'white',
+      marginVertical: 5,
+      borderRadius: 5,
+  },
+    modalButtonText: {
+      color: 'black',
+      textAlign: 'center',
+      fontWeight: 'bold',
+  },
+  label: {
+    fontWeight: 'bold',
   },
 });

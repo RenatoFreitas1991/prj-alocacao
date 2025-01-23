@@ -175,7 +175,11 @@ router.get('/info/:cpf', async (req, res) => {
 
   try {
       const findInfoUserByCpf = await sequelize.query(
-          `SELECT nome, cpf, cnh, nascimento FROM tbl_usuario WHERE cpf = :cpf`,
+          `SELECT u.nome, u.cpf, u.cnh, u.nascimento, p.profissao, c.telefone 
+            FROM tbl_usuario u 
+            INNER JOIN tbl_profissao p ON p.id = u.id_profissao 
+            INNER JOIN tbl_contato c ON c.id = u.id_contato
+            WHERE cpf = :cpf`,
           {
               replacements: { cpf },
               type: QueryTypes.SELECT,
@@ -189,45 +193,5 @@ router.get('/info/:cpf', async (req, res) => {
       res.status(500).json({ erro: 'Erro ao buscar dados do usuário' })
   }
 });
-
-// router.post('/admin/', async (req, res) => {
-
-//   try {
-//       const id = null;
-//       const email = 'robertocarlos236789@gmail.com';
-//       const senha = '315511661';
-//       const hashedPassword = await bcrypt.hash(senha, 10);
-  
-//       const [resultInsert] = await sequelize.query(
-//           `INSERT INTO tbl_admin 
-//               (id,
-//               email, 
-//               senha) 
-//               VALUES (:id,
-//                       :email, 
-//                       :hashedPassword)`,
-//               {
-//                   replacements: {
-//                       id,
-//                       email,
-//                       hashedPassword
-//                   },
-//                   type: QueryTypes.INSERT,
-//               }
-//       );
-  
-//       if (resultInsert === 0) {
-//           throw new Error('Error ao cadastrar Admin');
-//       }
-
-
-//       res.status(200).json({ message: 'Admin cadastrado com sucesso' });
-
-//   } catch (error) {
-//       console.error('Erro ao cadastrar Admin:', error);
-//       res.status(500).json({ error: error.message });
-//   }
-
-// });
 
 module.exports = router;

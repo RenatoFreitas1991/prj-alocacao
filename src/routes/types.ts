@@ -45,4 +45,5 @@ export type StackParamList = {
     TelaHistoricoManutencaoVeiculo: { id: number };
     TelaFavorito: { cpf: string };
     LocacaoUser: { cpf: string };
+    Conta: { cpf: string };
 };

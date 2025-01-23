@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { View } from 'react-native';
 import TelaHomeUser from '../screens/cliente/TelaHomeUser/TelaHomeUser';
 import TelaFavorito from '../screens/cliente/Favorito/favoritoUser';
-import salvosUser from '../screens/cliente/salvos/salvosUser';
+import Conta from '../screens/cliente/conta/Conta';
 
 import { StackParamList } from '../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -76,11 +76,11 @@ export default function UserTabNavigator() {
             />
             <Tab.Screen
                 name="conta"
-                component={salvosUser}
+                component={Conta}
                 options={{
                     title: 'Conta',
                 }}
-                
+                initialParams={{ cpf: cpf }}
             />
         </Tab.Navigator>
         
