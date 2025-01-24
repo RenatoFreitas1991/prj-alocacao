@@ -257,10 +257,11 @@ router.get('/info/user/:id', async (req, res) => {
     }
 
     try {
-        const sql = `SELECT u.nome FROM tbl_locacao_veiculo l
+        const sql = `SELECT u.id, u.nome, u.cpf, u.cnh, c.telefone, l.data_de_entrega, l.data_de_devolucao FROM tbl_locacao_veiculo l
                         INNER JOIN tbl_usuario u ON l.id_usuario = u.id
                         INNER JOIN tbl_veiculo v ON l.id_veiculo = v.id
-                        WHERE l.id_veiculo = :id AND v.disponibilidade != 1;`;
+                        INNER JOIN tbl_contato c ON u.id_contato = c.id
+                        WHERE l.id_veiculo = :id AND v.disponibilidade != 1 AND l.id_locacao_status = 2;`;
 
         const result = await sequelize.query(sql, {
             replacements: { id },

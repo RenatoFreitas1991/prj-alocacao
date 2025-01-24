@@ -126,7 +126,7 @@ export default function CardVehicle({
             {isUserScreen ? (
               <>
                 <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
-                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                  <Text style={styles.modalButtonText}>Info</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} >
                   <Text style={styles.modalButtonText} onPress={favoritateVehicle}>Favoritar</Text>
@@ -135,7 +135,7 @@ export default function CardVehicle({
             ) : usersUnrentedVehiclesScreen ? (
               <>
                 <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
-                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                  <Text style={styles.modalButtonText}>Info</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} >
                   <Text style={styles.modalButtonText} onPress={unfavorite}>Desfavoritar</Text>
@@ -147,7 +147,7 @@ export default function CardVehicle({
                   <Text style={styles.modalButtonText}>Locação</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
-                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                  <Text style={styles.modalButtonText}>Info</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton}>
                   <Text style={styles.modalButtonText} onPress={goToHistoricoManutencaoVeiculo}>Manutenções</Text>
@@ -159,7 +159,7 @@ export default function CardVehicle({
                   <Text style={styles.modalButtonText}>Editar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
-                  <Text style={styles.modalButtonText}>Ver Info</Text>
+                  <Text style={styles.modalButtonText}>Info</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalButton}>
                   <Text style={styles.modalButtonText} onPress={goToHistoricoManutencaoVeiculo}>Manutenções</Text>
@@ -167,7 +167,7 @@ export default function CardVehicle({
               </>
             ) : (
               <TouchableOpacity style={styles.modalButton} onPress={goToVerInfo}>
-                <Text style={styles.modalButtonText}>Ver Info</Text>
+                <Text style={styles.modalButtonText}>Info</Text>
               </TouchableOpacity>
             )}
           </View>

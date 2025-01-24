@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import { StackParamList } from '../../../routes/types';
 import { API_URL } from '@env';
+import BR from '../../../components/BR/BR';
 
 interface VehicleInfoProps {
     route: any;
@@ -18,9 +19,16 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
     const [ano, setAno] = useState();
     const [combustivel, setCombustivel] = useState();
     const [quilometragem, setQuilometragem] = useState('');
+    const [nomeUser, setNomeUser] = useState('');
+    const [dataEntrega, setDataEntrega] = useState('');
+    const [dataDevolucao, setDataDevolucao] = useState('');
+
+    const [cpf, setCpf] = useState('');
+    const [cnh, setCnh] = useState('');
+    const [telefone, setTelefone] = useState('');
+
     const navigation = useNavigation<NavigationProp>();
     const scaleAnim = new Animated.Value(1);
-    const [nomeUser, setNomeUser] = useState('');
 
     console.log();
     
@@ -59,7 +67,7 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
         }
     };
 
-    const fetchVehicleUserData = async () => {
+    const fetchUserVehicleData = async () => {
         try {
             
             const url = `${API_URL}/api/backend/vehicle/info/user/${id}`;
@@ -67,8 +75,13 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
             const response = await fetch(url);
             const result = await response.json();
 
-            const vehiclesData = result.map((vehicleUser: any) => {
-                setNomeUser(vehicleUser.nome);
+            const vehiclesData = result.map((userVehicle: any) => {
+                setNomeUser(userVehicle.nome);
+                setCpf(userVehicle.cpf);
+                setCnh(userVehicle.cnh);
+                setTelefone(userVehicle.telefone);
+                setDataEntrega(userVehicle.dataEntrega);
+                setDataDevolucao(userVehicle.dataDevolucao);
             });
             
         } catch (error) {
@@ -82,7 +95,7 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
     }, [id]);
 
     useEffect(() => {
-        fetchVehicleUserData();
+        fetchUserVehicleData();
     }, [id]);
 
     return (
@@ -135,17 +148,50 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
                             <Text style={styles.value}>{quilometragem || quilometragem}</Text>
                         </View>
                     </View>
+                    
 
-                    <View style={styles.row}>
-                        <View style={styles.infoColumn}>
-                            <Text style={styles.label}>Locador:</Text>
-                            <Text style={styles.value}>{nomeUser || 'N/A'}</Text>
+                    {
+                        cpf != '' ? (
+                        <View>
+                            <BR />
+                            <View style={styles.row}>
+                                <View style={styles.infoColumn}>
+                                    <Text style={styles.label}>Locador:</Text>
+                                    <Text style={styles.value}>{nomeUser || 'N/A'}</Text>
+                                </View>
+                                <View style={styles.infoColumn}>
+                                    <Text style={styles.label}>CPF:</Text>
+                                    <Text style={styles.value}>{cpf || 'N/A'}</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.row}>
+                                <View style={styles.infoColumn}>
+                                    <Text style={styles.label}>CNH:</Text>
+                                    <Text style={styles.value}>{cnh || 'N/A'}</Text>
+                                </View>
+                                <View style={styles.infoColumn}>
+                                    <Text style={styles.label}>Telefone:</Text>
+                                    <Text style={styles.value}>{telefone || 'N/A'}</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.row}>
+                                <View style={styles.infoColumn}>
+                                    <Text style={styles.label}>Data de entrega:</Text>
+                                    <Text style={styles.value}>{dataEntrega || 'N/A'}</Text>
+                                </View>
+                                <View style={styles.infoColumn}>
+                                    <Text style={styles.label}>Data de devolução:</Text>
+                                    <Text style={styles.value}>{dataDevolucao || 'N/A'}</Text>
+                                </View>
+                            </View>
                         </View>
-                        <View style={styles.infoColumn}>
-                            <Text style={styles.label}></Text>
-                            <Text style={styles.value}></Text>
-                        </View>
-                    </View>
+                        ) : (
+                            <View></View>
+                        )
+
+                    }
                 </View>
             </ScrollView>
 
@@ -167,11 +213,11 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
             )}
 
             {/* Botão específico para a tela do usuário */}
-            {isUserScreen && (
+            {/* {isUserScreen && (
                 <TouchableOpacity style={styles.userButton}>
                     <Text style={styles.userButtonText}>Novo Botão</Text>
                 </TouchableOpacity>
-            )}
+            )} */}
         </View>
     );
 };
