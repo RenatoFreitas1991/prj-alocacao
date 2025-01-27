@@ -80,8 +80,8 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
                 setCpf(userVehicle.cpf);
                 setCnh(userVehicle.cnh);
                 setTelefone(userVehicle.telefone);
-                setDataEntrega(userVehicle.dataEntrega);
-                setDataDevolucao(userVehicle.dataDevolucao);
+                setDataEntrega(userVehicle.data_de_entrega);
+                setDataDevolucao(userVehicle.data_de_devolucao);
             });
             
         } catch (error) {

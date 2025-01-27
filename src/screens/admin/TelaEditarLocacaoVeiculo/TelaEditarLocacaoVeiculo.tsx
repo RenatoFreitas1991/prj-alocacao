@@ -64,9 +64,9 @@ export default function TelaEditarLocacaoVeiculo() {
             placa,
             quilometragem,
             cpfUsuario,
-            nomeUsuario,
             dataEntrega,
             dataDevolucao,
+            idLocacao,
         }
 
         try {

@@ -176,9 +176,9 @@ router.put('/update/', async (req, res) => {
         placa,
         quilometragem,
         cpfUsuario,
-        nomeUsuario,
         dataEntrega,
-        dataDevolucao
+        dataDevolucao,
+        idLocacao
     } = req.body;
 
     try {
@@ -209,6 +209,7 @@ router.put('/update/', async (req, res) => {
         const id_usuario = userResults[0].id;
         const id_veiculo = vehicleResults[0].id;
         const quilometragemInt = Number(quilometragem);
+        const id_locacao = idLocacao;
         const disponibilidade = 0;
 
         const locacaoResults = await sequelize.query(
@@ -231,7 +232,7 @@ router.put('/update/', async (req, res) => {
                 data_de_entrega = :dataEntrega, 
                 data_de_devolucao = :dataDevolucao, 
                 imagePath = :imagePath 
-                WHERE id = :id`,
+                WHERE id = :id_locacao`,
                 {
                     replacements: {
                         id_veiculo,
@@ -240,7 +241,7 @@ router.put('/update/', async (req, res) => {
                         dataEntrega,
                         dataDevolucao,
                         imagePath,
-                        id,
+                        id_locacao,
                     },
                     type: QueryTypes.UPDATE,
                 }
