@@ -29,8 +29,6 @@ export default function VeiculosNaoAlugados() {
   const [searchText, setSearchText] = useState("");
   const [disponibilidade, setDisponibilidade] = useState(1);
 
-  const tela = "naoAlugado";
-
   const fetchData = async () => {
     try {
         const url = `${API_URL}/api/backend/vehicles/disponibilidade/${disponibilidade}`;

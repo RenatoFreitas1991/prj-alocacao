@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './CardHistoricoStyle';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,47 +10,53 @@ interface CardHistoricoProps {
     nomeCliente:string;
     dataEntrega:string;
     dataDevolucao:string;
-    modelo:string;
-    marca:string;
-    placa:string;
-    imgName?:string;
+    modelo?:string;
+    marca?:string;
+    placa?:string;
+    imagePath?:string;
     nameButton?:string;
+    isUserScreen?: boolean;
 }
 
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'TelaHomeAdmin'>;
 
-export default function CardHistorico({nomeCliente, dataEntrega, dataDevolucao, modelo, marca, placa, imgName, nameButton}: CardHistoricoProps) {
+export default function CardHistorico({
+    nomeCliente, 
+    dataEntrega, 
+    dataDevolucao, 
+    modelo, 
+    marca, 
+    placa, 
+    imagePath, 
+    isUserScreen = true
+    }: CardHistoricoProps) {
 
     const navigation = useNavigation<NavigationPropInicial>();
+    const [modalVisible, setModalVisible] = useState(false);
 
     let clienteProp = nomeCliente;
     let marcaProp = marca;
     let modeloProp = modelo;
     let placaProp = placa;
 
-    function abrirAbrirHistoricoManutencao() {
-        navigation.navigate('HistoricoManutencao', {
-            clienteProp,
-            marcaProp,
-            modeloProp,
-            placaProp,
-        });
-    }
+    // function abrirAbrirHistoricoManutencao() {
+    //     navigation.navigate('HistoricoManutencao', {
+    //         clienteProp,
+    //         marca,
+    //         modelo,
+    //         placa,
+    //     });
+    // }
 
     return(
         <View style={styles.cardContainer}>
-            {imgName ? (
-                <Image 
-                    source={{ uri: imgName }}
-                    style={styles.img}
-                />
-            ): (
-                <Image 
-                    source={require(`../../../assets/photo.jpeg`)}
-                    style={styles.img}
-                />
-            )
-            }
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+            {imagePath ? (
+            <Image source={{ uri: imagePath }} style={isUserScreen ? styles.img : styles.img} resizeMode="cover" />
+            ) : (
+            <Image source={require('../../../assets/moto.jpeg')} style={isUserScreen ? styles.img : styles.img} />
+            )}
+        </TouchableOpacity>
 
             <View style={styles.textContainer}>
 
@@ -69,36 +75,14 @@ export default function CardHistorico({nomeCliente, dataEntrega, dataDevolucao, 
                     <Text style={styles.text}>{dataDevolucao}</Text>
                 </View>
 
-                {/* <View  style={styles.viewText}>
-                    <Text style={styles.label}>Modelo: </Text>
-                    <Text style={styles.text}>{modelo}</Text>
-                </View>
-
-                <View style={styles.viewText}>
-                    <Text style={styles.label}>Marca: </Text>
-                    <Text style={styles.text}>{marca}</Text>
-                </View>
-
-                <View style={styles.viewText}>
-                    <Text style={styles.label}>Placa: </Text>
-                    <Text style={styles.text}>{placa}</Text>
-                </View> */}
-
             </View>
             <View style={styles.viewButton}>
 
-                <TouchableOpacity style={[styles.button, styles.buttonUpdate]} onPress={abrirAbrirHistoricoManutencao}>
+                <TouchableOpacity style={[styles.button, styles.buttonUpdate]}>
                     <Text style={styles.textButton}>
-                        {nameButton} 
+                        Manutenções 
                     </Text>
                 </TouchableOpacity>
-{/* 
-                <TouchableOpacity style={[styles.button, styles.buttonDelete]}>
-                    <Text style={styles.textButton}>
-                        Deletar <Icon name="trash" size={14} color="#ffff" />
-                    </Text>
-                </TouchableOpacity> */}
-
             </View>
         </View>
     )

@@ -5,14 +5,14 @@ import { useRoute } from '@react-navigation/native';
 
 type RouteParams = {
     clienteProp:string;
-    marcaProp:string;
-    modeloProp:string;
-    placaProp:string;
+    marca:string;
+    modelo:string;
+    placa:string;
 };
 
 export default function HistoricoManutencao() {
     const route = useRoute();
-    const { clienteProp, marcaProp, modeloProp, placaProp } = route.params as RouteParams;
+    const { clienteProp, marca, modelo, placa } = route.params as RouteParams;
 
 
     const manutencoes = [
@@ -29,9 +29,9 @@ export default function HistoricoManutencao() {
     return(
         <ScrollView style={styles.container}>
             <Text style={styles.infoCliente}>Cliente: {clienteProp}</Text>
-            <Text style={styles.infoCliente}>Marca do veículo: {marcaProp}</Text>
-            <Text style={styles.infoCliente}>Modelo do veículo: {modeloProp}</Text>
-            <Text style={styles.infoCliente}>Placa do veículo: {placaProp}</Text>
+            <Text style={styles.infoCliente}>Marca do veículo: {marca}</Text>
+            <Text style={styles.infoCliente}>Modelo do veículo: {modelo}</Text>
+            <Text style={styles.infoCliente}>Placa do veículo: {placa}</Text>
             <Text style={styles.title}>Histórico de Manutenções</Text>
         
             {/* Cabeçalho da tabela */}

@@ -50,4 +50,26 @@ router.get('/notAvailable', async (req, res) => {
     }
 });
 
+router.get('/rentalVehicleHistory', async (req, res) => {
+    try {
+
+        const sql = `SELECT l.id, u.nome, l.data_de_entrega, l.data_de_devolucao, v.imagePath, v.placa 
+                        FROM tbl_locacao_veiculo l
+                        JOIN tbl_usuario u ON l.id_usuario = u.id 
+                        JOIN tbl_veiculo v ON l.id_veiculo = v.id 
+                        WHERE l.id_locacao_status = 1 AND l.id_pagamento = 2`;
+        
+        const results = await sequelize.query(sql, {
+            type: QueryTypes.SELECT,
+        })
+
+        console.log(results);
+        res.json(results);
+
+    } catch(error) {
+        console.log('Error ao busgar histórico de veículos não alugados', error);
+        res.status(500).json({ error: 'Error ao busgar histórico de veículos não alugados' })
+    }
+});
+
 module.exports = router;
