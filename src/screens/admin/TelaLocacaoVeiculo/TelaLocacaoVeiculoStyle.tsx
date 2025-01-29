@@ -72,6 +72,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
+    blackListError: {
+        color: 'red',
+    }
 });
 
 export default styles;

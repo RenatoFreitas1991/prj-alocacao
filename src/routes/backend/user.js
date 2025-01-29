@@ -115,7 +115,7 @@ router.put('/blacklist', async (req, res) => {
     }
 
     // Atualizar o campo blacklist e salvar o motivo
-    usuario.blacklist = 1;
+    usuario.id_blacklist = 1;
     usuario.motivo_blacklist = motivo;
     await usuario.save();
 
@@ -139,7 +139,7 @@ router.delete('/blacklist', async (req, res) => {
     }
 
     // Atualizar o campo blacklist para 0 e remover o motivo
-    usuario.blacklist = 0;
+    usuario.id_blacklist = 2;
     usuario.motivo_blacklist = null;
     await usuario.save();
 
@@ -155,7 +155,7 @@ router.get('/blacklist', async (req, res) => {
   try {
       const sql = `SELECT id, nome, cpf, motivo_blacklist 
                     FROM tbl_usuario 
-                    WHERE blacklist = 1`;
+                    WHERE id_blacklist = 1`;
 
       const result = await sequelize.query(sql, {
           type: QueryTypes.SELECT,
@@ -188,6 +188,27 @@ router.get('/info/:cpf', async (req, res) => {
 
       console.log(findInfoUserByCpf);
       res.json(findInfoUserByCpf);
+  } catch(error) {
+      console.error('Erro ao buscar dados do usuários:', error);
+      res.status(500).json({ erro: 'Erro ao buscar dados do usuário' })
+  }
+});
+
+router.get('/info/blacklist/:cpf', async (req, res) => {
+  const cpf = req.params.cpf;
+
+  try {
+      const findBlackListInfoUserByCpf = await sequelize.query(
+          `SELECT u.id, u.nome, u.cpf FROM tbl_usuario u 
+            WHERE u.cpf = :cpf AND u.id_blacklist = 1;`,
+          {
+              replacements: { cpf },
+              type: QueryTypes.SELECT,
+          }
+      );
+
+      console.log(findBlackListInfoUserByCpf);
+      res.json(findBlackListInfoUserByCpf);
   } catch(error) {
       console.error('Erro ao buscar dados do usuários:', error);
       res.status(500).json({ erro: 'Erro ao buscar dados do usuário' })

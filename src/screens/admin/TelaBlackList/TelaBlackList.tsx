@@ -263,30 +263,6 @@ export default function TelaBlackList() {
             }
           />
         </ScrollView>
-
-        {/* <ScrollView style={styles.scrollContainer}>
-          {blacklist.map((user, index) => (
-            <View key={index} style={styles.userCard}>
-              <Text style={styles.userName}>
-                Nome: {user.nome}
-              </Text>
-              <Text style={styles.userName}>
-                CPF: {user.cpf}
-              </Text>
-              <View style={styles.userReasonContainer}>
-                <Text style={styles.userReason}>
-                  Motivo: {user.reason}
-                </Text>
-                <TouchableOpacity onPress={() => onShare(user.nome, user.cpf, user.reason)} style={styles.shareButton}>
-                  <Icon name="share" size={22} color="white" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleRemoveUser(user.cpf)} style={styles.removeButton}>
-                  <Icon name="close" size={24} color="white" />
-                </TouchableOpacity>
-              </View>
-            </View>
-          ))}
-        </ScrollView> */}
       </View>
     </KeyboardAvoidingView>
   );

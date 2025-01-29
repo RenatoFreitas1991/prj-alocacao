@@ -31,6 +31,8 @@ export default function TelaLocacaoVeiculo() {
     const [quilometragem, setQuilometragem] = useState('');
     const [cpfUsuario, setCPfUsuario] = useState<string>('');
     const [nomeUsuario, setNomeUsuario] = useState('');
+    const [isInBlackList, setIsInBlackList] = useState(false);
+    const [blackListError, setBlackListError] = useState('');
     const [dataEntrega, setDataEntrega] = useState<string>('');
     const [dataDevolucao, setDataDevolucao] = useState<string>('');
     const [imagesUri, setImagesUri] = useState<string[]>([]);
@@ -43,7 +45,6 @@ export default function TelaLocacaoVeiculo() {
     const fetchLocacaoUserData = async () => {
         try {
             const url = `${API_URL}/api/backend/user/info/${cpfUsuario}`;
-            console.log(`Fetching: ${url}`);
             const response = await fetch(url);
             const result = await response.json();
 
@@ -57,11 +58,34 @@ export default function TelaLocacaoVeiculo() {
         }
     }
 
+    const fetchBlackListUserData = async () => {
+        const url = `${API_URL}/api/backend/user/info/blacklist/${cpfUsuario}`;
+        const response = await fetch(url);
+        const result = await response.json();
+
+        const locacaoData = result.map((data: any) => {
+            setNomeUsuario(data.nome);
+        })
+
+        const blackListUserData = result.map((data: any) => {
+            if(data.id != null) {
+                setIsInBlackList(true);
+                setBlackListError("Este usuário está na blacklist")
+            } else {
+                setIsInBlackList(false);
+                setBlackListError("");
+            }
+        })
+    }
+
     useEffect(() => {
         if(cpfUsuario.length == 14) {
             fetchLocacaoUserData();
+            fetchBlackListUserData();
         } else {
-            setNomeUsuario("")
+            setNomeUsuario("");
+            setIsInBlackList(false);
+            setBlackListError("");
         }
     }, [cpfUsuario]);
 
@@ -207,6 +231,7 @@ export default function TelaLocacaoVeiculo() {
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Nome do Usuário</Text>
+                <Text style={styles.blackListError}>{blackListError}</Text>
                 <TextInput 
                     style={styles.input} 
                     placeholder="Nome do Usuário" 

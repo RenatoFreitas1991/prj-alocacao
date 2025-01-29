@@ -38,7 +38,7 @@ const Usuario = sequelize.define('Usuario', {
     type: DataTypes.STRING(20),
     allowNull: false
   },
-  blacklist: {
+  id_blacklist: {
     type: DataTypes.INTEGER(2),
     defaultValue: 0
   },

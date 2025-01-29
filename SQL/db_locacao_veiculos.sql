@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 16/01/2025 às 13:21
+-- Tempo de geração: 29/01/2025 às 13:00
 -- Versão do servidor: 10.6.15-MariaDB
 -- Versão do PHP: 8.2.0
 
@@ -65,6 +65,25 @@ INSERT INTO `tbl_avaliacao` (`id`, `avaliacao`, `motivo`) VALUES
 (6, 0, 'Avaliação inicial'),
 (7, 0, 'Avaliação inicial'),
 (8, 0, 'Avaliação inicial');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tbl_black_list`
+--
+
+CREATE TABLE `tbl_black_list` (
+  `id` int(11) NOT NULL,
+  `situacao` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `tbl_black_list`
+--
+
+INSERT INTO `tbl_black_list` (`id`, `situacao`) VALUES
+(1, 'Está na black list'),
+(2, 'Não está na black list');
 
 -- --------------------------------------------------------
 
@@ -248,13 +267,15 @@ CREATE TABLE `tbl_locacao_veiculo` (
 
 INSERT INTO `tbl_locacao_veiculo` (`id`, `id_veiculo`, `id_usuario`, `quilometragem`, `data_de_entrega`, `data_de_devolucao`, `imagePath`, `id_locacao_status`, `id_pagamento`) VALUES
 (8, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 2),
-(10, 9, 8, 0, '3/07/2024', '22/01/2025', '', 2, 1),
+(10, 9, 8, 0, '3/07/2024', '22/01/2025', '', 1, 2),
 (12, 12, 8, 0, '03/12/2024', '03/01/2025', '', 1, 2),
-(15, 7, 7, 0, '17/12/2024', '17/01/2025', '', 1, 2),
+(15, 7, 8, 0, '10/01/2025', '22/02/2025', '', 1, 2),
 (16, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 2),
 (17, 7, 1, 0, '03/01/2025', '03/02/2025', '', 1, 2),
 (20, 7, 1, 0, '03/01/2025', '03/02/2025', '[\"/assets/veiculos/1735908777467-758481105-vehicle_1735908776828.jpg\"]', 1, 2),
-(21, 20, 6, 0, '04/01/2025', '04/02/2025', '', 1, 2);
+(21, 20, 6, 0, '04/01/2025', '04/02/2025', '', 1, 2),
+(24, 7, 8, 0, '10/01/2025', '22/02/2025', '', 2, 1),
+(25, 8, 8, 0, '20/01/2025', '20/02/2025', '', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -1573,7 +1594,7 @@ CREATE TABLE `tbl_usuario` (
   `senha` varchar(255) NOT NULL,
   `rg` int(15) NOT NULL,
   `orgao_expedidor` varchar(20) NOT NULL,
-  `blacklist` int(2) NOT NULL,
+  `id_blacklist` int(2) NOT NULL,
   `motivo_blacklist` varchar(255) NOT NULL,
   `id_profissao` int(10) NOT NULL,
   `id_contato` int(10) NOT NULL,
@@ -1587,11 +1608,11 @@ CREATE TABLE `tbl_usuario` (
 -- Despejando dados para a tabela `tbl_usuario`
 --
 
-INSERT INTO `tbl_usuario` (`id`, `nome`, `cpf`, `cnh`, `nascimento`, `senha`, `rg`, `orgao_expedidor`, `blacklist`, `motivo_blacklist`, `id_profissao`, `id_contato`, `id_endereco`, `id_locador`, `id_estado_civil`, `id_avaliacao`) VALUES
-(1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 1, 'Pagamento atrasado', 4, 1, 1, 0, 1, 1),
+INSERT INTO `tbl_usuario` (`id`, `nome`, `cpf`, `cnh`, `nascimento`, `senha`, `rg`, `orgao_expedidor`, `id_blacklist`, `motivo_blacklist`, `id_profissao`, `id_contato`, `id_endereco`, `id_locador`, `id_estado_civil`, `id_avaliacao`) VALUES
+(1, 'Jailson Mendes', '732.444.110-61', '963914', '05/01/1998', '$2b$10$p/xx1ws3NLZcTjVH88nHnOQHZhzn78wHh6PjlrDO268HvDeBoSev.', 816382, 'SSP', 1, 'Processo jurídico', 4, 1, 1, 0, 1, 1),
 (6, 'Gabriel', '849.154.620-05', '650283', '01/05/1998', '$2b$10$xyvSj.2gbug8RzvWqGHtn.vT8Gwl0a1LigktPf8FjaCT0LVLcyWZ.', 717273, 'SSP', 1, 'Processo jurídico', 2, 6, 6, 0, 1, 6),
-(7, 'Pedro', '026.415.300-66', '34234', '11/09/1998', '$2b$10$SINoJ6bsiLDukeSy0zhLU.7L/abciVXugRriyWEF6qmcGZqv9YBZe', 445435, 'ssp', 0, '', 2, 7, 7, 0, 1, 7),
-(8, 'Ana', '391.474.290-97', '233323', '11/11/1995', '$2b$10$BVDJPMBqKOTBNzfkCu8S9Ou.xmGJ.WwjsoP2B2kxUqDp.n.u6uaQm', 234234, 'ssp', 0, '', 865, 8, 8, 0, 1, 8);
+(7, 'Pedro', '026.415.300-66', '34234', '11/09/1998', '$2b$10$SINoJ6bsiLDukeSy0zhLU.7L/abciVXugRriyWEF6qmcGZqv9YBZe', 445435, 'ssp', 2, '', 2, 7, 7, 0, 1, 7),
+(8, 'Ana', '391.474.290-97', '233323', '11/11/1995', '$2b$10$BVDJPMBqKOTBNzfkCu8S9Ou.xmGJ.WwjsoP2B2kxUqDp.n.u6uaQm', 234234, 'ssp', 2, '', 865, 8, 8, 0, 1, 8);
 
 -- --------------------------------------------------------
 
@@ -1622,11 +1643,11 @@ CREATE TABLE `tbl_veiculo` (
 --
 
 INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `imagePath`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
-(7, 2, 7, 1, 14, 1, '[]', 1, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
-(8, 2, 7, 3, 10, 1, '[]', 1, 'J0DF-AS3R', 'SDASGD63R62', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 5),
-(9, 2, 7, 5, 13, 8, '[]', 0, 'HC32X-242D', 'ICYN37Q7DHT34DS', 'tetracilín', '2024', '0000-00-00', '0000-00-00', 0),
-(11, 2, 7, 4, 2, 1, '[]', 1, 'FCWFE-2344', 'CW32Z23F', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
-(12, 2, 7, 5, 2, 1, '[]', 1, 'GFHJ-234T', 'C434ESFEE643', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 0),
+(7, 2, 7, 1, 14, 1, '[]', 0, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
+(8, 2, 7, 3, 10, 1, '[]', 0, 'J0DF-AS3R', 'SDASGD63R62', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 5),
+(9, 2, 7, 5, 13, 8, '[]', 1, 'HC32X-242D', 'ICYN37Q7DHT34DS', 'tetracilín', '2024', '0000-00-00', '0000-00-00', 0),
+(11, 2, 7, 4, 2, 1, '[]', 1, 'FCWE-2344', 'CW32Z23F', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
+(12, 2, 7, 5, 2, 1, '[\"/assets/veiculos/1737718789013-383253231-vehicle_1737718787952.jpg\"]', 1, 'GFHJ-234T', 'C434ESFEE643', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 0),
 (20, 2, 11, 65, 10, 1, '[\"/assets/veiculos/1735908446032-714330617-vehicle_1735908445391.jpg\"]', 1, 'SFAF-45F6', 'FAHAH45AGA5', 'Monocilínd', '2025', '0000-00-00', '0000-00-00', 0);
 
 -- --------------------------------------------------------
@@ -1648,7 +1669,8 @@ CREATE TABLE `tbl_veiculo_favorito` (
 INSERT INTO `tbl_veiculo_favorito` (`id`, `id_veiculo`, `id_usuario`) VALUES
 (7, 11, 7),
 (8, 8, 7),
-(11, 9, 8);
+(11, 9, 8),
+(14, 11, 8);
 
 --
 -- Índices para tabelas despejadas
@@ -1664,6 +1686,12 @@ ALTER TABLE `tbl_admin`
 -- Índices de tabela `tbl_avaliacao`
 --
 ALTER TABLE `tbl_avaliacao`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `tbl_black_list`
+--
+ALTER TABLE `tbl_black_list`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1759,7 +1787,8 @@ ALTER TABLE `tbl_usuario`
   ADD KEY `fk_contato` (`id_contato`),
   ADD KEY `fk_endereco` (`id_endereco`),
   ADD KEY `fk_estado_civil` (`id_estado_civil`),
-  ADD KEY `fk_avaliacao` (`id_avaliacao`);
+  ADD KEY `fk_avaliacao` (`id_avaliacao`),
+  ADD KEY `fk_blacklist_usuario` (`id_blacklist`);
 
 --
 -- Índices de tabela `tbl_veiculo`
@@ -1795,6 +1824,12 @@ ALTER TABLE `tbl_admin`
 --
 ALTER TABLE `tbl_avaliacao`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de tabela `tbl_black_list`
+--
+ALTER TABLE `tbl_black_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_combustivel`
@@ -1836,7 +1871,7 @@ ALTER TABLE `tbl_locacao_status`
 -- AUTO_INCREMENT de tabela `tbl_locacao_veiculo`
 --
 ALTER TABLE `tbl_locacao_veiculo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_manutencao`
@@ -1890,7 +1925,7 @@ ALTER TABLE `tbl_veiculo`
 -- AUTO_INCREMENT de tabela `tbl_veiculo_favorito`
 --
 ALTER TABLE `tbl_veiculo_favorito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restrições para tabelas despejadas
@@ -1921,11 +1956,12 @@ ALTER TABLE `tbl_marca`
 -- Restrições para tabelas `tbl_usuario`
 --
 ALTER TABLE `tbl_usuario`
-  ADD CONSTRAINT `fk_avaliacao` FOREIGN KEY (`id_avaliacao`) REFERENCES `tbl_avaliacao` (`id`),
-  ADD CONSTRAINT `fk_contato` FOREIGN KEY (`id_contato`) REFERENCES `tbl_contato` (`id`),
-  ADD CONSTRAINT `fk_endereco` FOREIGN KEY (`id_endereco`) REFERENCES `tbl_endereco` (`id`),
-  ADD CONSTRAINT `fk_estado_civil` FOREIGN KEY (`id_estado_civil`) REFERENCES `tbl_estado_civil` (`id`),
-  ADD CONSTRAINT `fk_profissao` FOREIGN KEY (`id_profissao`) REFERENCES `tbl_profissao` (`id`);
+  ADD CONSTRAINT `fk_avaliacao_usuario` FOREIGN KEY (`id_avaliacao`) REFERENCES `tbl_avaliacao` (`id`),
+  ADD CONSTRAINT `fk_blacklist_usuario` FOREIGN KEY (`id_blacklist`) REFERENCES `tbl_black_list` (`id`),
+  ADD CONSTRAINT `fk_contato_usuario` FOREIGN KEY (`id_contato`) REFERENCES `tbl_contato` (`id`),
+  ADD CONSTRAINT `fk_endereco_usuario` FOREIGN KEY (`id_endereco`) REFERENCES `tbl_endereco` (`id`),
+  ADD CONSTRAINT `fk_estado_civil_usuario` FOREIGN KEY (`id_estado_civil`) REFERENCES `tbl_estado_civil` (`id`),
+  ADD CONSTRAINT `fk_profissao_usuario` FOREIGN KEY (`id_profissao`) REFERENCES `tbl_profissao` (`id`);
 
 --
 -- Restrições para tabelas `tbl_veiculo`
