@@ -67,6 +67,22 @@ const styles = StyleSheet.create({
         width: '90%',
         alignItems: 'center',
     },
+    activatedButton: {
+        backgroundColor: '#2B3A67',
+        paddingVertical: 15,
+        borderRadius: 8,
+        marginVertical: 20,
+        width: '90%',
+        alignItems: 'center',
+    },
+    deactivatedButton : {
+        backgroundColor: 'gray',
+        paddingVertical: 15,
+        borderRadius: 8,
+        marginVertical: 20,
+        width: '90%',
+        alignItems: 'center',
+    },
     buttonText: {
         color: '#fff',
         fontSize: 18,

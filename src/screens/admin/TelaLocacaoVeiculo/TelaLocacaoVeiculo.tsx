@@ -250,9 +250,15 @@ export default function TelaLocacaoVeiculo() {
                 <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataDevolucao} value={dataDevolucao || ''} />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={cadastrarLocacao}>
-                <Text style={styles.buttonText}>Alocar</Text>
-            </TouchableOpacity>
+            {isInBlackList != true ? (
+                <TouchableOpacity style={styles.button} onPress={cadastrarLocacao}>
+                    <Text style={styles.buttonText}>Alocar</Text>
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity style={styles.deactivatedButton} onPress={cadastrarLocacao} disabled={true}>
+                    <Text style={styles.buttonText}>Alocar</Text>
+                </TouchableOpacity>
+            )}
 
             <BR />
         </ScrollView>
