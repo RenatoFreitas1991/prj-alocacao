@@ -260,7 +260,7 @@ export default function TelaLocacaoVeiculo() {
                 </TouchableOpacity>
             )}
 
-            <BR />
+            <BR /> 
         </ScrollView>
     )
 

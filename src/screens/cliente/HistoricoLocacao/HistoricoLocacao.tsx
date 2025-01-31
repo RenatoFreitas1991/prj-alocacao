@@ -13,16 +13,11 @@ import CardVeiculo from '../../../components/CardVehicle/CardVehicle';
 import { StackParamList } from '../../../routes/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
 
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from '@react-navigation/native';
-
-import { isBefore, isAfter } from 'date-fns';
 import BR from "src/components/BR/BR";
 
-type locacaoUserProp = RouteProp<StackParamList, 'LocacaoUser'>;
-type locacaoUserNavigation = NativeStackNavigationProp<StackParamList, 'LocacaoUser'>;
+type locacaoUserProp = RouteProp<StackParamList, 'HistoricoLocacao'>;
 
-export default function LocacaoUser() {
+export default function HistoricoLocacao() {
 
   interface MinVeiculo {
     id: number;
@@ -40,54 +35,11 @@ export default function LocacaoUser() {
   const [modalMessage, setModalMessage] = useState('');
 
   const route = useRoute<locacaoUserProp>();
-  const navigation = useNavigation<locacaoUserNavigation>();
   const { cpf } = route.params;
-
-  function goToHistoricoLocacao() {
-    navigation.navigate('HistoricoLocacao', { cpf: cpf });
-  }
-
-  var rentalQuantity = 0;
-
-  function rentalDateVehicle(dateProp:string, id_pagamento:number) {
-
-    const now = new Date();
-    var rentalDate = stringToDate(dateProp);
-    var diffDays = differenceOfDays(rentalDate, now);
-    
-    if((isBefore(now, rentalDate) && diffDays <= 7 && id_pagamento == 1) || ( diffDays == 1 && id_pagamento == 1)) {
-      rentalQuantity += 1;
-    } else if (isAfter(now, rentalDate) && (id_pagamento == 1)) {
-      rentalQuantity += 1;
-    }
-    setCountRental(rentalQuantity);
-
-    if(rentalQuantity > 0) {
-      setModalMessage(`Pague o alaguel do veículo`);
-      setModalVisible(true);
-    }
-  }
-
-  function differenceOfDays(rentalDate:any, now:any) {
-    var timeDiff = Math.abs(rentalDate.getTime() - now.getTime());
-    var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-    return diffDays;
-  }
-
-  function stringToDate(dateString:string) {
-    const dateSplit = dateString.split("/");
-
-    const year = Number(dateSplit[2]);
-    const month = Number(dateSplit[1]) - 1;
-    const day = Number(dateSplit[0]);
-
-    const dateFormat = new Date(year, month, day);
-    return dateFormat;
-  }
 
   const fetchData = async () => {
     try {
-      const url = `${API_URL}/api/backend/locacao/vehicles/user/${cpf}`;
+      const url = `${API_URL}/api/backend/locacao/vehicles/historic/user/${cpf}`;
       console.log(`Fetching: ${url}`);
       const response = await fetch(url);
       const result = await response.json();
@@ -108,7 +60,6 @@ export default function LocacaoUser() {
         console.log('Renderizando imagem com imagePath:', imagePath);
 
         console.log('Image path para veículo:', vehicle.modelo, imagePath);
-        rentalDateVehicle(vehicle.data_de_devolucao, vehicle.id_pagamento);
         return {
           id: vehicle.idVehicle,
           modelo: vehicle.modelo,
@@ -143,12 +94,8 @@ export default function LocacaoUser() {
 
   return (
     <View style={styles.container1}>
-
-      <TouchableOpacity style={styles.button} onPress={goToHistoricoLocacao}>
-        <Text style={styles.buttonText}> Histórico de Locação </Text>
-      </TouchableOpacity>
-
       <View style={styles.container1}>
+        <BR />
         <FlatList
           style={styles.listContainer}
           data={vehicles}

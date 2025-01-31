@@ -46,4 +46,5 @@ export type StackParamList = {
     TelaFavorito: { cpf: string };
     LocacaoUser: { cpf: string };
     Conta: { cpf: string };
+    HistoricoLocacao: {cpf: string};
 };
