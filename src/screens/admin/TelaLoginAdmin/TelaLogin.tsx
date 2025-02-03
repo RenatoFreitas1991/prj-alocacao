@@ -19,9 +19,9 @@ export default function TelaLogin() {
 
     const navigation = useNavigation<NavigationPropInicial>();
 
-    function abrirTelaHomeUsuario() {
-        navigation.navigate("telaHomeDefinitiva");
-    }
+    // function abrirTelaHomeUsuario() {
+    //     navigation.navigate("telaHomeDefinitiva");
+    // }
 
     function abrirTelaInicial() {
         navigation.navigate("Home");

@@ -33,7 +33,7 @@ export type StackParamList = {
     telaHomeDefinitiva: undefined;
     HistoricoManutencao: {clienteProp: string, marcaProp: string, modeloProp: string, placaProp: string, };
     HistoricoAlugados: undefined;
-    TelaAvaliacaoCliente: undefined;
+    TelaAvaliacaoCliente: { cpf: string };
     TelaCalendario: undefined;
     VeiculosAlugadosAdmin: undefined;
     VeiculosNaoAlugadosAdmin: undefined;

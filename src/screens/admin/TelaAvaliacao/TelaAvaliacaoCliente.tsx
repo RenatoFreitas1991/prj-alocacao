@@ -1,45 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, FlatList } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import styles from './TelaAvaliacaoStyle';
 
+import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
+import { StackParamList } from "../../../routes/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import { API_URL } from '@env';
+import axios from 'axios';
+
 type AvaliacaoUser = {
-  cpf: string;
+  cpfUser: string;
   nome: string;
   estrelas: number;
   motivo: string;
 };
 
-// Teste e Verificando busca de CPF do usuário ( remover apos finalização )
-const buscarNomePorCPF = (cpf:string) => {
-  const usuariosSimulados = {
-    "12345678900": "Joãozinho",
-    "09876543210": "Joaquim",
-
-  };
-  return usuariosSimulados[cpf] || "Usuário não encontrado";
-};
-
+type TelaAvaliacaoClienteRouteProp = RouteProp<StackParamList, 'TelaAvaliacaoCliente'>;
+type NavigationProp = NativeStackNavigationProp<StackParamList, 'TelaAvaliacaoCliente'>;
 
 const TelaAvaliacaoCliente = () => {
-  const [cpf, setCpf] = useState('');
+
+  const route = useRoute<TelaAvaliacaoClienteRouteProp>();
+  const navigation = useNavigation<NavigationProp>();
+  const { cpf } = route.params;
+
+  const [cpfUser, setCpf] = useState(cpf);
   const [nome, setNome] = useState('');
   const [avaliacao, setAvaliacao] = useState(0);
   const [motivo, setMotivo] = useState('');
   const [avaliacoes, setAvaliacoes] = useState<AvaliacaoUser[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const handleCpfChange = (inputCpf:string) => {
-    const apenasNumeros = inputCpf.replace(/[^0-9]/g, '');
-    setCpf(apenasNumeros);
+  function formatCPF(cpf: string): string {
+    return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  }
 
-    if (apenasNumeros.length === 11) {
-      const nomeEncontrado = buscarNomePorCPF(apenasNumeros);
-      setNome(nomeEncontrado);
-    } else {
-      setNome('');
+  const fetchLocacaoUserData = async () => {
+      try {
+          const url = `${API_URL}/api/backend/user/info/${cpfUser}`;
+          const response = await fetch(url);
+          const result = await response.json();
+
+          const userData = result.map((data: any) => {
+            setNome(data.nome);
+          })
+
+      } catch(error) {
+          console.error("Erro ao buscar dados da Locação:", error);
+          Alert.alert("Erro", "Não foi possível carregar os dados da Locação.");
+      }
+  }
+
+  const cadastrarAvaliacao = async () => {
+
+    const locacaoData = {
+      cpfUser,
+      avaliacao,
+      motivo,
     }
-  };
+
+    try {
+        const response = await axios.post(`${API_URL}/api/backend/avaliacao/`, locacaoData);
+        Alert.alert('Sucesso', 'Avaliação realizada com sucesso!');
+        navigation.navigate('telaHomeDefinitiva');
+    } catch (error) {
+        console.error('Erro ao registrar avaliação:', error);
+        Alert.alert('Erro', 'Não foi possível registrar a avaliação.');
+    }
+  }
 
   const renderEstrelas = () => {
     return Array.from({ length: 5 }, (_, index) => (
@@ -54,12 +84,12 @@ const TelaAvaliacaoCliente = () => {
   };
 
   const salvarAvaliacao = () => {
-    if (!cpf || !nome) {
+    if (!cpfUser || !nome) {
       Alert.alert("Erro", "Por favor, insira um CPF válido e preencha todos os campos.");
       return;
     }
 
-    const novaAvaliacao = { cpf, nome, estrelas: avaliacao, motivo };
+    const novaAvaliacao = { cpfUser, nome, estrelas: avaliacao, motivo };
 
     if (editingIndex !== null) {
       const atualizadas = [...avaliacoes];
@@ -70,7 +100,7 @@ const TelaAvaliacaoCliente = () => {
       setAvaliacoes([...avaliacoes, novaAvaliacao]);
     }
 
-    Alert.alert('Avaliação Salva', `CPF: ${cpf}\nNome: ${nome}\nEstrelas: ${avaliacao}\nMotivo: ${motivo}`);
+    Alert.alert('Avaliação Salva', `CPF: ${cpfUser}\nNome: ${nome}\nEstrelas: ${avaliacao}\nMotivo: ${motivo}`);
     setCpf('');
     setNome('');
     setAvaliacao(0);
@@ -79,7 +109,7 @@ const TelaAvaliacaoCliente = () => {
 
   const editarAvaliacao = (index: number) => {
     const avaliacao = avaliacoes[index];
-    setCpf(avaliacao.cpf);
+    setCpf(avaliacao.cpfUser);
     setNome(avaliacao.nome);
     setAvaliacao(avaliacao.estrelas);
     setMotivo(avaliacao.motivo);
@@ -94,7 +124,7 @@ const TelaAvaliacaoCliente = () => {
 
   const renderItem = ({ item, index }: { item: AvaliacaoUser, index: number }) => (
     <View style={styles.avaliacaoContainer}>
-      <Text style={styles.boldText}>CPF: {item.cpf}</Text>
+      <Text style={styles.boldText}>CPF: {item.cpfUser}</Text>
       <Text style={styles.boldText}>Nome: {item.nome}</Text>
       <Text style={styles.boldText}>Estrelas: {item.estrelas}</Text>
       <Text style={styles.boldText}>Motivo: {item.motivo}</Text>
@@ -109,6 +139,14 @@ const TelaAvaliacaoCliente = () => {
     </View>
   );
 
+  useEffect(() => {
+    if(cpfUser.length == 14) {
+      fetchLocacaoUserData();
+    } else {
+      setNome("");
+    }
+  }, [cpf]);
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -117,8 +155,8 @@ const TelaAvaliacaoCliente = () => {
           style={styles.input}
           placeholder="Digite o CPF do usuário"
           placeholderTextColor="#aaa"
-          value={cpf}
-          onChangeText={handleCpfChange}
+          value={cpfUser}
+          onChangeText={(text: string) => setCpf(formatCPF(text))} 
           keyboardType="numeric"
           editable={editingIndex === null}
           maxLength={12}
@@ -139,7 +177,7 @@ const TelaAvaliacaoCliente = () => {
           onChangeText={setMotivo}
         />
 
-        <TouchableOpacity style={styles.button} onPress={salvarAvaliacao}>
+        <TouchableOpacity style={styles.button} onPress={cadastrarAvaliacao}>
           <Text style={styles.buttonText}>{editingIndex !== null ? 'Atualizar Avaliação' : 'Salvar Avaliação'}</Text>
         </TouchableOpacity>
 

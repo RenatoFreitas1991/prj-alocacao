@@ -11,6 +11,7 @@ const uploadRouter = require('./upload'); // Importe o roteador de upload
 const locacaoRouter = require('./locacao');
 const manutencaoRouter = require('./manutencao');
 const favoriteRouter = require('./favorites');
+const avalicaoRouter = require('./Avaliaco');
 
 // Adicione as rotas ao roteador principal
 router.use('/profissoes', profissoesRouter);
@@ -24,5 +25,6 @@ router.use('/vehicle', vehicleRegister);
 router.use('/locacao', locacaoRouter);
 router.use('/manutencao', manutencaoRouter);
 router.use('/favorites', favoriteRouter);
+router.use('/avaliacao', avalicaoRouter);
 
 module.exports = router;

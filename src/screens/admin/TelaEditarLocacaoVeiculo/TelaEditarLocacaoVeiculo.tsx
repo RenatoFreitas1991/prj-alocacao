@@ -16,6 +16,7 @@ type RouteParams = {
 };
 
 export default function TelaEditarLocacaoVeiculo() {
+    
     const route = useRoute<TelaEditarLocacaoVeiculoRouteProp>();
     const navigation = useNavigation<NavigationProp<StackParamList>>();
     const [modalVisible, setModalVisible] = useState(false);
@@ -95,7 +96,8 @@ export default function TelaEditarLocacaoVeiculo() {
         try {
             await axios.put(`${API_URL}/api/backend/locacao/disponibilityUpdate/`, locacaoData);
             Alert.alert('Sucesso', 'Locação finalizada com sucesso!');
-            navigation.navigate('telaHomeDefinitiva');
+            //navigation.navigate('telaHomeDefinitiva');
+            navigation.navigate('TelaAvaliacaoCliente', { cpf: cpfUsuario });
         } catch (error) {
             console.error('Erro ao atualizar a disponibilidade do veículo em locação:', error);
             Alert.alert('Erro', 'Não foi possível atualizar a disponibilidade do veículo em locação.');
