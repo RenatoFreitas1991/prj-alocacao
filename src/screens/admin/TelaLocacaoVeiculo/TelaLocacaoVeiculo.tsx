@@ -37,6 +37,7 @@ export default function TelaLocacaoVeiculo() {
     const [dataDevolucao, setDataDevolucao] = useState<string>('');
     const [imagesUri, setImagesUri] = useState<string[]>([]);
     const [showViewImg, setShowViewImg] = useState(false);
+    const [valorLocacao, setValorLocacao] = useState('');
 
     function formatCPF(cpf: string): string {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
@@ -168,7 +169,7 @@ export default function TelaLocacaoVeiculo() {
         const uploadedImages: string[] = [];
         for (const imageUri of imagesUri) {
             const imagePath = await handleImageUpload(imageUri);
-            if (imagePath) uploadedImages.push(imagePath); // Adiciona o caminho ao array se o upload for bem-sucedido
+            if (imagePath) uploadedImages.push(imagePath);
         }
 
         const locacaoData = {
@@ -178,6 +179,7 @@ export default function TelaLocacaoVeiculo() {
             dataEntrega,
             dataDevolucao,
             imagens: uploadedImages,
+            valorLocacao,
         }
 
         try {
@@ -248,6 +250,11 @@ export default function TelaLocacaoVeiculo() {
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Data de Enterga</Text>
                 <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataDevolucao} value={dataDevolucao || ''} />
+            </View>
+
+            <View style={styles.viewInput}>
+                <Text style={styles.textLabel}>Valor R$</Text>
+                <TextInput style={styles.input} placeholder="R$" onChangeText={setValorLocacao} value={valorLocacao || ''} />
             </View>
 
             {isInBlackList != true ? (

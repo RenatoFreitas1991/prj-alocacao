@@ -30,6 +30,7 @@ export default function TelaEditarLocacaoVeiculo() {
     const [nomeUsuario, setNomeUsuario] = useState('');
     const [dataEntrega, setDataEntrega] = useState('');
     const [dataDevolucao, setDataDevolucao] = useState('');
+    const [valorLocacao, setValorLocacao] = useState('');
 
     function formatCPF(cpf: string): string {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
@@ -51,6 +52,7 @@ export default function TelaEditarLocacaoVeiculo() {
                 setDataEntrega(locacao.data_de_entrega);
                 setDataDevolucao(locacao.data_de_devolucao);
                 setIdLocacao(locacao.id_locacao);
+                setValorLocacao(locacao.valor)
             })
 
         } catch(error) {
@@ -68,6 +70,7 @@ export default function TelaEditarLocacaoVeiculo() {
             dataEntrega,
             dataDevolucao,
             idLocacao,
+            valorLocacao,
         }
 
         try {
@@ -91,6 +94,7 @@ export default function TelaEditarLocacaoVeiculo() {
             dataEntrega,
             dataDevolucao,
             idLocacao,
+            valorLocacao,
         }
 
         try {
@@ -207,6 +211,17 @@ export default function TelaEditarLocacaoVeiculo() {
                     placeholder="Data de Devolução" 
                     onChangeText={setDataDevolucao} 
                     value={dataDevolucao || ''} />
+            </View>
+
+            <View style={styles.viewInput}>
+                <Text style={styles.textLabel}>Data de Enterga</Text>
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Valor R$" 
+                    onChangeText={setValorLocacao} 
+                    value={valorLocacao || ''}
+                    editable={false} 
+                />
             </View>
 
             {/* <TouchableOpacity style={styles.button} onPress={vehicleAvailabilityUpdate}>

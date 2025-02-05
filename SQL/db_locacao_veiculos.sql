@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03/02/2025 às 14:01
+-- Tempo de geração: 05/02/2025 às 12:51
 -- Versão do servidor: 10.6.15-MariaDB
 -- Versão do PHP: 8.2.0
 
@@ -251,6 +251,7 @@ CREATE TABLE `tbl_locacao_veiculo` (
   `quilometragem` int(50) NOT NULL,
   `data_de_entrega` varchar(11) NOT NULL,
   `data_de_devolucao` varchar(11) NOT NULL,
+  `valor` varchar(50) NOT NULL,
   `imagePath` varchar(255) NOT NULL,
   `id_locacao_status` int(11) NOT NULL,
   `id_pagamento` int(11) NOT NULL
@@ -260,17 +261,18 @@ CREATE TABLE `tbl_locacao_veiculo` (
 -- Despejando dados para a tabela `tbl_locacao_veiculo`
 --
 
-INSERT INTO `tbl_locacao_veiculo` (`id`, `id_veiculo`, `id_usuario`, `quilometragem`, `data_de_entrega`, `data_de_devolucao`, `imagePath`, `id_locacao_status`, `id_pagamento`) VALUES
-(8, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 2),
-(10, 9, 8, 0, '3/07/2024', '22/01/2025', '', 1, 2),
-(12, 12, 8, 0, '03/12/2024', '03/01/2025', '', 1, 2),
-(15, 7, 8, 0, '10/01/2025', '22/02/2025', '', 1, 2),
-(16, 8, 7, 0, '26/12/2024', '26/01/2025', '', 1, 2),
-(17, 7, 1, 0, '03/01/2025', '03/02/2025', '', 1, 2),
-(20, 7, 1, 0, '03/01/2025', '03/02/2025', '[\"/assets/veiculos/1735908777467-758481105-vehicle_1735908776828.jpg\"]', 1, 2),
-(21, 20, 6, 0, '04/01/2025', '04/02/2025', '', 1, 2),
-(24, 7, 8, 0, '10/01/2025', '22/05/2025', '', 1, 2),
-(25, 8, 8, 0, '20/01/2025', '20/05/2025', '', 2, 1);
+INSERT INTO `tbl_locacao_veiculo` (`id`, `id_veiculo`, `id_usuario`, `quilometragem`, `data_de_entrega`, `data_de_devolucao`, `valor`, `imagePath`, `id_locacao_status`, `id_pagamento`) VALUES
+(8, 8, 7, 0, '26/12/2024', '26/01/2025', '10', '', 1, 2),
+(10, 9, 8, 0, '3/07/2024', '22/01/2025', '10', '', 1, 2),
+(12, 12, 8, 0, '03/12/2024', '03/01/2025', '10', '', 1, 2),
+(15, 7, 8, 0, '10/01/2025', '22/02/2025', '10', '', 1, 2),
+(16, 8, 7, 0, '26/12/2024', '26/01/2025', '10', '', 1, 2),
+(17, 7, 1, 0, '03/01/2025', '03/02/2025', '10', '', 1, 2),
+(20, 7, 1, 0, '03/01/2025', '03/02/2025', '10', '[\"/assets/veiculos/1735908777467-758481105-vehicle_1735908776828.jpg\"]', 1, 2),
+(21, 20, 6, 0, '04/01/2025', '04/02/2025', '10', '', 1, 2),
+(24, 7, 8, 0, '10/01/2025', '22/05/2025', '10', '', 1, 2),
+(25, 8, 8, 0, '20/01/2025', '20/05/2025', '10', '', 1, 2),
+(27, 7, 8, 0, '05/02/2025', '05/03/2025', '20', '', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -1638,8 +1640,8 @@ CREATE TABLE `tbl_veiculo` (
 --
 
 INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `imagePath`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
-(7, 2, 7, 1, 14, 1, '[]', 1, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
-(8, 2, 7, 3, 10, 1, '[]', 0, 'J0DF-AS3R', 'SDASGD63R62', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 5),
+(7, 2, 7, 1, 14, 1, '[]', 0, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
+(8, 2, 7, 3, 10, 1, '[]', 1, 'J0DF-AS3R', 'SDASGD63R62', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 5),
 (9, 2, 7, 5, 13, 8, '[]', 1, 'HC32X-242D', 'ICYN37Q7DHT34DS', 'tetracilín', '2024', '0000-00-00', '0000-00-00', 0),
 (11, 2, 7, 4, 2, 1, '[]', 1, 'FCWE-2344', 'CW32Z23F', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
 (12, 2, 7, 5, 2, 1, '[\"/assets/veiculos/1737718789013-383253231-vehicle_1737718787952.jpg\"]', 1, 'GFHJ-234T', 'C434ESFEE643', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 0),
@@ -1867,7 +1869,7 @@ ALTER TABLE `tbl_locacao_status`
 -- AUTO_INCREMENT de tabela `tbl_locacao_veiculo`
 --
 ALTER TABLE `tbl_locacao_veiculo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_manutencao`

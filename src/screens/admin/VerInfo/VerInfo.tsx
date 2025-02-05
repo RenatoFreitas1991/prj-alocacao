@@ -22,6 +22,7 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
     const [nomeUser, setNomeUser] = useState('');
     const [dataEntrega, setDataEntrega] = useState('');
     const [dataDevolucao, setDataDevolucao] = useState('');
+    const [valorLocacao, setValorLocacao] = useState('');
 
     const [cpf, setCpf] = useState('');
     const [cnh, setCnh] = useState('');
@@ -61,6 +62,7 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
                 setAno(vehicle.ano);
                 setCombustivel(vehicle.combustivel);
                 setQuilometragem(vehicle.quilometragem);
+                setValorLocacao(vehicle.valor);
             });
         } catch (error) {
             Alert.alert("Erro", "Não foi possível carregar os dados do veículo.");
@@ -148,7 +150,6 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
                             <Text style={styles.value}>{quilometragem || quilometragem}</Text>
                         </View>
                     </View>
-                    
 
                     {
                         cpf != '' ? (
@@ -184,6 +185,13 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
                                 <View style={styles.infoColumn}>
                                     <Text style={styles.label}>Data de devolução:</Text>
                                     <Text style={styles.value}>{dataDevolucao || 'N/A'}</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.row}>
+                                <View style={styles.infoColumn}>
+                                    <Text style={styles.label}>Valor do aluguel:</Text>
+                                    <Text style={styles.value}>{valorLocacao || 'R$'}</Text>
                                 </View>
                             </View>
                         </View>

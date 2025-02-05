@@ -10,7 +10,8 @@ router.post('/register/', async (req, res) => {
         cpfUsuario,
         dataEntrega,
         dataDevolucao,
-        imagens
+        imagens,
+        valorLocacao
     } = req.body;
 
     try {
@@ -57,7 +58,8 @@ router.post('/register/', async (req, res) => {
                 data_de_devolucao, 
                 imagePath,
                 id_locacao_status,
-                id_pagamento) 
+                id_pagamento,
+                valor) 
                 VALUES (:id,
                         :id_veiculo, 
                         :id_usuario, 
@@ -66,7 +68,8 @@ router.post('/register/', async (req, res) => {
                         :dataDevolucao, 
                         :imagePath,
                         :id_locacao_status,
-                        :id_pagamento)`,
+                        :id_pagamento,
+                        :valorLocacao)`,
                 {
                     replacements: {
                         id,
@@ -77,7 +80,8 @@ router.post('/register/', async (req, res) => {
                         dataDevolucao,
                         imagePath: JSON.stringify(imagens),
                         id_locacao_status,
-                        id_pagamento
+                        id_pagamento,
+                        valorLocacao,
                     },
                     type: QueryTypes.INSERT,
                 }
@@ -117,7 +121,7 @@ router.get('/:id_veiculo', async (req, res) => {
     const id_veiculo = Number(req.params.id_veiculo);
 
     try {
-        const sql = `SELECT l.id AS id_locacao, v.placa, l.quilometragem, u.cpf, u.nome, l.data_de_entrega, l.data_de_devolucao 
+        const sql = `SELECT l.id AS id_locacao, v.placa, l.quilometragem, u.cpf, u.nome, l.data_de_entrega, l.data_de_devolucao, l.valor 
                         FROM tbl_locacao_veiculo l 
                         INNER JOIN tbl_usuario u ON u.id = l.id_usuario 
                         INNER JOIN tbl_veiculo v ON v.id = l.id_veiculo 
@@ -212,7 +216,8 @@ router.put('/update/', async (req, res) => {
         cpfUsuario,
         dataEntrega,
         dataDevolucao,
-        idLocacao
+        idLocacao,
+        valorLocacao
     } = req.body;
 
     try {
@@ -244,7 +249,6 @@ router.put('/update/', async (req, res) => {
         const id_veiculo = vehicleResults[0].id;
         const quilometragemInt = Number(quilometragem);
         const id_locacao = idLocacao;
-        const disponibilidade = 0;
 
         const locacaoResults = await sequelize.query(
             `SELECT l.id FROM tbl_locacao_veiculo l 
@@ -265,7 +269,8 @@ router.put('/update/', async (req, res) => {
                 quilometragem = :quilometragemInt, 
                 data_de_entrega = :dataEntrega, 
                 data_de_devolucao = :dataDevolucao, 
-                imagePath = :imagePath 
+                imagePath = :imagePath,
+                valor = :valorLocacao 
                 WHERE id = :id_locacao`,
                 {
                     replacements: {
@@ -275,6 +280,7 @@ router.put('/update/', async (req, res) => {
                         dataEntrega,
                         dataDevolucao,
                         imagePath,
+                        valorLocacao,
                         id_locacao,
                     },
                     type: QueryTypes.UPDATE,
@@ -303,7 +309,8 @@ router.put('/disponibilityUpdate/', async (req, res) => {
         nomeUsuario,
         dataEntrega,
         dataDevolucao,
-        idLocacao
+        idLocacao,
+        valorLocacao,
     } = req.body;
 
     try {
@@ -358,7 +365,8 @@ router.put('/disponibilityUpdate/', async (req, res) => {
                 data_de_devolucao = :dataDevolucao, 
                 imagePath = :imagePath, 
                 id_locacao_status = :id_locacao_status,
-                id_pagamento = :id_pagamento
+                id_pagamento = :id_pagamento,
+                valor = :valorLocacao
                 WHERE id = :idLocacao`,
                 {
                     replacements: {
@@ -371,6 +379,7 @@ router.put('/disponibilityUpdate/', async (req, res) => {
                         id_locacao_status,
                         id_pagamento,
                         idLocacao,
+                        valorLocacao,
                     },
                     type: QueryTypes.UPDATE,
                 }

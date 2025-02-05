@@ -225,14 +225,15 @@ router.get('/info/:id', async (req, res) => {
     }
 
     try {
-        const sql = `SELECT v.id, m.modelo, ma.marca, cor.cor, v.placa, com.combustivel, v.chassi, v.motor, v.ano, v.quilometragem, v.data_de_entrega, v.data_de_devolucao, tipo.tipo_veiculo
-                    FROM tbl_veiculo v 
-                    INNER JOIN tbl_modelo m ON m.id = v.id_modelo 
-                    INNER JOIN tbl_marca ma ON ma.id = v.id_marca 
-                    INNER JOIN tbl_cor cor ON cor.id = v.id_cor
-                    INNER JOIN tbl_combustivel com ON com.id = v.id_combustivel
-                    INNER JOIN tbl_tipo_veiculo tipo ON tipo.id = v.id_tipo_veiculo
-                    WHERE v.id = :id`;
+        const sql = `SELECT v.id, m.modelo, ma.marca, cor.cor, v.placa, com.combustivel, v.chassi, v.motor, v.ano, v.quilometragem, v.data_de_entrega, v.data_de_devolucao, tipo.tipo_veiculo, l.valor
+                        FROM tbl_veiculo v
+                        INNER JOIN tbl_modelo m ON m.id = v.id_modelo
+                        INNER JOIN tbl_marca ma ON ma.id = v.id_marca
+                        INNER JOIN tbl_cor cor ON cor.id = v.id_cor
+                        INNER JOIN tbl_combustivel com ON com.id = v.id_combustivel
+                        INNER JOIN tbl_tipo_veiculo tipo ON tipo.id = v.id_tipo_veiculo 
+                        INNER JOIN tbl_locacao_veiculo l ON l.id_veiculo = v.id
+                        WHERE v.id = :id LIMIT 1`;
 
         const result = await sequelize.query(sql, {
             replacements: { id },
