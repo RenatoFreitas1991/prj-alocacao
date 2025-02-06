@@ -38,6 +38,7 @@ export default function LocacaoUser() {
   const [modalVisible, setModalVisible] = useState(false);
   const [countRental, setCountRental] = useState(0);
   const [modalMessage, setModalMessage] = useState('');
+  const [mensagemPagamento, setMensagemPagamen] = useState('');
 
   const route = useRoute<locacaoUserProp>();
   const navigation = useNavigation<locacaoUserNavigation>();
@@ -48,24 +49,33 @@ export default function LocacaoUser() {
   }
 
   var rentalQuantity = 0;
+  var now = new Date();
 
   function rentalDateVehicle(dateProp:string, id_pagamento:number) {
 
-    const now = new Date();
     var rentalDate = stringToDate(dateProp);
     var diffDays = differenceOfDays(rentalDate, now);
-    
-    if((isBefore(now, rentalDate) && diffDays <= 7 && id_pagamento == 1) || ( diffDays == 1 && id_pagamento == 1)) {
-      rentalQuantity += 1;
-    } else if (isAfter(now, rentalDate) && (id_pagamento == 1)) {
+
+    if(isRentalDate(now, rentalDate, diffDays, id_pagamento)) {
       rentalQuantity += 1;
     }
+
     setCountRental(rentalQuantity);
 
     if(rentalQuantity > 0) {
       setModalMessage(`Pague o alaguel do veículo`);
       setModalVisible(true);
     }
+  }
+
+  function isRentalDate(now, rentalDate, diffDays, id_pagamento) {
+    var isRentalDate = false;
+    if((isBefore(now, rentalDate) && diffDays <= 7 && id_pagamento == 1) || ( diffDays == 1 && id_pagamento == 1)) {
+      isRentalDate = true;
+    } else if (isAfter(now, rentalDate) && (id_pagamento == 1)) {
+      isRentalDate = true;
+    }
+    return isRentalDate;
   }
 
   function differenceOfDays(rentalDate:any, now:any) {
@@ -132,13 +142,14 @@ export default function LocacaoUser() {
   }, [cpf]);
 
   const renderCardVehicle: ListRenderItem<MinVeiculo> = ({ item }) => (
-    <CardVeiculo
-      id={item.id}
-      modelo={item.modelo}
-      marca={item.marca}
-      placa={item.placa}
-      imagePath={item.imagePath}
-    />
+      <CardVeiculo
+        id={item.id}
+        modelo={item.modelo}
+        marca={item.marca}
+        placa={item.placa}
+        imagePath={item.imagePath}
+        mensagemPagamento={isRentalDate(now, stringToDate(item.dataDevolucao), differenceOfDays(stringToDate(item.dataDevolucao), now), item.idPagamento) == true ? "PAGAMENTO PENDENTE" : ""}
+      />
   );
 
   return (
@@ -177,7 +188,7 @@ export default function LocacaoUser() {
                     activeOpacity={1}
                     >
                   <View style={styles.modalContainer}>
-                      <Text style={styles.textModalContainer}>Quantidade de alugueis a pagar: {countRental}.</Text>
+                      {/* <Text style={styles.textModalContainer}>Quantidade de alugueis a pagar: {countRental}.</Text> */}
                       <BR />
                       <Text style={styles.textModalContainer}>{modalMessage}</Text>
                       <BR />
@@ -252,4 +263,12 @@ const styles = StyleSheet.create({
           fontSize: 18,
           fontWeight: 'bold',
     },
+    cardColorPage: {
+      backgroundColor: 'red',
+      borderRadius: 10,
+    },
+    cardColorNoPage: {
+      backgroundColor: '#fff',
+      borderRadius: 10,
+    }
 })

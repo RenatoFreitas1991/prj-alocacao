@@ -77,4 +77,11 @@ export default StyleSheet.create({
     padding: 10,
     alignSelf:'center'
   },
+  TextRed: {
+    color: 'red',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    fontSize: 11,
+    marginTop: 5,
+  },
 });

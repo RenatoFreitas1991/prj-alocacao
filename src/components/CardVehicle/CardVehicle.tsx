@@ -38,7 +38,8 @@ export default function CardVehicle({
   vehicleNotRentalAdminScreen = false,
   vehicleRentalAdminScreen = false,
   tela,
-  cpfUser
+  cpfUser,
+  mensagemPagamento = '',
 }: CardVehicleProps) {
   const navigation = useNavigation<NavigationPropInicial>();
   const [modalVisible, setModalVisible] = useState(false);
@@ -109,6 +110,7 @@ export default function CardVehicle({
          <Text style={isUserScreen ? userStyles.modeloText : styles.text}>{modelo}</Text>
          <Text style={isUserScreen ? userStyles.marcaText : styles.text}>{marca}</Text>
          <Text style={isUserScreen ? userStyles.placaText : styles.text}>{placa}</Text>
+         <Text style={styles.TextRed}>{mensagemPagamento}</Text>
       </View>
 
       <Modal
