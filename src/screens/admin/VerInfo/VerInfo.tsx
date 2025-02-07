@@ -62,7 +62,6 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
                 setAno(vehicle.ano);
                 setCombustivel(vehicle.combustivel);
                 setQuilometragem(vehicle.quilometragem);
-                setValorLocacao(vehicle.valor);
             });
         } catch (error) {
             Alert.alert("Erro", "Não foi possível carregar os dados do veículo.");
@@ -84,6 +83,7 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
                 setTelefone(userVehicle.telefone);
                 setDataEntrega(userVehicle.data_de_entrega);
                 setDataDevolucao(userVehicle.data_de_devolucao);
+                setValorLocacao(userVehicle.valor);
             });
             
         } catch (error) {
@@ -191,7 +191,7 @@ const VerInfo = ({ route, isUser = false }: VehicleInfoProps) => {
                             <View style={styles.row}>
                                 <View style={styles.infoColumn}>
                                     <Text style={styles.label}>Valor do aluguel:</Text>
-                                    <Text style={styles.value}>{valorLocacao || 'R$'}</Text>
+                                    <Text style={styles.value}>{valorLocacao || valorLocacao}</Text>
                                 </View>
                             </View>
                         </View>
