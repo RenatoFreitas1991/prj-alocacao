@@ -22,6 +22,7 @@ interface CardVehicleProps {
   vehicleRentalAdminScreen?:boolean;
   tela?:string;
   cpfUser?:string;
+  mensagemPagamento?:string;
 }
 
 type NavigationPropInicial = NativeStackNavigationProp<StackParamList, 'TelaHomeAdmin'>;

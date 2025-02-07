@@ -231,9 +231,9 @@ router.get('/info/:id', async (req, res) => {
                         INNER JOIN tbl_marca ma ON ma.id = v.id_marca
                         INNER JOIN tbl_cor cor ON cor.id = v.id_cor
                         INNER JOIN tbl_combustivel com ON com.id = v.id_combustivel
-                        INNER JOIN tbl_tipo_veiculo tipo ON tipo.id = v.id_tipo_veiculo 
+                        INNER JOIN tbl_tipo_veiculo tipo ON tipo.id = v.id_tipo_veiculo
                         INNER JOIN tbl_locacao_veiculo l ON l.id_veiculo = v.id
-                        WHERE v.id = :id LIMIT 1`;
+                        WHERE v.id = :id AND l.id_locacao_status = 2 AND l.id_pagamento = 1;`;
 
         const result = await sequelize.query(sql, {
             replacements: { id },
@@ -258,7 +258,7 @@ router.get('/info/user/:id', async (req, res) => {
     }
 
     try {
-        const sql = `SELECT u.id, u.nome, u.cpf, u.cnh, c.telefone, l.data_de_entrega, l.data_de_devolucao FROM tbl_locacao_veiculo l
+        const sql = `SELECT u.id, u.nome, u.cpf, u.cnh, c.telefone, l.data_de_entrega, l.data_de_devolucao, l.valor FROM tbl_locacao_veiculo l
                         INNER JOIN tbl_usuario u ON l.id_usuario = u.id
                         INNER JOIN tbl_veiculo v ON l.id_veiculo = v.id
                         INNER JOIN tbl_contato c ON u.id_contato = c.id

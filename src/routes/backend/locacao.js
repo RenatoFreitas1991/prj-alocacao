@@ -47,68 +47,85 @@ router.post('/register/', async (req, res) => {
         const id_pagamento = 1;
 
         const id = null;
-    
-        const [resultInsert] = await sequelize.query(
-            `INSERT INTO tbl_locacao_veiculo 
-                (id,
-                id_veiculo, 
-                id_usuario, 
-                quilometragem, 
-                data_de_entrega, 
-                data_de_devolucao, 
-                imagePath,
-                id_locacao_status,
-                id_pagamento,
-                valor) 
-                VALUES (:id,
-                        :id_veiculo, 
-                        :id_usuario, 
-                        :quilometragemInt,
-                        :dataEntrega, 
-                        :dataDevolucao, 
-                        :imagePath,
-                        :id_locacao_status,
-                        :id_pagamento,
-                        :valorLocacao)`,
-                {
-                    replacements: {
-                        id,
-                        id_veiculo,
-                        id_usuario,
-                        quilometragemInt,
-                        dataEntrega,
-                        dataDevolucao,
-                        imagePath: JSON.stringify(imagens),
-                        id_locacao_status,
-                        id_pagamento,
-                        valorLocacao,
-                    },
-                    type: QueryTypes.INSERT,
-                }
-        );
-    
-        if (resultInsert === 0) {
-            throw new Error('Error ao cadastrar Locação');
-        }
 
-        const [resultUpdate] = await sequelize.query(
-            `UPDATE tbl_veiculo 
-                SET  disponibilidade = :disponibilidade
-                WHERE id = :id_veiculo`,
+        const urlFindLocacao = await sequelize.query(
+            `SELECT l.id, l.id_veiculo, l.id_usuario 
+            FROM tbl_locacao_veiculo l 
+            INNER JOIN tbl_veiculo v ON v.id = l.id_veiculo 
+            INNER JOIN tbl_usuario u ON u.id = l.id_usuario 
+            WHERE l.id_locacao_status = 2 AND l.id_pagamento = 1 AND v.id = :id_veiculo AND u.id = :id_usuario`,
             {
-                replacements: {
-                    disponibilidade,
-                    id_veiculo
-                },
-                type: QueryTypes.UPDATE,
+                replacements: { id_veiculo, id_usuario },
+                type: QueryTypes.SELECT
             }
         );
 
-        if (resultUpdate === 0) {
-            throw new Error('Error ao atualizar a disponibilidade do Veículo');
+        if(urlFindLocacao.length == 0) {
+            const [resultInsert] = await sequelize.query(
+                `INSERT INTO tbl_locacao_veiculo 
+                    (id,
+                    id_veiculo, 
+                    id_usuario, 
+                    quilometragem, 
+                    data_de_entrega, 
+                    data_de_devolucao, 
+                    imagePath,
+                    id_locacao_status,
+                    id_pagamento,
+                    valor) 
+                    VALUES (:id,
+                            :id_veiculo, 
+                            :id_usuario, 
+                            :quilometragemInt,
+                            :dataEntrega, 
+                            :dataDevolucao, 
+                            :imagePath,
+                            :id_locacao_status,
+                            :id_pagamento,
+                            :valorLocacao)`,
+                    {
+                        replacements: {
+                            id,
+                            id_veiculo,
+                            id_usuario,
+                            quilometragemInt,
+                            dataEntrega,
+                            dataDevolucao,
+                            imagePath: JSON.stringify(imagens),
+                            id_locacao_status,
+                            id_pagamento,
+                            valorLocacao,
+                        },
+                        type: QueryTypes.INSERT,
+                    }
+            );
+        
+            if (resultInsert === 0) {
+                throw new Error('Error ao cadastrar Locação');
+            }
+    
+            const [resultUpdate] = await sequelize.query(
+                `UPDATE tbl_veiculo 
+                    SET  disponibilidade = :disponibilidade
+                    WHERE id = :id_veiculo`,
+                {
+                    replacements: {
+                        disponibilidade,
+                        id_veiculo,
+                    },
+                    type: QueryTypes.UPDATE,
+                }
+            );
+    
+            if (resultUpdate === 0) {
+                throw new Error('Error ao atualizar a disponibilidade do Veículo');
+            }
+    
+            res.status(200).json({ message: 'Locação cadastrada com sucesso' });
+        } else {
+            res.status(500).json({ message: 'Locação não pode ser realizada, pois este veículo já está alugado por alguém' });
         }
 
-        res.status(200).json({ message: 'Locação cadastrada com sucesso' });
 
     } catch (error) {
         console.error('Erro ao cadastrar Locação:', error);

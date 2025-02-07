@@ -68,7 +68,7 @@ export default function LocacaoUser() {
     }
   }
 
-  function isRentalDate(now, rentalDate, diffDays, id_pagamento) {
+  function isRentalDate(now:Date, rentalDate:Date, diffDays:number, id_pagamento:number) {
     var isRentalDate = false;
     if((isBefore(now, rentalDate) && diffDays <= 7 && id_pagamento == 1) || ( diffDays == 1 && id_pagamento == 1)) {
       isRentalDate = true;

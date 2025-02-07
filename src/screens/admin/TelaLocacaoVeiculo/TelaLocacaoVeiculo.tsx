@@ -43,6 +43,18 @@ export default function TelaLocacaoVeiculo() {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     }
 
+    function formatReal(value: string): string {
+        let number = value.replace(/\D/g, "");
+        let numberFormat = (Number(number) / 100).toFixed(2);
+
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(numberFormat)).toString();
+    }
+
+    const handleChangeRealValue = (e:any) => {
+        const rawValue = e.target.value;
+        setValorLocacao(formatReal(rawValue));
+    }
+
     const fetchLocacaoUserData = async () => {
         try {
             const url = `${API_URL}/api/backend/user/info/${cpfUsuario}`;
@@ -244,17 +256,32 @@ export default function TelaLocacaoVeiculo() {
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Data de Enterga</Text>
-                <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataEntrega} value={dataEntrega || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Data de Devolução" 
+                    onChangeText={setDataEntrega} 
+                    value={dataEntrega || ''} 
+                />
             </View>
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Data de Enterga</Text>
-                <TextInput style={styles.input} placeholder="Data de Devolução" onChangeText={setDataDevolucao} value={dataDevolucao || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="Data de Devolução" 
+                    onChangeText={setDataDevolucao} 
+                    value={dataDevolucao || ''} 
+                />
             </View>
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Valor R$</Text>
-                <TextInput style={styles.input} placeholder="R$" onChangeText={setValorLocacao} value={valorLocacao || ''} />
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="R$" 
+                    onChange={handleChangeRealValue} 
+                    value={valorLocacao || ''} 
+                />
             </View>
 
             {isInBlackList != true ? (
