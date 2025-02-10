@@ -72,6 +72,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
+    deactivatedButton : {
+        backgroundColor: 'gray',
+        paddingVertical: 15,
+        borderRadius: 8,
+        marginVertical: 20,
+        width: '90%',
+        alignItems: 'center',
+    },
 });
 
 export default styles;

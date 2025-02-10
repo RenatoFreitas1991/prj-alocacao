@@ -18,6 +18,7 @@ export default function TelaManutencaoVeiculo() {
     const [placa, setPlaca] = useState('');
     const [dataManutencao, setDataManutencao] = useState<string>('');
     const [descricao, setDescricao] = useState('');
+    const [btnDisabled, setBtnDisabled] = useState(false);
 
     useEffect(() => {
         const formDate = (date: Date) => {
@@ -29,6 +30,14 @@ export default function TelaManutencaoVeiculo() {
 
         setDataManutencao(formDate(new Date));
     }, []);
+
+    useEffect(() => {
+        if(placa == '' || dataManutencao == '' || descricao == '') {
+            setBtnDisabled(true);
+        } else {
+            setBtnDisabled(false);
+        }
+    })
 
     const cadastrarManutencao = async () => {
 
@@ -85,9 +94,15 @@ export default function TelaManutencaoVeiculo() {
                      />
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={cadastrarManutencao}>
-                <Text style={styles.buttonText}>Salvar</Text>
-            </TouchableOpacity>
+            {btnDisabled != true ? (
+                <TouchableOpacity style={styles.button} onPress={cadastrarManutencao}>
+                    <Text style={styles.buttonText}>Salvar</Text>
+                </TouchableOpacity>
+            ) : (
+                <TouchableOpacity style={styles.deactivatedButton}  disabled={true}>
+                    <Text style={styles.buttonText}>Salvar</Text>
+                </TouchableOpacity>
+            )}
 
             <BR />
         </ScrollView>

@@ -299,7 +299,7 @@ export default function TelaLocacaoVeiculo() {
                     <Text style={styles.buttonText}>Alocar</Text>
                 </TouchableOpacity>
             ) : (
-                <TouchableOpacity style={styles.deactivatedButton} onPress={cadastrarLocacao} disabled={true}>
+                <TouchableOpacity style={styles.deactivatedButton} disabled={true}>
                     <Text style={styles.buttonText}>Alocar</Text>
                 </TouchableOpacity>
             )}
