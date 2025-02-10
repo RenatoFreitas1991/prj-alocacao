@@ -31,7 +31,7 @@ export default function TelaLocacaoVeiculo() {
     const [quilometragem, setQuilometragem] = useState('');
     const [cpfUsuario, setCPfUsuario] = useState<string>('');
     const [nomeUsuario, setNomeUsuario] = useState('');
-    const [isInBlackList, setIsInBlackList] = useState(false);
+    const [btnDisabled, setBtnDisabled] = useState(false);
     const [blackListError, setBlackListError] = useState('');
     const [dataEntrega, setDataEntrega] = useState<string>('');
     const [dataDevolucao, setDataDevolucao] = useState<string>('');
@@ -82,10 +82,10 @@ export default function TelaLocacaoVeiculo() {
 
         const blackListUserData = result.map((data: any) => {
             if(data.id != null) {
-                setIsInBlackList(true);
+                setBtnDisabled(true);
                 setBlackListError("Este usuário está na blacklist")
             } else {
-                setIsInBlackList(false);
+                setBtnDisabled(false);
                 setBlackListError("");
             }
         })
@@ -97,10 +97,20 @@ export default function TelaLocacaoVeiculo() {
             fetchBlackListUserData();
         } else {
             setNomeUsuario("");
-            setIsInBlackList(false);
+            setBtnDisabled(false);
             setBlackListError("");
         }
     }, [cpfUsuario]);
+
+    //imagesUri.length == 0
+    useEffect(() => {
+        if(placa == '' ||quilometragem == '' || cpfUsuario == '' || nomeUsuario == '' || 
+            dataEntrega == '' || dataDevolucao == '' || valorLocacao == '') {
+            setBtnDisabled(true);
+        } else {
+            setBtnDisabled(false);
+        }
+    })
 
     useEffect(() => {
         const addOneMonth = (date: Date) => {
@@ -284,7 +294,7 @@ export default function TelaLocacaoVeiculo() {
                 />
             </View>
 
-            {isInBlackList != true ? (
+            {btnDisabled != true ? (
                 <TouchableOpacity style={styles.button} onPress={cadastrarLocacao}>
                     <Text style={styles.buttonText}>Alocar</Text>
                 </TouchableOpacity>
