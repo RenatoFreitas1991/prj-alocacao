@@ -37,22 +37,22 @@ export default function TelaLocacaoVeiculo() {
     const [dataDevolucao, setDataDevolucao] = useState<string>('');
     const [imagesUri, setImagesUri] = useState<string[]>([]);
     const [showViewImg, setShowViewImg] = useState(false);
-    const [valorLocacao, setValorLocacao] = useState('');
+    const [valorLocacao, setValorLocacao] = useState<string>('R$ 0,00');
 
     function formatCPF(cpf: string): string {
         return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
     }
 
     function formatReal(value: string): string {
+        if(!value) return "R$ 0,00";
         let number = value.replace(/\D/g, "");
         let numberFormat = (Number(number) / 100).toFixed(2);
 
         return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(numberFormat)).toString();
     }
 
-    const handleChangeRealValue = (e:any) => {
-        const rawValue = e.target.value;
-        setValorLocacao(formatReal(rawValue));
+    const handleChangeRealValue = (value:string) => {
+        setValorLocacao(formatReal(value));
     }
 
     const fetchLocacaoUserData = async () => {
@@ -241,7 +241,12 @@ export default function TelaLocacaoVeiculo() {
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Quilometragem</Text>
-                <TextInput style={styles.input} placeholder="Quilometragem" onChangeText={setQuilometragem} value={quilometragem || ''} />
+                <TextInput 
+                style={styles.input} 
+                keyboardType='numeric'
+                placeholder="Quilometragem" 
+                onChangeText={setQuilometragem} 
+                value={quilometragem || ''} />
             </View>
 
             <View style={styles.viewInput}>
@@ -249,6 +254,7 @@ export default function TelaLocacaoVeiculo() {
                 <TextInput 
                     style={styles.input} 
                     placeholder="CPF do Usuário" 
+                    keyboardType='numeric'
                     onChangeText={(text: string) => setCPfUsuario(formatCPF(text))} 
                     value={cpfUsuario || ''} />
             </View>
@@ -289,7 +295,8 @@ export default function TelaLocacaoVeiculo() {
                 <TextInput 
                     style={styles.input} 
                     placeholder="R$" 
-                    onChange={handleChangeRealValue} 
+                    keyboardType='numeric'
+                    onChangeText={handleChangeRealValue} 
                     value={valorLocacao || ''} 
                 />
             </View>

@@ -49,6 +49,16 @@ export default function CadastrarVeiculo() {
     const [combustiveisOptions, setCombustiveisOptions] = useState([]);
     const [tiposVeiculoOptions, setTiposVeiculoOptions] = useState([]);
 
+    const [btnDisabled, setBtnDisabled] = useState(false);
+
+    useEffect(() => {
+        if(modelo == '' || placa == '' || chassi == '' || motor == '' || ano == '' || quilometragem == '') {
+            setBtnDisabled(true);
+        } else {
+            setBtnDisabled(false);
+        }
+    })
+
     useEffect(() => {
         const fetchOptions = async () => {
             try {
@@ -274,9 +284,15 @@ export default function CadastrarVeiculo() {
                 />
 
                 <View style={styles.botoesContainer}>
-                    <View style={styles.botao}>
+                    {btnDisabled != true ? (
+                        <View style={styles.botao}>
                         <Button title="Cadastrar" color="green" onPress={cadastrarVeiculo} />
                     </View>
+                    ) : (
+                        <View style={styles.botao}>
+                            <Button title="Cadastrar" color="gray" disabled={true} />
+                        </View>
+                    )}
                 </View>
             </View>
             <BR />
