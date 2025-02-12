@@ -105,7 +105,7 @@ export default function TelaLocacaoVeiculo() {
     //imagesUri.length == 0
     useEffect(() => {
         if(placa == '' ||quilometragem == '' || cpfUsuario == '' || nomeUsuario == '' || 
-            dataEntrega == '' || dataDevolucao == '' || valorLocacao == '') {
+            dataEntrega == '' || dataDevolucao == '' || valorLocacao == '' || imagesUri.length == 0) {
             setBtnDisabled(true);
         } else {
             setBtnDisabled(false);

@@ -52,7 +52,9 @@ export default function CadastrarVeiculo() {
     const [btnDisabled, setBtnDisabled] = useState(false);
 
     useEffect(() => {
-        if(modelo == '' || placa == '' || chassi == '' || motor == '' || ano == '' || quilometragem == '') {
+        if(modelo == '' || placa == '' || chassi == '' || motor == '' || ano == '' || quilometragem == '' ||
+            imagesUri.length == 0 || tipo_veiculo == null || marca == null || cor == null || combustivel == null
+        ) {
             setBtnDisabled(true);
         } else {
             setBtnDisabled(false);
