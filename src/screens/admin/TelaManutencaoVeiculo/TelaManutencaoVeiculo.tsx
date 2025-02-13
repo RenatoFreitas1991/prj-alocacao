@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, ScrollView, Alert, Button, Image } from 'react-native';
 import styles from './TelaManutencaoVeiculoStyle';
 import BR from '../../../components/BR/BR';
 
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from "../../../routes/types";
+
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 import { API_URL } from '@env';
 import axios from 'axios';
@@ -19,6 +22,9 @@ export default function TelaManutencaoVeiculo() {
     const [dataManutencao, setDataManutencao] = useState<string>('');
     const [descricao, setDescricao] = useState('');
     const [btnDisabled, setBtnDisabled] = useState(false);
+    const [imagesUri, setImagesUri] = useState<string[]>([]);
+    const [showViewImg, setShowViewImg] = useState(false);
+
 
     useEffect(() => {
         const formDate = (date: Date) => {
@@ -32,7 +38,7 @@ export default function TelaManutencaoVeiculo() {
     }, []);
 
     useEffect(() => {
-        if(placa == '' || dataManutencao == '' || descricao == '') {
+        if(placa == '' || dataManutencao == '' || descricao == '' || imagesUri.length == 0) {
             setBtnDisabled(true);
         } else {
             setBtnDisabled(false);
@@ -41,10 +47,17 @@ export default function TelaManutencaoVeiculo() {
 
     const cadastrarManutencao = async () => {
 
+        const uploadedImages: string[] = [];
+        for (const imageUri of imagesUri) {
+            const imagePath = await handleImageUpload(imageUri);
+            if (imagePath) uploadedImages.push(imagePath);
+        }
+
         const manutencaoData = {
             placa,
             dataManutencao,
             descricao,
+            imagens: uploadedImages,
         }
 
         try {
@@ -58,19 +71,81 @@ export default function TelaManutencaoVeiculo() {
 
     }
 
+    
+    const handleImageUpload = async (imageUri: string) => {
+        const formData = new FormData();
+        formData.append('image', {
+            uri: imageUri,
+            type: 'image/jpeg',
+            name: `vehicle_${Date.now()}.jpg`
+        } as any);
+    
+        try {
+            const response = await axios.post(`${API_URL}/api/backend/upload/`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+            return response.data.imagePath;
+        } catch (error) {
+            console.error("Erro ao fazer upload da imagem:", error);
+            Alert.alert("Erro", "Não foi possível fazer upload da imagem.");
+            return null;
+        }
+    };
+
+    const handleImagePick = async () => {
+        if (imagesUri.length >= 5) {
+            Alert.alert("Limite de Imagens", "Você só pode adicionar até 5 imagens.");
+            return;
+        }
+
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert("Permissão negada", "Precisamos de permissão para acessar a câmera.");
+            return;
+        }
+
+        const result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled && result.assets && result.assets.length > 0) {
+            const imageUri = result.assets[0].uri;
+            const fileName = imageUri.split('/').pop(); 
+            const newPath = `${FileSystem.documentDirectory}veiculos/${fileName}`;
+
+            try {
+                await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}veiculos`, { intermediates: true });
+                await FileSystem.copyAsync({ from: imageUri, to: newPath });
+                setImagesUri((prevImages) => [...prevImages, newPath]);
+                Alert.alert("Imagem salva com sucesso!");
+                setShowViewImg(true);
+            } catch (error) {
+                console.error("Erro ao salvar imagem:", error);
+                Alert.alert("Erro", "Não foi possível salvar a imagem.");
+            }
+        }
+    };
+
     return(
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <View>
                 <Text style={styles.titulo}>Manutenção do Veículo</Text>
             </View>
 
-            {/* <View style={styles.viewImg}>
-
-            </View> */}
-
-            {/* <View style={{ marginBottom: 15 }}>
-                <Button title="Tirar Foto do Veículo"/>
-            </View> */}
+            <View style={{ marginBottom: 15 }}>
+                <Button title="Tirar Foto do Veículo" onPress={handleImagePick} />
+            </View>
+            {showViewImg == true ? (
+                <View style={styles.viewImg}>
+                    {imagesUri.map((uri, index) => (
+                        <Image key={index} source={{ uri }} style={{ width: 100, height: 100, margin: 5 }} />
+                    ))}
+                </View>
+            ) : (
+                <View></View>
+            )}
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Data de Manutenção</Text>

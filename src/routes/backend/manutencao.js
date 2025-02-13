@@ -13,6 +13,7 @@ router.post('/register/', async (req, res) => {
         placa,
         dataManutencao,
         descricao,
+        imagens
     } = req.body;
 
     try {
@@ -37,17 +38,20 @@ router.post('/register/', async (req, res) => {
                 (id, 
                 id_veiculo, 
                 data_manutencao, 
-                descricao) 
+                descricao,
+                imagePath) 
                 VALUES (:id,
                         :id_veiculo,
                         :dataManutencao,
-                        :descricao)`,
+                        :descricao,
+                        :imagePath)`,
             {
                 replacements: {
                     id,
                     id_veiculo,
                     dataManutencao,
                     descricao,
+                    imagePath: JSON.stringify(imagens)
                 },
                 type: QueryTypes.INSERT,
             }

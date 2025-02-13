@@ -6,7 +6,7 @@ import {
         TextInput, ScrollView, 
         Button, 
         Alert, 
-        Image 
+        Image
 } from 'react-native';
 
 import { API_URL } from '@env';
@@ -102,7 +102,6 @@ export default function TelaLocacaoVeiculo() {
         }
     }, [cpfUsuario]);
 
-    //imagesUri.length == 0
     useEffect(() => {
         if(placa == '' ||quilometragem == '' || cpfUsuario == '' || nomeUsuario == '' || 
             dataEntrega == '' || dataDevolucao == '' || valorLocacao == '' || imagesUri.length == 0) {
