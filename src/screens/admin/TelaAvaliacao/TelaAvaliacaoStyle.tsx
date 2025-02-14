@@ -29,15 +29,23 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   button: {
-    backgroundColor: '#666',
+    backgroundColor: 'green',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
     marginBottom: 16,
   },
+  removeButton: {
+    backgroundColor: '#cc0000', 
+    padding: 12,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
   buttonText: {
-    color: '#FFF',
+    color: 'white',
     fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 16,
   },
   avaliacaoContainer: {
     backgroundColor: '#FFF', 
@@ -48,7 +56,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 4, 
+    elevation: 4,
+    width: '80%',
   },
   boldText: {
     fontWeight: 'bold',
@@ -60,11 +69,27 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 10,
   },
-  removeButton: {
-    backgroundColor: '#cc0000', 
+  deactivatedButton : {
+    backgroundColor: 'gray',
     padding: 12,
     borderRadius: 5,
     alignItems: 'center',
+    marginBottom: 16,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#888',
+    textAlign: 'center',
+  },
+  listContainer: {
+    flex: 1,
+    marginHorizontal: 10,
   },
 });
 

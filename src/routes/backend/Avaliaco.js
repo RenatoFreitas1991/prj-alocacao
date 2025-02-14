@@ -60,4 +60,23 @@ router.post('/', async (req, res) => {
 
 });
 
+router.get('/avaliaties/', async (req, res) => { 
+
+    try {
+        const sql = `SELECT a.id, u.nome, u.cpf, a.avaliacao, a.motivo FROM tbl_avaliacao a 
+                        INNER JOIN tbl_usuario u ON u.id = a.id_usuario;`;
+
+        const results = await sequelize.query(sql, {
+            type: QueryTypes.SELECT,
+        });
+
+        console.log(results);
+        res.json(results);
+        
+    } catch (error) {
+        console.error('Erro ao buscar dados das avaliações:', error);
+        res.status(500).json({ error: 'Erro ao buscar dados das avaliações' });
+    }
+});
+
 module.exports = router;

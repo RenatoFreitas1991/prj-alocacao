@@ -37,7 +37,7 @@ const HomeScreen = () => {
     { title: "Histórico Veículos Alugados", iconName: "history", screen: "HistoricoAlugados" },
     // { title: "Notificação", iconName: "message", screen: "Notificacoes" },
     // { title: "Pagamentos", iconName: "calendar-today", screen: "TelaCalendario" },
-    { title: "Avaliação", iconName: "star", screen: "TelaAvaliacaoCliente" },
+    { title: "Avaliação", iconName: "star", screen: "TelaAvaliacaoHome" },
     { title: "Manutenção", iconName: "settings", screen: "TelaManutencaoVeiculo" },
     { title: "Locação", iconName: "motorcycle", screen: "TelaLocacaoVeiculo" },
   ];

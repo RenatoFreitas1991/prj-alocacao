@@ -1,36 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, FlatList } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert, ScrollView, FlatList, ListRenderItem } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import styles from './TelaAvaliacaoStyle';
 
-import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { StackParamList } from "../../../routes/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { API_URL } from '@env';
 import axios from 'axios';
 
-type AvaliacaoUser = {
-  cpfUser: string;
-  nome: string;
-  estrelas: number;
-  motivo: string;
-};
 
-type TelaAvaliacaoClienteRouteProp = RouteProp<StackParamList, 'TelaAvaliacaoCliente'>;
-type NavigationProp = NativeStackNavigationProp<StackParamList, 'TelaAvaliacaoCliente'>;
+type NavigationProp = NativeStackNavigationProp<StackParamList, 'TelaAvaliacaoHome'>;
 
-const TelaAvaliacaoCliente = () => {
+const TelaAvaliacaoHome = () => {
 
-  const route = useRoute<TelaAvaliacaoClienteRouteProp>();
+  interface Avaliaties {
+    id: number;
+    cpf: string;
+    nome: string;
+    avaliacao: number;
+    motivo: string;
+  }
+
   const navigation = useNavigation<NavigationProp>();
-  const { cpf } = route.params;
 
-  const [cpfUser, setCpf] = useState(cpf);
+  const [cpfUser, setCpf] = useState('');
   const [nome, setNome] = useState('');
   const [avaliacao, setAvaliacao] = useState(0);
   const [motivo, setMotivo] = useState('');
-  const [avaliacoes, setAvaliacoes] = useState<AvaliacaoUser[]>([]);
+  const [avaliaties, setAvaliaties] = useState<Avaliaties[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const [btnDisabled, setBtnDisabled] = useState(false);
@@ -81,6 +80,31 @@ const TelaAvaliacaoCliente = () => {
     }
   }
 
+  
+  const fetchData = async () => {
+    try {
+        const url = `${API_URL}/api/backend/avaliacao/avaliaties`;
+        console.log(`Fetching: ${url}`);
+        const response = await fetch(url);
+        const result = await response.json();
+    
+        const avaliaties = result.map((assessment : any) => {
+
+            return {
+                ...assessment,
+            };
+        });
+
+        setAvaliaties(avaliaties);
+    } catch (error) {
+        console.error('Erro ao buscar os dados dos veículos ->', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const renderEstrelas = () => {
     return Array.from({ length: 5 }, (_, index) => (
       <TouchableOpacity key={index} onPress={() => setAvaliacao(index + 1)}>
@@ -93,69 +117,14 @@ const TelaAvaliacaoCliente = () => {
     ));
   };
 
-  const salvarAvaliacao = () => {
-    if (!cpfUser || !nome) {
-      Alert.alert("Erro", "Por favor, insira um CPF válido e preencha todos os campos.");
-      return;
-    }
-
-    const novaAvaliacao = { cpfUser, nome, estrelas: avaliacao, motivo };
-
-    if (editingIndex !== null) {
-      const atualizadas = [...avaliacoes];
-      atualizadas[editingIndex] = novaAvaliacao;
-      setAvaliacoes(atualizadas);
-      setEditingIndex(null);
-    } else {
-      setAvaliacoes([...avaliacoes, novaAvaliacao]);
-    }
-
-    Alert.alert('Avaliação Salva', `CPF: ${cpfUser}\nNome: ${nome}\nEstrelas: ${avaliacao}\nMotivo: ${motivo}`);
-    setCpf('');
-    setNome('');
-    setAvaliacao(0);
-    setMotivo('');
-  };
-
-  const editarAvaliacao = (index: number) => {
-    const avaliacao = avaliacoes[index];
-    setCpf(avaliacao.cpfUser);
-    setNome(avaliacao.nome);
-    setAvaliacao(avaliacao.estrelas);
-    setMotivo(avaliacao.motivo);
-    setEditingIndex(index);
-  };
-
-  const removerAvaliacao = (index: number) => {
-    const atualizadas = avaliacoes.filter((_, i) => i !== index);
-    setAvaliacoes(atualizadas);
-  };
-
-
-  const renderItem = ({ item, index }: { item: AvaliacaoUser, index: number }) => (
+  const renderItem: ListRenderItem<Avaliaties> = ({ item }) => (
     <View style={styles.avaliacaoContainer}>
-      <Text style={styles.boldText}>CPF: {item.cpfUser}</Text>
+      <Text style={styles.boldText}>CPF: {item.cpf}</Text>
       <Text style={styles.boldText}>Nome: {item.nome}</Text>
-      <Text style={styles.boldText}>Estrelas: {item.estrelas}</Text>
+      <Text style={styles.boldText}>Estrelas: {item.avaliacao}</Text>
       <Text style={styles.boldText}>Motivo: {item.motivo}</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => editarAvaliacao(index)}>
-          <Text style={styles.buttonText}>Editar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.removeButton} onPress={() => removerAvaliacao(index)}>
-          <Text style={styles.buttonText}>Remover</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
-
-  useEffect(() => {
-    if(cpfUser.length == 14) {
-      fetchLocacaoUserData();
-    } else {
-      setNome("");
-    }
-  }, [cpf]);
 
   return (
     <View style={styles.container}>
@@ -201,14 +170,22 @@ const TelaAvaliacaoCliente = () => {
             </TouchableOpacity>
           )}
 
-        <FlatList
-          data={avaliacoes}
-          renderItem={renderItem}
-          keyExtractor={(_, index) => index.toString()}
-        />
+      <FlatList
+        style={styles.listContainer}
+        data={avaliaties}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+        numColumns={1}
+        contentContainerStyle={{ paddingBottom: 100 }} // Adicionando espaço para o botão fixo
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}>Nenhum avaliação foi cadastrada.</Text>
+          </View>
+        }
+      />
       </ScrollView>
     </View>
   );
 };
 
-export default TelaAvaliacaoCliente;
+export default TelaAvaliacaoHome;
