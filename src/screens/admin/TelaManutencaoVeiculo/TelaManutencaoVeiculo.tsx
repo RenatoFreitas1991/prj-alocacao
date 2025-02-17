@@ -24,7 +24,19 @@ export default function TelaManutencaoVeiculo() {
     const [btnDisabled, setBtnDisabled] = useState(false);
     const [imagesUri, setImagesUri] = useState<string[]>([]);
     const [showViewImg, setShowViewImg] = useState(false);
+    const [valorManutencao, setValorManutencao] = useState<string>('R$ 0,00');
 
+    function formatReal(value: string): string {
+        if(!value) return "R$ 0,00";
+        let number = value.replace(/\D/g, "");
+        let numberFormat = (Number(number) / 100).toFixed(2);
+
+        return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(numberFormat)).toString();
+    }
+
+    const handleChangeRealValue = (value:string) => {
+        setValorManutencao(formatReal(value));
+    }
 
     useEffect(() => {
         const formDate = (date: Date) => {
@@ -38,7 +50,7 @@ export default function TelaManutencaoVeiculo() {
     }, []);
 
     useEffect(() => {
-        if(placa == '' || dataManutencao == '' || descricao == '' || imagesUri.length == 0) {
+        if(placa == '' || dataManutencao == '' || descricao == '' || imagesUri.length == 0 || valorManutencao == '') {
             setBtnDisabled(true);
         } else {
             setBtnDisabled(false);
@@ -57,6 +69,7 @@ export default function TelaManutencaoVeiculo() {
             placa,
             dataManutencao,
             descricao,
+            valorManutencao,
             imagens: uploadedImages,
         }
 
@@ -155,6 +168,17 @@ export default function TelaManutencaoVeiculo() {
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Placa</Text>
                 <TextInput style={styles.input} placeholder="Placa" onChangeText={setPlaca} value={placa || ''} />
+            </View>
+
+            <View style={styles.viewInput}>
+                <Text style={styles.textLabel}>Valor R$</Text>
+                <TextInput 
+                    style={styles.input} 
+                    placeholder="R$" 
+                    keyboardType='numeric'
+                    onChangeText={handleChangeRealValue} 
+                    value={valorManutencao || ''} 
+                />
             </View>
 
             <View style={styles.viewInput}>

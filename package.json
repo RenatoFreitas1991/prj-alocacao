@@ -11,7 +11,9 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@babel/runtime": "^7.26.9",
     "@expo/metro-runtime": "~3.2.3",
+    "@mui/material": "^6.4.4",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "^11.4.1",
     "@react-native-community/viewpager": "^5.0.11",

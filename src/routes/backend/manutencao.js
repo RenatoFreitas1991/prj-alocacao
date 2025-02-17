@@ -13,7 +13,8 @@ router.post('/register/', async (req, res) => {
         placa,
         dataManutencao,
         descricao,
-        imagens
+        imagens,
+        valorManutencao,
     } = req.body;
 
     try {
@@ -39,11 +40,13 @@ router.post('/register/', async (req, res) => {
                 id_veiculo, 
                 data_manutencao, 
                 descricao,
+                valor,
                 imagePath) 
                 VALUES (:id,
                         :id_veiculo,
                         :dataManutencao,
                         :descricao,
+                        :valorManutencao,
                         :imagePath)`,
             {
                 replacements: {
@@ -51,6 +54,7 @@ router.post('/register/', async (req, res) => {
                     id_veiculo,
                     dataManutencao,
                     descricao,
+                    valorManutencao,
                     imagePath: JSON.stringify(imagens)
                 },
                 type: QueryTypes.INSERT,
@@ -78,7 +82,7 @@ router.get('/vehicle/:id_veiculo', async (req, res) => {
     }
 
     try {
-        const sql = `SELECT m.id, m.data_manutencao, m.descricao 
+        const sql = `SELECT m.id, m.data_manutencao, m.descricao, m.valor, m.imagePath 
                         FROM tbl_manutencao m 
                         WHERE m.id_veiculo = :id_veiculo
                         ORDER BY m.data_manutencao;`;

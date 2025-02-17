@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/02/2025 às 12:51
+-- Tempo de geração: 17/02/2025 às 16:50
 -- Versão do servidor: 10.6.15-MariaDB
 -- Versão do PHP: 8.2.0
 
@@ -58,7 +58,7 @@ CREATE TABLE `tbl_avaliacao` (
 --
 
 INSERT INTO `tbl_avaliacao` (`id`, `id_usuario`, `avaliacao`, `motivo`) VALUES
-(1, 8, 4, 'Bom'),
+(1, 8, 5, 'Excelente'),
 (2, 8, 5, 'Excelente');
 
 -- --------------------------------------------------------
@@ -272,7 +272,8 @@ INSERT INTO `tbl_locacao_veiculo` (`id`, `id_veiculo`, `id_usuario`, `quilometra
 (21, 20, 6, 0, '04/01/2025', '04/02/2025', '10', '', 1, 2),
 (24, 7, 8, 0, '10/01/2025', '22/05/2025', '10', '', 1, 2),
 (25, 8, 8, 0, '20/01/2025', '20/05/2025', '10', '', 1, 2),
-(27, 7, 8, 0, '05/02/2025', '05/03/2025', '20', '', 2, 1);
+(30, 7, 8, 0, '07/02/2025', '07/03/2025', 'R$ 100,00', '', 1, 2),
+(31, 8, 8, 0, '07/02/2025', '07/03/2025', 'R$ 250,00', '', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -284,16 +285,20 @@ CREATE TABLE `tbl_manutencao` (
   `id` int(11) NOT NULL,
   `id_veiculo` int(50) NOT NULL,
   `data_manutencao` varchar(11) NOT NULL,
-  `descricao` varchar(255) NOT NULL
+  `descricao` varchar(255) NOT NULL,
+  `valor` varchar(50) NOT NULL,
+  `imagePath` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `tbl_manutencao`
 --
 
-INSERT INTO `tbl_manutencao` (`id`, `id_veiculo`, `data_manutencao`, `descricao`) VALUES
-(2, 9, '18/11/2024', 'Troca do motor'),
-(3, 9, '25/11/2024', 'Troca de Gasolina');
+INSERT INTO `tbl_manutencao` (`id`, `id_veiculo`, `data_manutencao`, `descricao`, `valor`, `imagePath`) VALUES
+(2, 9, '18/11/2024', 'Troca do motor', '', ''),
+(3, 9, '25/11/2024', 'Troca de Gasolina', '', ''),
+(4, 12, '12/02/2025', 'Trocar de motor', 'R$ 60,00', '[\"/assets/veiculos/1739365709808-485134953-vehicle_1739365709384.jpg\"]'),
+(5, 12, '17/02/2025', 'Troca de Gasolina', 'R$ 80,00', '[\"/assets/veiculos/1739803875325-388733343-vehicle_1739803875015.jpg\"]');
 
 -- --------------------------------------------------------
 
@@ -1640,7 +1645,7 @@ CREATE TABLE `tbl_veiculo` (
 --
 
 INSERT INTO `tbl_veiculo` (`id`, `id_tipo_veiculo`, `id_modelo`, `id_marca`, `id_cor`, `id_combustivel`, `imagePath`, `disponibilidade`, `placa`, `chassi`, `motor`, `ano`, `data_de_entrega`, `data_de_devolucao`, `quilometragem`) VALUES
-(7, 2, 7, 1, 14, 1, '[]', 0, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
+(7, 2, 7, 1, 14, 1, '[]', 1, 'FSDF-R23R', 'F34QR54YC45', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
 (8, 2, 7, 3, 10, 1, '[]', 1, 'J0DF-AS3R', 'SDASGD63R62', 'bicilíndri', '2021', '0000-00-00', '0000-00-00', 5),
 (9, 2, 7, 5, 13, 8, '[]', 1, 'HC32X-242D', 'ICYN37Q7DHT34DS', 'tetracilín', '2024', '0000-00-00', '0000-00-00', 0),
 (11, 2, 7, 4, 2, 1, '[]', 1, 'FCWE-2344', 'CW32Z23F', 'monocilínd', '2021', '0000-00-00', '0000-00-00', 0),
@@ -1869,13 +1874,13 @@ ALTER TABLE `tbl_locacao_status`
 -- AUTO_INCREMENT de tabela `tbl_locacao_veiculo`
 --
 ALTER TABLE `tbl_locacao_veiculo`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_manutencao`
 --
 ALTER TABLE `tbl_manutencao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tbl_marca`
@@ -1933,7 +1938,7 @@ ALTER TABLE `tbl_veiculo_favorito`
 -- Restrições para tabelas `tbl_avaliacao`
 --
 ALTER TABLE `tbl_avaliacao`
-  ADD CONSTRAINT `fk_avaliacao_user` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuario` (`id`);
+  ADD CONSTRAINT `fk_avaliacao_user` FOREIGN KEY (`id_usuario`) REFERENCES `tbl_usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Restrições para tabelas `tbl_locacao_veiculo`
