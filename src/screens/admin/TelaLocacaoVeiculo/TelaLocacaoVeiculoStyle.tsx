@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
     },
-    blackListError: {
+    messageError: {
         color: 'red',
     }
 });

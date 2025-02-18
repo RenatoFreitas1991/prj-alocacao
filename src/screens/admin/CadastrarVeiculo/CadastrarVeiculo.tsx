@@ -48,16 +48,40 @@ export default function CadastrarVeiculo() {
     const [coresOptions, setCoresOptions] = useState([]);
     const [combustiveisOptions, setCombustiveisOptions] = useState([]);
     const [tiposVeiculoOptions, setTiposVeiculoOptions] = useState([]);
+    const [placaErrorMessage, setPlacaErrorMessage] = useState('');
 
     const [btnDisabled, setBtnDisabled] = useState(false);
 
+    const fetchPlateOfVehicle = async () => {
+        const url = `${API_URL}/api/backend/vehicle/plate/${placa}`;
+        const response = await fetch(url);
+        const result = await response.json();
+
+        const plateOfVehicle = result.map((data: any) => {
+            if(data.id != null) {
+                setBtnDisabled(true);
+                setPlacaErrorMessage('Esta placa já foi registrada!');
+            } else {
+                setBtnDisabled(false);
+                setPlacaErrorMessage("");  
+            }
+        })
+    }
+
     useEffect(() => {
-        if(modelo == '' || placa == '' || chassi == '' || motor == '' || ano == '' || quilometragem == '' ||
+        if(placa.length > 6) {
+            fetchPlateOfVehicle();
+        } else {
+            setBtnDisabled(false);
+            setPlacaErrorMessage("");
+        }
+    }, [placa]);
+
+    useEffect(() => {
+        if(modelo == '' || placa.length == 0 || chassi == '' || motor == '' || ano == '' || quilometragem == '' ||
             imagesUri.length == 0 || tipo_veiculo == null || marca == null || cor == null || combustivel == null
         ) {
             setBtnDisabled(true);
-        } else {
-            setBtnDisabled(false);
         }
     })
 
@@ -244,6 +268,7 @@ export default function CadastrarVeiculo() {
                 </View>
 
                 <Text style={styles.label}>Placa:</Text>
+                <Text style={styles.messageError}>{placaErrorMessage}</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Placa"

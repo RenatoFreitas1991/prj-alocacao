@@ -210,8 +210,8 @@ router.get('/info/blacklist/:cpf', async (req, res) => {
       console.log(findBlackListInfoUserByCpf);
       res.json(findBlackListInfoUserByCpf);
   } catch(error) {
-      console.error('Erro ao buscar dados do usuários:', error);
-      res.status(500).json({ erro: 'Erro ao buscar dados do usuário' })
+      console.error('Erro ao buscar dados do usuário a partir do usuário:', error);
+      res.status(500).json({ erro: 'Erro ao buscar dados do usuário a partir do usuário' })
   }
 });
 

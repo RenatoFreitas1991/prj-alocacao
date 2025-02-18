@@ -277,5 +277,23 @@ router.get('/info/user/:id', async (req, res) => {
     }
 });
 
-  
+router.get('/plate/:plate', async (req, res) => {
+    const plate = req.params.plate;
+
+    try {
+        const findVehicleByPlate = await sequelize.query(
+            `SELECT id, placa FROM tbl_veiculo WHERE placa = :plate;`,
+            {
+                replacements: { plate },
+                type: QueryTypes.SELECT,
+            }
+        );
+        console.log(findVehicleByPlate);
+        res.json(findBlackListInfoUserByCpf);
+    } catch(error) {
+        console.error(`Error ao buscar dados do veículo a partir da placa: ${plate} `, error);
+        res.status(500).json({ erro: 'Error ao buscar dados do veículo a partir da placa' })
+    }
+}); 
+
 module.exports = router;

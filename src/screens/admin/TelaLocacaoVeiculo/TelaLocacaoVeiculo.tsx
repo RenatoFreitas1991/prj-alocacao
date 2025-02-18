@@ -260,7 +260,7 @@ export default function TelaLocacaoVeiculo() {
 
             <View style={styles.viewInput}>
                 <Text style={styles.textLabel}>Nome do Usuário</Text>
-                <Text style={styles.blackListError}>{blackListError}</Text>
+                <Text style={styles.messageError}>{blackListError}</Text>
                 <TextInput 
                     style={styles.input} 
                     placeholder="Nome do Usuário" 
