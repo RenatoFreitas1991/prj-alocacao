@@ -108,13 +108,6 @@ export default function TelaHistoricoManutencaoVeiculo() {
       fetchVehicleData();
     }, [id]);
 
-    // useEffect(() => {
-    //     const filtered = vehicles.filter(vehicle =>
-    //         vehicle.data_manutencao.toLowerCase().includes(searchText.toLowerCase())
-    //     );
-    //     //setFilteredVehicles(filtered);
-    // }, [searchText, vehicles]);
-
     const renderInfoManutencao: ListRenderItem<MinVeiculo> = ({ item, index }) => (
       <View style={styles.tableRow} key={index}>
         <Text style={styles.cell}>{item.data_manutencao}</Text>
@@ -141,19 +134,20 @@ export default function TelaHistoricoManutencaoVeiculo() {
             >
               <View style={styles.modalContainer}>
                 {imgPath != '' ? (
-                  //<Image source={{ uri: imgPath }} style={styles.img} resizeMode="contain" />
-                  <Text>{imgPath}</Text>
+                  <Image source={{ uri: imgPath }} style={styles.img} resizeMode="contain" />
                 ) : (
                   <Text>Nenhuma imagem foi regustrada</Text>
                 )}
               </View>
           </TouchableOpacity>
         </Modal>
-        {/* <Text style={styles.infoCliente}>Cliente: {clienteProp}</Text> */}
-        <Text style={styles.infoCliente}>Marca do veículo: {marca || 'N/A'}</Text>
-        <Text style={styles.infoCliente}>Modelo do veículo: {modelo || 'N/A'}</Text>
-        <Text style={styles.infoCliente}>Placa do veículo: {placa || 'N/A'}</Text>
-        <Text style={styles.title}>Histórico de Manutenções</Text>
+        
+        <View>
+          <Text style={styles.infoLabelCliente}>Marca do veículo: <Text style={styles.infoCliente}>{marca || 'N/A'}</Text></Text>
+          <Text style={styles.infoLabelCliente}>Modelo do veículo: <Text style={styles.infoCliente}> {modelo || 'N/A'}</Text></Text>
+          <Text style={styles.infoLabelCliente}>Placa do veículo: <Text style={styles.infoCliente}> {placa || 'N/A'}</Text></Text>
+          <Text style={styles.title}>Histórico de Manutenções</Text>
+        </View>
     
         {/* Cabeçalho da tabela */}
         <View style={styles.tableRow}>
@@ -250,12 +244,17 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  infoCliente: {
+  viewInfoCliente: {
+    textAlign: 'left',
+  },
+  infoLabelCliente: {
     fontSize: 18,
     color: 'white',
     fontWeight: 'bold',
-    textAlign: 'left',
     marginVertical: 15,
+  },
+  infoCliente: {
+    fontWeight: "normal",
   },
   title: {
     fontSize: 24,
